@@ -28,7 +28,8 @@ Please Document your progress in a doc file.
     - Requirements
     - Folder structure
     - Tech stack
-    - Any issues you ran into an how you resolved the issue. 
+    - Any issues you ran into an how you resolved the issue.
+    - why you used a specific function, whether built or from a own discretion. 
     - Keep instructions beginner-friendly.
     - AI tools utilized to complete or witin the project. 
 
