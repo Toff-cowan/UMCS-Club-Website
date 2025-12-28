@@ -63,5 +63,5 @@ Please Document your progress in a doc file.
 - Shannae Harris (Frontend) 
 - Joshua Green (Frontend) 
 - Nicole Johnson (Frontend)
-- Annique (Backend)
+- Annique Patterson(Backend)
 
