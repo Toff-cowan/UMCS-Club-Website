@@ -8,33 +8,33 @@ This is a club  project to bring our branding, activities and details to the dig
 
 
 # Branching Rules
-Branch names should be short, clear, and lowercase.
-Create a new branch for every task:
+- Branch names should be short, clear, and lowercase.
+- Create a new branch for every task:
 
-UMCS/[name]
-UMCS/home-imp
+- UMCS/[name]
+- UMCS/home-imp
 
 # COMMIT MESSAGES
-Use clear and meaningful commit messages:
-Example
-Add SIG cards layout
-Fix navbar mobile responsiveness
-Update README documentation
+- Use clear and meaningful commit messages:
+- Example
+   - Add SIG cards layout
+   - Fix navbar mobile responsiveness
+   - Update README documentation
 
 # Documentation
 Please Document your progress in a doc file.
-Document:
-How to run the project
-Folder structure
-Tech stack
-Keep instructions beginner-friendly.
+- Document:
+    - How to run the project
+    - Folder structure
+    - Tech stack
+    - Keep instructions beginner-friendly.
 
 # Tech Stack
 ### Frontend
 - **React** (.jsx)
 - **Tailwind CSS** (utility-first styling)
 - **Deployed on Vercel**
-- 
+  
 ### Backend
 - **FetchtAPI (Python)**
 - REST API architecture
