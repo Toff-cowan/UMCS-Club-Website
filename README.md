@@ -25,9 +25,12 @@ This is a club  project to bring our branding, activities and details to the dig
 Please Document your progress in a doc file.
 - Document:
     - How to run the project
+    - Requirements
     - Folder structure
     - Tech stack
+    - Any issues you ran into an how you resolved the issue. 
     - Keep instructions beginner-friendly.
+    - AI tools utilized to complete or witin the project. 
 
 # Tech Stack
 ### Frontend
