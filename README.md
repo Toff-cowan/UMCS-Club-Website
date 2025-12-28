@@ -41,15 +41,13 @@ Please Document your progress in a doc file.
 - Authentication & data handling
 
 ### Database
-
-- **PostgreSQL**
 - MongoDB
 
 ### Hosting / Deployment
 
 - **Frontend:** Vercel
 - **Backend:** Railway
-- **Database:**  Supabase
+- **Database:**  MongoDB
 
 # Respect & Responsibility
 - Communicate clearly and respectfully.
@@ -63,5 +61,5 @@ Please Document your progress in a doc file.
 - Shannae Harris (Frontend) 
 - Joshua Green (Frontend) 
 - Nicole Johnson (Frontend)
-- Annique Patterson(Backend)
+- Annique Patterson (Backend)
 
