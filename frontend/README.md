@@ -1,16 +1,29 @@
-# React + Vite
+# Structure Breakdown 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+In the /src folder, you see assets, components folders and pages
 
-Currently, two official plugins are available:
+## assets
+in assets is where you put your pictures and graphics. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## components 
+this is where you build the navigation layout and structure
 
-## React Compiler
+- /footer
+- /header
+- /navbar
+- /layout (this creates a format so that the browser renders the above components in a porper structure)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## pages
+-this is where the pages are created.
 
-## Expanding the ESLint configuration
+create folders for the pages that contain the .jsx and .module.scss files for each respective page. 
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Notice
+
+- Please document you development of the files and how you came to your final solutions. 
+
+- create branches for the necessary code so that you dont force a errors onto main. 
+    - note that branches for pages can be done as pages/[page-name]
+
+
+#### All the best with development
