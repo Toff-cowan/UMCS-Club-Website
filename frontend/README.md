@@ -29,26 +29,26 @@ create folders for the pages that contain the .jsx and .module.scss files for ea
 ## CSS colours
 :root {
   /* Backgrounds */
-  --bg-primary: #0F172A;
-  --bg-secondary: #1E293B;
-  --bg-tertiary: #334155;
+- --bg-primary: #0F172A;
+-  --bg-secondary: #1E293B;
+-  --bg-tertiary: #334155;
 
   /* Text */
-  --text-primary: #E5E7EB;
-  --text-secondary: #9CA3AF;
-  --text-heading: #F8FAFC;
+-  --text-primary: #E5E7EB;
+-  --text-secondary: #9CA3AF;
+-  --text-heading: #F8FAFC;
 
   /* Accents */
-  --accent-primary: #38BDF8;
-  --accent-secondary: #22D3EE;
+-  --accent-primary: #38BDF8;
+-  --accent-secondary: #22D3EE;
 
   /* UI States */
-  --cta: #F59E0B;
-  --success: #22C55E;
-  --error: #EF4444;
+-  --cta: #F59E0B;
+-  --success: #22C55E;
+-  --error: #EF4444;
 
   /* Borders */
-  --border-color: #334155;
+-  --border-color: #334155;
 }
 
 
