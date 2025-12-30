@@ -7,6 +7,7 @@
 // The controller ensures proper handling of event data and error management.
 const Event = require('../models/event');
 
+
 // Create a new event
 exports.createEvent = async (req, res) => {
   try {
