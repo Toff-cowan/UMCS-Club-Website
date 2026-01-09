@@ -1,10 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import About from '.frontend/src/About' //directory location for About 
-import Layout from './components/Layout' //  Layout Directory
-import Navbar from './components/Frame/Navbar' //directoory for the Navbar 
-import Footer from './component/Frame/Footer' // directory for the Footer
-
+import * as Layout from 'frontend\src\components\Layout.jsx' //  Layout Directory
 const App = () => {
   return (
     <div className='App'> 
