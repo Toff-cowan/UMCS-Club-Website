@@ -1,21 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 *{
   padding: 0; 
   margin: 0; 
   box-sizing: border-box;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #0A0F2C;
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
 /* CSS Variables for Theming */
 :root {
-  /* Colors */
-  --color-bg: #0b0f14;
+  /* Colors - Engineering Theme */
+  --color-bg: #0A0F2C;
   --color-bg-alt: #121824;
-  --color-primary: #00ff99;
-  --color-secondary: #00b3ff;
-  --color-accent: #7c7cff;
-  --color-text: #e6e6e6;
-  --color-muted: #9aa4b2;
-  --color-border: rgba(255, 255, 255, 0.08);
+  --color-primary: #00FFFF; /* Cyan */
+  --color-secondary: #FACC15; /* Yellow */
+  --color-accent: #7C3AED; /* Purple */
+  --color-text: #FFFFFF;
+  --color-muted: #9CA3AF;
+  --color-border: rgba(255, 255, 255, 0.1);
 
   /* Typography */
-  --font-main: "Inter", "Segoe UI", Arial, sans-serif;
-  --font-heading: "Poppins", "Segoe UI", Arial, sans-serif;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A0F2C;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00FFFF;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FACC15;
+}
+
+/* GPU-accelerated transforms */
+@layer utilities {
+  .gpu-accelerated {
+    transform: translateZ(0);
+    will-change: transform;
+  }
 }

@@ -22,6 +22,12 @@ const SigSchema = new mongoose.Schema({
     type: String,
     maxlength: 500,
     trim: true,
+  },
+  category: {
+    type: String,
+    required: true,
+    trim: true,
+    enum: ['Web', 'Game', 'Cyber', 'AI', 'Robotics', 'Mobile', 'Data']
   }
 });
 

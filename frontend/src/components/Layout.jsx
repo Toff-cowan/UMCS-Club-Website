@@ -2,20 +2,23 @@
 // It uses the Outlet component from react-router-dom to render the child routes between the Navbar and Footer components.
 
 import React from 'react';
-import { Outlet } from 'react-router-dom'; 
-import Navbar from './Navbar';
-import Footer from './Footer';
+import { Outlet, useLocation } from 'react-router-dom'; 
+import Navbar from './Frame/Navbar';
+import Footer from './Frame/Footer';
 
 const Layout = () => {
+  const location = useLocation();
+  // Hide default navbar on SIGs and Exec pages since they have their own hero with nav
+  const showNavbar = location.pathname !== '/sigs' && location.pathname !== '/exec';
+
   return (
-<>
-    <Navbar/>
-    <main>
-            <Outlet />
-    </main>
-        <Footer/>
-</>
-      
+    <>
+      {showNavbar && <Navbar />}
+      <main className={location.pathname === '/sigs' || location.pathname === '/exec' ? '' : 'pt-20'}>
+        <Outlet />
+      </main>
+      <Footer />
+    </>
   );
 };
 
