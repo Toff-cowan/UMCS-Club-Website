@@ -35,7 +35,6 @@ const Footer = () => {
             <FaInstagram />
           </a>
         </div>
-
         <button className="footer-cta">Join Us!!!</button>
       </div>
     </footer>
