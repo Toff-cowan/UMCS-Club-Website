@@ -13,7 +13,7 @@ const Sig = require("../models/sig");
 // GET /api/sigs
 router.get("/", async (req, res) => {
     try {
-        const sigs = await Sig.find().sort({ createdAt: -1 });
+        const sigs = await Sig.find().sort({ sig: 1 });
         res.json(sigs);
     } catch (error) {
         res.status(500).json({ message: "Failed to fetch sigs" });
