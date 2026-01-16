@@ -3,6 +3,17 @@
   margin: 0; 
   box-sizing: border-box;
 }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
 /* CSS Variables for Theming */
 :root {
   /* Colors */
@@ -16,6 +27,11 @@
   --color-border: rgba(255, 255, 255, 0.08);
 
   /* Typography */
-  --font-main: "Inter", "Segoe UI", Arial, sans-serif;
-  --font-heading: "Poppins", "Segoe UI", Arial, sans-serif;
+  --font-main: "Montserrat", "Segoe UI", Arial, sans-serif;
+  --font-heading: "Montserrat", "Segoe UI", Arial, sans-serif;
+}
+
+/* Apply Montserrat font to all elements */
+* {
+  font-family: "Montserrat", "Segoe UI", Arial, sans-serif;
 }

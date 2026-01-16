@@ -1,22 +1,23 @@
-//This the layout file that shows how the navbar and footer are displayed on the page.
+// Layout component that shows how the navbar and footer are displayed on the page.
 // It uses the Outlet component from react-router-dom to render the child routes between the Navbar and Footer components.
 
 import React from 'react';
 import { Outlet } from 'react-router-dom'; 
-import Navbar from './Navbar';
-import Footer from './Footer';
+import Navbar from './Frame/Navbar';
+import Footer from './Frame/Footer';
+import MobileSidebar from './Frame/MobileSidebar';
 
 const Layout = () => {
   return (
-<>
-    <Navbar/>
-    <main>
-            <Outlet />
-    </main>
-        <Footer/>
-</>
-      
+    <>
+      <Navbar />
+      <MobileSidebar />
+      <main>
+        <Outlet />
+      </main>
+      <Footer />
+    </>
   );
 };
 
-export default Layout
+export default Layout;
