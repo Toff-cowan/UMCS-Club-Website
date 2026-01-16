@@ -8,31 +8,43 @@ module.exports = [
   {
     "name": "Daena Crosby",
     "position": "President",
-    "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&h=800&fit=crop",
+    "image": "https://i.pravatar.cc/300?img=1",
     "createdAt": "2024-01-01T10:00:00.000Z"
   },
   {
     "name": "Alex Chen",
     "position": "Vice President",
-    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=800&fit=crop",
+    "image": "https://i.pravatar.cc/300?img=12",
     "createdAt": "2024-01-01T10:00:00.000Z"
   },
   {
     "name": "Jordan Taylor",
     "position": "Secretary",
-    "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=800&fit=crop",
+    "image": "https://i.pravatar.cc/300?img=47",
     "createdAt": "2024-01-01T10:00:00.000Z"
   },
   {
     "name": "Morgan Lee",
     "position": "Treasurer",
-    "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&h=800&fit=crop",
+    "image": "https://i.pravatar.cc/300?img=33",
     "createdAt": "2024-01-01T10:00:00.000Z"
   },
   {
     "name": "Riley Kim",
     "position": "Events Coordinator",
-    "image": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&h=800&fit=crop",
+    "image": "https://i.pravatar.cc/300?img=68",
+    "createdAt": "2024-01-01T10:00:00.000Z"
+  },
+  {
+    "name": "Sam Patel",
+    "position": "Tech Lead",
+    "image": "https://i.pravatar.cc/300?img=45",
+    "createdAt": "2024-01-01T10:00:00.000Z"
+  },
+  {
+    "name": "Casey Martinez",
+    "position": "Marketing Director",
+    "image": "https://i.pravatar.cc/300?img=52",
     "createdAt": "2024-01-01T10:00:00.000Z"
   }
 ];
