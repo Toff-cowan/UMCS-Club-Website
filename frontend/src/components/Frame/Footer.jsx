@@ -16,17 +16,8 @@ const Footer = () => {
         />
       </div>
 
-      {/* Center: Navigation */}
-      <div className="footer-links">
-        <a href="/">Home</a>
-        <a href="/resources">Resources</a>
-        <a href="/about">About</a>
-        <a href="/projects">Projects</a>
-        <a href="/exec">Meet the Team</a>
-      </div>
-
-      {/* Right: Social + CTA */}
-      <div className="footer-actions">
+      {/* Center: Navigation with Social Icons Above */}
+      <div className="footer-nav-section">
         <div className="footer-socials">
           <a href="#" aria-label="WhatsApp">
             <FaWhatsapp />
@@ -35,6 +26,17 @@ const Footer = () => {
             <FaInstagram />
           </a>
         </div>
+        <div className="footer-links">
+          <a href="/">Home</a>
+          <a href="/resources">Resources</a>
+          <a href="/about">About</a>
+          <a href="/projects">Projects</a>
+          <a href="/exec">Meet the Team</a>
+        </div>
+      </div>
+
+      {/* Right: CTA */}
+      <div className="footer-actions">
         <button className="footer-cta">Join Us!!!</button>
       </div>
     </footer>

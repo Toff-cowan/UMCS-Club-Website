@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   padding: 1.2rem 3rem;
-  gap: 3rem;
+  gap: 6rem;
   color: #ffffff;
   z-index: 1000;
   box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
@@ -19,28 +19,37 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 6px;
+  height: 8px;
   background-color: #00ffff;
   width: 100%;
 }
 
 /* Logo */
 .footer-logo img {
-  height: 80px;
+  height: 160px;
   width: auto;
+}
+
+/* Navigation Section */
+.footer-nav-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 30px;
+  gap: 0.75rem;
 }
 
 /* Links */
 .footer-links {
   display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
+  flex-direction: row;
+  gap: 1.5rem;
 }
 
 .footer-links a {
   color: #ffffff;
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: 1.2rem;
   opacity: 0.9;
   transition: color 0.3s ease;
 }
@@ -61,17 +70,28 @@
 /* Social Icons */
 .footer-socials {
   display: flex;
+  flex-direction: row;
   gap: 1rem;
+  align-self: center;
 }
 
 .footer-socials a {
   color: #ffffff;
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   transition: color 0.3s ease;
+  display: inline-block;
+}
+
+/* Shake animation on hover */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+  20%, 40%, 60%, 80% { transform: translateX(3px); }
 }
 
 .footer-socials a:hover {
   color: #FFD700;
+  animation: shake 0.5s ease-in-out;
 }
 
 /* CTA Button */
@@ -82,7 +102,7 @@
   padding: 0.5rem 1.2rem;
   border-radius: 999px;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -99,7 +119,7 @@
   }
 
   .footer-logo img {
-    height: 80px;
+    height: 160px;
   }
 
   .footer-links {

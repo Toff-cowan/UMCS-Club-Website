@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./Home.css";
 import clubLogo from "../assets/UMCS Logo.png";
 
@@ -270,9 +270,13 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Container for all sections below president's message */}
+      <div className="sections-container">
       {/* Special Interest Groups Section */}
       <section className="sigs-section">
-        <h2 className="sigs-title">SPECIAL INTEREST GROUPS</h2>
+        <Link to="/sigs" className="sigs-title-link">
+          <h2 className="sigs-title">SPECIAL INTEREST GROUPS</h2>
+        </Link>
         <div className="sigs-container">
           <div className="sigs-slider" ref={sliderRef}>
             {sigsLoading ? (
@@ -358,23 +362,25 @@ const Home = () => {
             {eventsLoading ? (
               <div className="news-events-image-placeholder">Loading...</div>
             ) : events.length > 0 ? (
-              events.map((event, index) => (
-                <div
-                  key={event._id || index}
-                  className={`news-events-image ${index === currentEventIndex ? 'active' : ''}`}
-                  style={{ backgroundImage: `url(${event.image || clubLogo})` }}
-                >
-                  {/* Pagination indicators */}
-                  <div className="image-pagination">
-                    {events.map((_, idx) => (
-                      <div
-                        key={idx}
-                        className={`pagination-dot ${idx === currentEventIndex ? 'active' : ''}`}
-                      />
-                    ))}
+              <>
+                {events.map((event, index) => (
+                  <div
+                    key={event._id || index}
+                    className={`news-events-image ${index === currentEventIndex ? 'active' : ''}`}
+                    style={{ backgroundImage: `url(${event.image || clubLogo})` }}
+                  >
                   </div>
+                ))}
+                {/* Pagination indicators - rendered once outside the loop */}
+                <div className="image-pagination">
+                  {events.map((_, idx) => (
+                    <div
+                      key={idx}
+                      className={`pagination-dot ${idx === currentEventIndex ? 'active' : ''}`}
+                    />
+                  ))}
                 </div>
-              ))
+              </>
             ) : (
               <div className="news-events-image-placeholder">No events available</div>
             )}
@@ -385,7 +391,9 @@ const Home = () => {
       {/* Projects Section */}
       <section className="projects-section">
         {/* PROJECTS Title */}
-        <h2 className="projects-title">PROJECTS</h2>
+        <Link to="/projects" className="projects-title-link">
+          <h2 className="projects-title">PROJECTS</h2>
+        </Link>
 
         {/* Projects Slider */}
         <div className="projects-slider-container">
@@ -424,6 +432,7 @@ const Home = () => {
           )}
         </div>
       </section>
+      </div>
     </div>
   );
 };
