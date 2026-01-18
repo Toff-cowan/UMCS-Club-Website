@@ -67,6 +67,37 @@
   gap: 0.75rem;
 }
 
+/* Floating Back to Top Button */
+.back-to-top-float {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: linear-gradient(135deg, #050020 0%, #0a0033 100%);
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0.9;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.back-to-top-float:hover {
+  background: #FFD700;
+  border-color: #FFD700;
+  color: #000;
+  opacity: 1;
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+}
+
 /* Social Icons */
 .footer-socials {
   display: flex;

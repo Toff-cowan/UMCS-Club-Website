@@ -1,9 +1,16 @@
 import React from "react";
 import "./Footer.css";
-import { FaWhatsapp, FaInstagram } from "react-icons/fa";
+import { FaWhatsapp, FaInstagram, FaArrowUp } from "react-icons/fa";
 import logo from "../../assets/UMCS Logo.png";
 
 const Footer = () => {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <footer className="footer">
       {/* Cyan Ribbon at top */}
@@ -39,6 +46,11 @@ const Footer = () => {
       <div className="footer-actions">
         <button className="footer-cta">Join Us!!!</button>
       </div>
+      
+      {/* Floating Back to Top Button */}
+      <button className="back-to-top-float" onClick={scrollToTop} aria-label="Back to top">
+        <FaArrowUp />
+      </button>
     </footer>
   );
 };

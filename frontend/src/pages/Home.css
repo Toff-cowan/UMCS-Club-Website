@@ -315,40 +315,25 @@ button, a, .sig-card, .project-card {
 .sigs-slider {
   display: flex;
   gap: 1.5rem;
-  overflow-x: hidden; /* Hide scrollbar during auto-scroll */
-  flex: 1;
+  overflow-x: auto; /* Allow scrolling for auto-scroll */
+  width: 100%; /* Ensure it takes full width */
   padding: 1rem 0 0 0;
   cursor: grab;
   scroll-behavior: auto; /* Let JavaScript control smoothness */
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
+  will-change: scroll-left; /* Optimize for scrolling */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  touch-action: pan-x; /* Allow horizontal scrolling on touch devices */
 }
 
 .sigs-slider:active {
   cursor: grabbing;
 }
 
-/* Custom scrollbar styling */
+/* Hide scrollbar but keep scroll functionality */
 .sigs-slider::-webkit-scrollbar {
-  height: 8px;
-}
-
-.sigs-slider::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
-
-.sigs-slider::-webkit-scrollbar-thumb {
-  background: #0a0033;
-  border-radius: 4px;
-}
-
-.sigs-slider::-webkit-scrollbar-thumb:hover {
-  background: #050020;
-}
-
-/* Firefox scrollbar */
-.sigs-slider {
-  scrollbar-width: thin;
-  scrollbar-color: #0a0033 #f1f1f1;
+  display: none; /* Hide scrollbar in Chrome, Safari, and Opera */
 }
 
 .sig-card {
@@ -971,3 +956,4 @@ button, a, .sig-card, .project-card {
     padding: 0.2rem 0.6rem;
   }
 }
+
