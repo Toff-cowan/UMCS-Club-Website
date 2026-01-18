@@ -1,73 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './About.css';
-/*
-For fade animations,
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-*/
+
 
 const About = () => {
   const [executives, setExecutives] = useState([]);
   const [loading, setLoading] = useState(true);
 
 
-//Mock data to test executives section
-  const mockExecutives = [
-    
-    {
-      
-      id: 1,
-      name: "John Doe",
-      position: "President",
-      image: "https://img.freepik.com/premium-vector/cute-woman-avatar-profile-vector-illustration_1058532-14546.jpg"
-    },
-    /*
-    {
-      id: 2,
-      name: "Jane Smith",
-      position: "Vice President",
-      image: "https://img.freepik.com/premium-vector/cute-woman-avatar-profile-vector-illustration_1058532-14546.jpg"
-    },
-    
-    {
-      id: 3,
-      name: "Alex Johnson",
-      position: "Secretary",
-      image: "https://img.freepik.com/premium-vector/cute-woman-avatar-profile-vector-illustration_1058532-14546.jpg"
-    },
-    */
-    {
-      id: 4,
-      name: "Wendy Williams",
-      position: "Treasurer",
-      image: "https://img.freepik.com/premium-vector/cute-woman-avatar-profile-vector-illustration_1058532-14546.jpg"
-    },
-    {
-      id: 5,
-      name: "Mike Brown",
-      position: "Events Coordinator",
-      image: "https://img.freepik.com/premium-vector/cute-woman-avatar-profile-vector-illustration_1058532-14546.jpg"
-    },
-    
-    {
-      id: 6,
-      name: "Emily Davis",
-      position: "Technical Lead",
-      image: "https://img.freepik.com/premium-vector/cute-woman-avatar-profile-vector-illustration_1058532-14546.jpg"
-    },
-    {
-      id: 7,
-      name: "David Martinez",
-      position: "Marketing Director",
-      image: "https://img.freepik.com/premium-vector/cute-woman-avatar-profile-vector-illustration_1058532-14546.jpg"
-    },
-    {
-      id: 8,
-      name: "Lisa Anderson",
-      position: "Workshop Coordinator",
-      image: "https://img.freepik.com/premium-vector/cute-woman-avatar-profile-vector-illustration_1058532-14546.jpg"
-    }
-  ];
+//Mock data to test executives section <-----here
+  
 
   // Separate president from other members
   const president = executives.find(exec => exec.position === 'President');
