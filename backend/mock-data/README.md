@@ -52,3 +52,6 @@ The data structure matches the Mongoose schemas defined in the models directory.
 
 **Remember:** This is mock/test data. In production, ensure you're using real data from your database and not loading these mock files.
 
+## Image URLs
+
+All image and icon fields in the mock data now use full web URLs (starting with `https://`). The frontend will use these URLs directly - no need to construct file paths or prepend server URLs. Examples are provided using placeholder services (Unsplash for photos, CDN services for icons). Replace these with your actual hosted image URLs when ready.
