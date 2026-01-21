@@ -33,6 +33,7 @@ button, a, .sig-card, .project-card {
   overflow: hidden;
   margin: 0;
   padding: 0;
+  z-index: 1;
 }
 
 /* Hero Background with Mouse Parallax */

@@ -7,6 +7,10 @@
   z-index: 1;
 }
 
+main {
+  /* No padding - hero section should be behind navbar */
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
