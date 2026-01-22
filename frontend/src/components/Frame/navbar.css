@@ -3,26 +3,57 @@
     top: 0;
     left: 0;
     right: 0;
-    height: auto;
+    height: 60px;
     width: 100%;
-    align-items: center;
     background: none;
     display: flex;
     gap: 2rem;
     z-index: 1000;
-    padding: 1rem 2rem;
+    align-items: center;
+    padding-top: 25px;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
-.navbar a {
+.navbar-logo {
+    display: flex;
+    align-items: left;
+    text-decoration: none;
+    transform: scale(3.0);
+    padding-top: 10px;
+    
+}
+
+.navbar-logo img {
+    height: 50px;
+    width: auto;
+    transition: transform 0.3s ease;
+
+}
+
+.navbar-logo:hover img {
+    transform: scale(1.05);
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    align-items: right;
+    justify-content: right;
+}
+
+.navbar a.nav-link {
     position: relative;
     color: #ffffff;
     text-decoration: none;
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 18px;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-weight: 550;
     padding: 8px 0px;
     transition: 0.3s;
 }
 
-.navbar a:hover {
+.navbar a.nav-link:hover {
     color: #FFD700;
 }
