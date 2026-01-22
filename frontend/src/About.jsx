@@ -8,6 +8,7 @@ const About = () => {
 
 
 //Mock data to test executives section <-----here
+
   
 
   // Separate president from other members
@@ -38,9 +39,11 @@ const About = () => {
   return (
     <div className="about-container">
       {/* Header Section */}
+      
       <section className="about-header">
         <h1>ABOUT</h1>
       </section>
+      
 
       {/* Description Section */}
       <section className="about-description">
