@@ -7,7 +7,7 @@ const Navbar = () => {
     return null;
     // return (
     //     <nav className="navbar">
-    //        {} <Link to="/" className="navbar-logo">
+    //         <Link to="/" className="navbar-logo">
     //             <img src={logo} alt="UMCS Logo" />
     //         </Link>
     //         <div className="navbar-links">
