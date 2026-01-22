@@ -1,0 +1,960 @@
+/* Home Page Styles */
+
+.home {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Ensure all interactive elements have adequate touch targets */
+button, a, .sig-card, .project-card {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Improve text readability on mobile */
+@media (max-width: 480px) {
+  body {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  width: 100vw;
+  height: 70vh;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  z-index: 1;
+}
+
+/* Hero Background with Mouse Parallax */
+.hero-background {
+  position: absolute;
+  top: -10%;
+  left: -5%;
+  width: 110%;
+  height: 120%; /* Extra size for parallax movement */
+  background-image: url('../assets/grid picture.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  will-change: transform;
+  z-index: 0;
+  transition: transform 0.1s ease-out;
+}
+
+/* Hero Overlay with Grid Pattern */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(5, 0, 32, 0.7) 0%, rgba(10, 0, 51, 0.8) 100%);
+  z-index: 1;
+}
+
+.hero-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.3;
+}
+
+
+/* President Message Section */
+.president-section {
+  position: relative;
+  width: 100vw;
+  min-height: 500px;
+  background-color: #0a0033;
+  padding: 4rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.president-container {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* White Message Box */
+.message-box {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 3rem;
+  max-width: 600px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.message-text {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #333333;
+  margin-bottom: 2rem;
+}
+
+.president-name {
+  text-align: right;
+  font-size: 1rem;
+  color: #666666;
+  margin-bottom: 0;
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Blue Banner attached to bottom of message box */
+.message-banner {
+  position: absolute;
+  bottom: -20px;
+  left: 2rem;
+  background: #0a0033;
+  padding: 0.8rem 2rem;
+  border-radius: 999px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.banner-text {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* President Image Container - Rectangle on the right */
+.president-image-container {
+  flex: 0 0 280px;
+  height: 360px;
+  position: relative;
+}
+
+.president-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+  .president-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .president-image-container {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .message-banner {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    height: 60vh;
+    min-height: 400px;
+  }
+
+  .president-section {
+    padding: 3rem 1.5rem;
+  }
+
+  .president-container {
+    gap: 1.5rem;
+  }
+
+  .message-box {
+    padding: 2rem;
+  }
+
+  .message-text {
+    font-size: 1rem;
+  }
+
+  .president-image-container {
+    height: 280px;
+    max-width: 280px;
+  }
+
+  .sigs-section {
+    padding: 3rem 1.5rem;
+  }
+
+  .news-events-section {
+    padding: 3rem 1.5rem;
+  }
+
+  .projects-section {
+    padding: 3rem 1.5rem 6rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    height: 70vh;
+    min-height: 400px;
+  }
+
+  .president-section {
+    padding: 2rem 1rem;
+    min-height: auto;
+  }
+
+  .president-container {
+    gap: 1.5rem;
+  }
+
+  .message-box {
+    padding: 1.5rem;
+  }
+
+  .message-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .president-name {
+    font-size: 0.9rem;
+  }
+
+  .president-image-container {
+    height: 220px;
+    max-width: 220px;
+    flex: 0 0 auto;
+  }
+
+  .message-banner {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Container for sections below president's message */
+.sections-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 0;
+  position: relative;
+  z-index: 2;
+}
+
+/* Special Interest Groups Section */
+.sigs-section {
+  width: 100%;
+  max-width: 1200px;
+  padding: 4rem 2rem;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sigs-title-link {
+  text-decoration: none;
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.sigs-title-link:hover {
+  opacity: 0.8;
+}
+
+.sigs-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0a0033;
+  margin-bottom: 3rem;
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+
+.sigs-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  align-items: center;
+}
+
+.sigs-slider {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto; /* Allow scrolling for auto-scroll */
+  width: 100%; /* Ensure it takes full width */
+  padding: 1rem 0 0 0;
+  cursor: grab;
+  scroll-behavior: auto; /* Let JavaScript control smoothness */
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
+  will-change: scroll-left; /* Optimize for scrolling */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  touch-action: pan-x; /* Allow horizontal scrolling on touch devices */
+}
+
+.sigs-slider:active {
+  cursor: grabbing;
+}
+
+/* Hide scrollbar but keep scroll functionality */
+.sigs-slider::-webkit-scrollbar {
+  display: none; /* Hide scrollbar in Chrome, Safari, and Opera */
+}
+
+.sig-card {
+  flex: 0 0 260px;
+  height: 350px; /* Made taller */
+  background: linear-gradient(135deg, #050020 0%, #0a0033 100%);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.sig-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.sig-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+}
+
+.sig-description {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  background: rgba(10, 0, 51, 0.95);
+  color: #ffffff;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  text-align: center;
+  border-radius: 0 0 12px 12px;
+}
+
+
+.sigs-loading,
+.sigs-empty {
+  text-align: center;
+  color: #666666;
+  padding: 2rem;
+  font-size: 1.1rem;
+}
+
+/* Floating restart arrow */
+.restart-arrow {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, #050020 0%, #0a0033 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease;
+  z-index: 10;
+  animation: float 2s ease-in-out infinite;
+}
+
+.restart-arrow:hover {
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  color: #000;
+}
+
+.restart-arrow:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(-50%) translateY(0);
+  }
+  50% {
+    transform: translateY(-50%) translateY(-10px);
+  }
+}
+
+/* Responsive Design for SIGs */
+@media (max-width: 768px) {
+  .sigs-section {
+    padding: 3rem 1.5rem;
+  }
+
+  .sigs-title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .sig-card {
+    flex: 0 0 220px;
+    height: 320px; /* Updated to match taller cards */
+    padding: 1.5rem;
+  }
+
+  .sig-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sigs-section {
+    padding: 2rem 1rem;
+  }
+
+  .sigs-title {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .sigs-container {
+    padding: 0;
+  }
+
+  .sig-card {
+    flex: 0 0 200px;
+    height: 280px;
+    padding: 1.5rem;
+    min-width: 200px; /* Ensure touch target is adequate */
+  }
+
+  .sig-title {
+    font-size: 1.2rem;
+  }
+
+  .sig-description {
+    font-size: 0.85rem;
+    padding: 1rem;
+  }
+
+  .restart-arrow {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    right: 10px;
+  }
+}
+
+/* News and Events Section */
+.news-events-section {
+  width: 100%;
+  max-width: 1200px;
+  padding: 4rem 2rem;
+  background-color: #ffffff;
+  border-top: 1px solid #e0e0e0;
+}
+
+.news-events-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  gap: 3rem;
+  align-items: center;
+  width: 100%;
+}
+
+/* Left Column - Text Content */
+.news-events-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  flex: 1;
+}
+
+.news-events-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #050020;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+.news-events-title-centered {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #050020;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: center;
+  margin: 0 0 3rem 0;
+}
+
+.news-events-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333333;
+  margin: 0;
+}
+
+/* Hover Details - Hidden by default, shown on hover */
+.news-events-details {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.98);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 5;
+}
+
+.news-events-text:hover .news-events-details {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.details-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #050020;
+  margin: 0 0 1rem 0;
+}
+
+.details-full-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333333;
+  margin: 0 0 1rem 0;
+}
+
+.details-date {
+  font-size: 0.9rem;
+  color: #666666;
+  font-style: italic;
+  margin: 0;
+}
+
+/* Right Column - Image Carousel */
+.news-events-image-container {
+  position: relative;
+  width: 40%;
+  flex-shrink: 0;
+  height: 400px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #050020 0%, #0a0033 100%);
+}
+
+.news-events-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.news-events-image.active {
+  opacity: 1;
+}
+
+.news-events-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.2rem;
+  background: linear-gradient(135deg, #050020 0%, #0a0033 100%);
+}
+
+/* Pagination Indicators */
+.image-pagination {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.pagination-dot {
+  width: 40px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 2px;
+  transition: background 0.3s ease;
+}
+
+.pagination-dot.active {
+  background: #ffffff;
+}
+
+/* Responsive Design for News and Events */
+@media (max-width: 768px) {
+  .news-events-section {
+    padding: 3rem 1.5rem;
+  }
+
+  .news-events-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .news-events-image-container {
+    height: 400px;
+  }
+
+  .news-events-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .news-events-section {
+    padding: 2rem 1rem;
+  }
+
+  .news-events-title-centered {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+  }
+
+  .news-events-container {
+    gap: 1.5rem;
+  }
+
+  .news-events-text {
+    gap: 1rem;
+  }
+
+  .news-events-description {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .news-events-image-container {
+    height: 250px;
+  }
+
+  .news-events-details {
+    padding: 1rem;
+  }
+
+  .details-title {
+    font-size: 1.2rem;
+  }
+
+  .details-full-description {
+    font-size: 0.9rem;
+  }
+
+  .image-pagination {
+    bottom: 10px;
+    gap: 6px;
+  }
+
+  .pagination-dot {
+    width: 30px;
+    height: 2px;
+  }
+}
+
+/* Projects Section */
+.projects-section {
+  width: 100%;
+  max-width: 1400px;
+  padding: 4rem 2rem 8rem 2rem;
+  background: linear-gradient(90deg, #050020, #0a0033);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  position: relative;
+  min-height: 600px;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* Projects Slider */
+.projects-slider-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+  margin-top: 3rem; /* Space between title and cards */
+}
+
+.projects-slider {
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 1rem 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(5, 0, 32, 0.3) transparent;
+}
+
+.projects-slider::-webkit-scrollbar {
+  height: 8px;
+}
+
+.projects-slider::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.projects-slider::-webkit-scrollbar-thumb {
+  background: rgba(5, 0, 32, 0.3);
+  border-radius: 4px;
+}
+
+.projects-slider::-webkit-scrollbar-thumb:hover {
+  background: rgba(5, 0, 32, 0.5);
+}
+
+.projects-title-link {
+  text-decoration: none;
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.projects-title-link:hover {
+  opacity: 0.8;
+}
+
+.projects-title {
+  font-size: 10rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0;
+  text-align: center;
+  line-height: 1;
+  width: 100%;
+  transition: color 0.3s ease;
+}
+
+.projects-title-link:hover .projects-title {
+  color: #FFD700;
+}
+
+.projects-loading,
+.projects-empty {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+  padding: 2rem;
+  font-size: 1.1rem;
+}
+
+.project-card {
+  flex: 0 0 320px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(255, 215, 0, 0.3);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.project-image {
+  width: 100%;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.project-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.project-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.project-card:hover .project-title {
+  color: #FFD700;
+}
+
+.project-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.project-status {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
+.project-status-ongoing {
+  background-color: #4CAF50;
+  color: #ffffff;
+}
+
+.project-status-completed {
+  background-color: #2196F3;
+  color: #ffffff;
+}
+
+.project-status-on-hold {
+  background-color: #FF9800;
+  color: #ffffff;
+}
+
+/* Responsive Design for Projects */
+@media (max-width: 768px) {
+  .projects-section {
+    padding: 3rem 1.5rem 6rem 1.5rem;
+  }
+
+  .projects-title {
+    font-size: 6rem;
+  }
+
+  .project-card {
+    flex: 0 0 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .projects-section {
+    padding: 2rem 1rem 5rem 1rem;
+    min-height: auto;
+  }
+
+  .projects-title {
+    font-size: 3.5rem;
+    padding: 1.5rem 0;
+  }
+
+  .projects-slider-container {
+    margin-top: 2rem;
+  }
+
+  .projects-slider {
+    gap: 1.5rem;
+    padding: 0.5rem 0;
+  }
+
+  .project-card {
+    flex: 0 0 280px;
+    min-width: 280px; /* Ensure adequate touch target */
+  }
+
+  .project-image {
+    height: 150px;
+  }
+
+  .project-content {
+    padding: 1.2rem;
+  }
+
+  .project-title {
+    font-size: 1.2rem;
+  }
+
+  .project-description {
+    font-size: 0.9rem;
+  }
+
+  .project-status {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+  }
+}
+
