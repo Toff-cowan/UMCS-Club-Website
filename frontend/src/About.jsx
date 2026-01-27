@@ -8,7 +8,6 @@ const About = () => {
 
 
 //Mock data to test executives section <-----here
-
   
 
   // Separate president from other members

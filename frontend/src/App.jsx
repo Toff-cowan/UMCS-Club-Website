@@ -5,7 +5,7 @@ import "./App.css";
 
 // Import pages
 import Home from "./pages/Home";
-// import About from "./pages/About";
+import About from "./About.jsx";
 
 const App = () => {
   return (
@@ -15,6 +15,8 @@ const App = () => {
           <Route path="/" element={<Layout />}>
             {/* Home route */}
             <Route index element={<Home />} />
+            {/* About route */}
+            <Route index path="about" element={<About />} />
             
             {/* Add other routes here as pages are created */}
             {/* Example routes: */}

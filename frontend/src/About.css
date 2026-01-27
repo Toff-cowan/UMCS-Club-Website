@@ -54,7 +54,7 @@
   z-index: 2; /* Sit on top of the overlay */
   font-size: 8rem;
   font-weight: bold;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.7);
   font-family: var(--font-heading)
 }
 
