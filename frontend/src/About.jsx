@@ -65,7 +65,7 @@ const About = () => {
               Whether you're a beginner eager to learn or an experienced coder looking to collaborate, the club 
               provides a supportive environment to sharpen your skills and bring ideas to life. Members have 
               opportunities to participate in hackathons, coding challenges, and community tech events, helping 
-              them gain real-world experience and confidence in the digital fi
+              them gain real-world experience and confidence in the digital field
             </p>
             <div className="meeting-time-box">
               <h3>Meeting Time:</h3>
