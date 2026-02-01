@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './About.css';
 
 
+
+
 const About = () => {
   const [executives, setExecutives] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,12 +36,24 @@ const About = () => {
   }, []);
 
   
+const [scrollY, setScrollY] = useState(0);
+
+useEffect(() => {
+  const handleScroll = () => setScrollY(window.scrollY);
+  window.addEventListener('scroll', handleScroll);
+  return () => window.removeEventListener('scroll', handleScroll);
+}, []);
+
 
   return (
     <div className="about-container">
       {/* Header Section */}
       
-      <section className="about-header">
+      <section className="about-header" style={{ 
+  opacity: Math.max(0, 1 - scrollY / 300), 
+  transform: `translateY(${scrollY * 0.5}px)`,
+  pointerEvents: scrollY > 250 ? 'none' : 'auto'
+}}>
         <h1>ABOUT</h1>
       </section>
       
@@ -76,6 +90,50 @@ const About = () => {
         </div>
       </section>
     {/* Executives Section */}
+    {/* Executives Section */}
+      <section className="about-executive">
+        
+        <h2>MEET THE EXECUTIVES</h2>
+        
+        {loading ? (
+          <div className="loading">Loading executives...</div>
+        ) : (
+          <div className="executive-grid">
+            {/* President */}
+            {president && (
+              <div className="executive-member main">
+                <img src={president.image || 'path-to-main-executive.jpg'} alt="President" />
+                <div className="member-info">
+                  <h3>{president.name}</h3>
+                  <p>{president.position}</p>
+                </div>
+              </div>
+            )}
+
+            {/* Other Execs */}
+            {members.map((member, index) => {
+              const baseAngle = -90; // rotations start from top
+              const angle = baseAngle + (360 / members.length) * index;
+              return (
+                <div 
+                  key={member._id || index} 
+                  className="executive-member"
+                  style={{ 
+                    '--rotation-angle': `${angle}deg`,
+                    animationDelay: `${-(20 / members.length) * index}s`
+                  }}
+                >
+                  <img src={member.image || '/default-avatar.jpg'} alt="Member" />
+                  <div className="member-info">
+                    <h3>{member.name}</h3>
+                    <p>{member.position}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </section>
     </div>
   );
 };
