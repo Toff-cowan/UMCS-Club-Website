@@ -1,10 +1,10 @@
-import React from 'react'
+import './App.css';
+//import Projects from './pages/Projects.jsx';
+import Layout from './components/Layout.jsx';
 
 const App = () => {
   return (
-    <div>
-      
-    </div>
+    <Layout />
   )
 }
 
