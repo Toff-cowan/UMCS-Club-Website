@@ -29,12 +29,13 @@
 .navbar-logo img {
     height: 60px;
     width: auto;
-    transition: transform 0.3s ease;
-
+    transition: transform 0.3s ease, filter 0.3s ease;
+    filter: brightness(1.25) contrast(1.05);
 }
 
 .navbar-logo:hover img {
     transform: scale(1.05);
+    filter: brightness(1.4) contrast(1.05);
 }
 
 .navbar-links {
@@ -49,12 +50,12 @@
     color: #ffffff;
     text-decoration: none;
     font-size: 18px;
-    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
     font-weight: 550;
     padding: 8px 0px;
     transition: 0.3s;
 }
 
 .navbar a.nav-link:hover {
-    color: #FFD700;
+    color: #FFE066;
 }

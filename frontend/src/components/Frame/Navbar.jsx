@@ -8,44 +8,47 @@ const Navbar = () => {
     const location = useLocation();
 
     useEffect(() => {
-        // Only apply fade effect on home page
-        if (location.pathname !== '/') {
-            setOpacity(1);
-            return;
-        }
-
         const handleScroll = () => {
-            const heroSection = document.querySelector('.hero-section');
-            if (!heroSection) {
-                setOpacity(1);
+            // Home page: fade based on hero section position
+            if (location.pathname === '/') {
+                const heroSection = document.querySelector('.hero-section');
+                if (!heroSection) {
+                    setOpacity(1);
+                    return;
+                }
+                const heroRect = heroSection.getBoundingClientRect();
+                const heroHeight = heroRect.height;
+                const heroTop = heroRect.top;
+                const fadeStart = heroHeight * 0.3;
+                const fadeEnd = heroHeight * 0.8;
+                if (heroTop > fadeStart) {
+                    setOpacity(1);
+                } else if (heroTop < -fadeEnd) {
+                    setOpacity(0);
+                } else {
+                    const fadeRange = fadeStart + fadeEnd;
+                    const fadeProgress = (fadeStart - heroTop) / fadeRange;
+                    setOpacity(Math.max(0, Math.min(1, 1 - fadeProgress)));
+                }
                 return;
             }
 
-            const heroRect = heroSection.getBoundingClientRect();
-            const heroHeight = heroRect.height;
-            const heroTop = heroRect.top;
-            
-            // Calculate opacity based on hero section position
-            // Fade out as hero section scrolls up
-            const fadeStart = heroHeight * 0.3; // Start fading when 30% of hero is scrolled
-            const fadeEnd = heroHeight * 0.8; // Fully faded when 80% of hero is scrolled
-            
-            // When heroTop is positive, we're above the hero section (fully visible)
-            // When heroTop becomes negative, we're scrolling past it
-            if (heroTop > fadeStart) {
+            // Other pages: fade when scrolling down
+            const scrollY = window.scrollY || window.pageYOffset;
+            const fadeAfter = 60;
+            const fadeOver = 180;
+            if (scrollY <= fadeAfter) {
                 setOpacity(1);
-            } else if (heroTop < -fadeEnd) {
+            } else if (scrollY >= fadeAfter + fadeOver) {
                 setOpacity(0);
             } else {
-                // Linear fade between fadeStart and fadeEnd
-                const fadeRange = fadeStart + fadeEnd;
-                const fadeProgress = (fadeStart - heroTop) / fadeRange;
-                setOpacity(Math.max(0, Math.min(1, 1 - fadeProgress)));
+                const progress = (scrollY - fadeAfter) / fadeOver;
+                setOpacity(1 - progress);
             }
         };
 
         window.addEventListener('scroll', handleScroll);
-        handleScroll(); // Initial check
+        handleScroll();
 
         return () => {
             window.removeEventListener('scroll', handleScroll);

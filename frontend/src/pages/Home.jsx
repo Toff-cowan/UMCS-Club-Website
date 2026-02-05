@@ -18,7 +18,6 @@ const Home = () => {
   const projectsSliderRef = useRef(null);
   const animationFrameRef = useRef(null);
   const isCardHoveredRef = useRef(false);
-  const [showRestartArrow, setShowRestartArrow] = useState(false);
   const eventIntervalRef = useRef(null);
   const heroSectionRef = useRef(null);
 
@@ -109,43 +108,30 @@ const Home = () => {
     fetchProjects();
   }, []);
 
-  // Auto-scroll slider - smooth scrolling through all SIGs
+  // Auto-scroll slider - smooth infinite scrolling through all SIGs (duplicated for seamless loop)
   useEffect(() => {
     if (sigs.length === 0 || !sliderRef.current) return;
 
     const slider = sliderRef.current;
     const scrollSpeed = 0.6; // Pixels per frame (smooth scroll)
-    
+    const halfWidth = slider.scrollWidth / 2; // We render SIGs twice, so half is one full set
+
     const scroll = () => {
       // Pause if any card is being hovered
       if (isCardHoveredRef.current) {
         animationFrameRef.current = requestAnimationFrame(scroll);
         return;
       }
-      
-      // Calculate max scroll position
-      const maxScroll = slider.scrollWidth - slider.clientWidth;
-      
-      // Check if we've reached the end
-      if (slider.scrollLeft >= maxScroll - 1) {
-        // Reached the end - show restart arrow and stop scrolling
-        setShowRestartArrow(true);
-        // Keep animation running to check for restart
-        animationFrameRef.current = requestAnimationFrame(scroll);
-        return;
-      } else {
-        // Hide arrow if not at end
-        setShowRestartArrow(false);
+
+      // When we've scrolled past the first set, jump back for seamless infinite loop
+      if (slider.scrollLeft >= halfWidth - 1) {
+        slider.scrollLeft -= halfWidth;
       }
-      
-      // Increment scroll smoothly
+
       slider.scrollLeft += scrollSpeed;
-      
-      // Continue animation
       animationFrameRef.current = requestAnimationFrame(scroll);
     };
 
-    // Start animation
     animationFrameRef.current = requestAnimationFrame(scroll);
 
     return () => {
@@ -203,16 +189,6 @@ const Home = () => {
       return () => heroSection.removeEventListener('mousemove', handleMouseMove);
     }
   }, []);
-
-  // Handle restart button click
-  const handleRestart = () => {
-    if (sliderRef.current) {
-      // Reset scroll position instantly
-      sliderRef.current.scrollLeft = 0;
-      setShowRestartArrow(false);
-      // Animation will continue automatically from the useEffect
-    }
-  };
 
   const handleSIGClick = (sigId) => {
     navigate(`/sigs/${sigId}`);
@@ -282,43 +258,29 @@ const Home = () => {
             {sigsLoading ? (
               <div className="sigs-loading">Loading SIGs...</div>
             ) : sigs.length > 0 ? (
-              // Show all SIGs (no duplication)
-              sigs.map((sig) => {
-                return (
-                  <div
-                    key={sig._id}
-                    className="sig-card"
-                    onClick={() => handleSIGClick(sig._id)}
-                    onMouseEnter={(e) => {
-                      // Pause autoscroll when hovering over card
-                      isCardHoveredRef.current = true;
-                      e.currentTarget.querySelector('.sig-description').style.opacity = '1';
-                    }}
-                    onMouseLeave={(e) => {
-                      // Resume autoscroll when leaving card
-                      isCardHoveredRef.current = false;
-                      e.currentTarget.querySelector('.sig-description').style.opacity = '0';
-                    }}
-                  >
-                    <div className="sig-title">{sig.name}</div>
-                    <div className="sig-description">{sig.description}</div>
-                  </div>
-                );
-              })
+              // Render SIGs twice for seamless infinite loop
+              [...sigs, ...sigs].map((sig, index) => (
+                <div
+                  key={`${sig._id}-${index}`}
+                  className="sig-card"
+                  onClick={() => handleSIGClick(sig._id)}
+                  onMouseEnter={(e) => {
+                    isCardHoveredRef.current = true;
+                    e.currentTarget.querySelector('.sig-description').style.opacity = '1';
+                  }}
+                  onMouseLeave={(e) => {
+                    isCardHoveredRef.current = false;
+                    e.currentTarget.querySelector('.sig-description').style.opacity = '0';
+                  }}
+                >
+                  <div className="sig-title">{sig.name}</div>
+                  <div className="sig-description">{sig.description}</div>
+                </div>
+              ))
             ) : (
               <div className="sigs-empty">No SIGs available</div>
             )}
           </div>
-          {/* Floating restart arrow */}
-          {showRestartArrow && (
-            <button 
-              className="restart-arrow"
-              onClick={handleRestart}
-              aria-label="Restart slider"
-            >
-              ↻
-            </button>
-          )}
         </div>
       </section>
 
