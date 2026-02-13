@@ -51,17 +51,15 @@ export default function Tile({ project }) {
           <div className="tile-title">{title}</div>
         </div>
 
-        {/* Back: Description */}
+        {/* Back: Description + date (all details on one side) */}
         <div className="tile-back" aria-hidden={!isFlipped}
             onClick={handleImageClick}
             role="button"
             tabIndex={0}>
           <div className="tile-desc">{description}</div>
+          {createdAt && <div className="tile-date">{createdAt}</div>}
         </div>
       </div>
-
-      {/* CreatedAt shown below the tile */}
-      {createdAt && <div className="tile-date">{createdAt}</div>}
     </div>
   );
 }

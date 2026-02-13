@@ -7,8 +7,6 @@
 
 const express = require("express");
 const cors = require("cors");
-const express = require('express');
-const cors = require('cors');
 
 const app = express();
 
@@ -18,18 +16,6 @@ const app = express();
 // Parse URL-encoded request bodies
 app.use(cors());
 app.use(express.json());
-
-// Routes
-const sigsRoutes = require('./routes/sigs');
-app.use('/api/sigs', sigsRoutes);
-
-// Example route
-app.get('/api/data', async (req, res) => {
-  // Your database query here
-  res.json({ message: 'Hello from backend!' });
-});
-
-module.exports = app;
 app.use(express.urlencoded({ extended: false })); // for parsing application/x-www-form-urlencoded, if needed
 
 // API Routes
@@ -38,6 +24,7 @@ app.use("/api/sigs", require("./routes/sigs"));
 app.use("/api/projects", require("./routes/projects"));
 app.use("/api/executives", require("./routes/executive"));
 app.use("/api/events", require("./routes/events"));
+app.use("/api/sig-leads", require("./routes/sig-leads"));
 
 // Health check (optional but useful)
 app.get("/", (req, res) => {

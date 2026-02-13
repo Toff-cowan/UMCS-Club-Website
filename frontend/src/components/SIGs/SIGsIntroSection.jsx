@@ -1,7 +1,7 @@
 import { useRef, useMemo } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { motion, useMotionValue, useSpring, useInView } from 'framer-motion';
-import { CircuitPattern, GradientOrb } from './EngineeringPatterns';
+import { CircuitPattern, GradientOrb } from '../EngineeringPatterns';
 
 // Map categories to relevant images
 const categoryImages = {
@@ -171,7 +171,50 @@ export default function SIGsIntroSection({ activeCategory, onCategoryChange, sig
           </div>
         </motion.div>
 
-        {/* Two Column Layout: Text and Image */}
+        {/* When "All" is selected: grid of all SIGs */}
+        {activeCategory === 'All' && sigs && sigs.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+          >
+            {sigs.map((sig, index) => (
+              <motion.div
+                key={sig._id || sig.sig || index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                className="relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 md:p-8 hover:border-eng-cyan/40 hover:bg-white/10 transition-all duration-300"
+              >
+                {sig.icon && (
+                  <div className="mb-4">
+                    <img
+                      src={sig.icon}
+                      alt=""
+                      className="h-12 w-12 object-contain"
+                      aria-hidden
+                    />
+                  </div>
+                )}
+                <h3 className="text-xl md:text-2xl font-display font-bold text-white mb-2">
+                  {sig.name}
+                </h3>
+                {sig.category && (
+                  <span className="inline-block text-xs font-mono text-eng-cyan/90 uppercase tracking-wider mb-3">
+                    {sig.category}
+                  </span>
+                )}
+                <p className="text-white/80 text-sm md:text-base leading-relaxed font-body line-clamp-3">
+                  {sig.description}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+
+        {/* Two Column Layout: Text and Image (when a specific category is selected) */}
+        {activeCategory !== 'All' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
           {/* Left Side: Text Block with Glassmorphism */}
           <motion.div
@@ -311,6 +354,7 @@ export default function SIGsIntroSection({ activeCategory, onCategoryChange, sig
             </motion.div>
           </motion.div>
         </div>
+        )}
 
       </div>
     </section>

@@ -5,26 +5,21 @@ import SIGsHero from "@/components/SIGs/SIGsHero";
 import SIGsIntroSection from "@/components/SIGs/SIGsIntroSection";
 import SIGLeads from "@/components/SIGs/SIGLeads";
 
+const SECTION_BG = "#0A0F2C";
+
 export default function SIGs() {
   const { data: sigs, loading, error } = useFetch(getSIGs);
-
-  // Start with first available category, or "All" if none available
-  const getInitialCategory = () => {
-    if (sigs && sigs.length > 0) {
-      const firstCategory = [...new Set(sigs.map((s) => s.category))].find(Boolean);
-      return firstCategory || "All";
-    }
-    return "All";
-  };
-
-  const [active, setActive] = useState(getInitialCategory);
+  const [active, setActive] = useState("All");
 
   if (loading) {
     return (
       <>
         <SIGsHero />
-        <div className="flex justify-center items-center min-h-screen bg-black">
-          <p className="text-center text-xl text-white">Loading SIGs...</p>
+        <div
+          className="flex justify-center items-center min-h-[60vh] px-4"
+          style={{ backgroundColor: SECTION_BG }}
+        >
+          <p className="text-center text-xl text-white/90">Loading SIGs...</p>
         </div>
       </>
     );
@@ -34,8 +29,11 @@ export default function SIGs() {
     return (
       <>
         <SIGsHero />
-        <div className="flex justify-center items-center min-h-screen bg-black">
-          <p className="text-center text-xl text-red-600">Error: {error}</p>
+        <div
+          className="flex justify-center items-center min-h-[60vh] px-4"
+          style={{ backgroundColor: SECTION_BG }}
+        >
+          <p className="text-center text-xl text-red-400 max-w-md">Error: {error}</p>
         </div>
       </>
     );

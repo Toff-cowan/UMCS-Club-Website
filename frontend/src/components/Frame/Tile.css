@@ -49,7 +49,7 @@
   backface-visibility: hidden;
 }
 
-/* Back side of flip card */
+/* Back side of flip card: description + date */
 .tile-back {
   position: absolute;
   inset: 0;
@@ -60,7 +60,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 20px;
   transform: rotateY(180deg);
   backface-visibility: hidden;
@@ -106,18 +106,23 @@
   font-size: 0.95rem;
   text-align: center;
   line-height: 1.5;
-  max-height: 100%;
+  flex: 1;
   overflow: auto;
   word-wrap: break-word;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* CreatedAt date below tile */
-.tile-date {
+/* Date on back of card (with description) */
+.tile-back .tile-date {
   margin-top: 12px;
+  margin-bottom: 0;
   color: #9CA3AF;
-  font-size: 1.0rem;
+  font-size: 0.9rem;
   text-align: center;
   width: 100%;
+  flex-shrink: 0;
 }
 
 /* Status badge */
@@ -152,5 +157,5 @@
 @media (max-width: 600px) {
   .tile-title { font-size: 0.95rem }
   .tile-desc { font-size: 0.8rem }
-  .tile-date { font-size: 0.75rem }
+  .tile-back .tile-date { font-size: 0.8rem }
 }

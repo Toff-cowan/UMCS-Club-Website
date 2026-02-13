@@ -62,8 +62,9 @@ const MobileSidebar = () => {
           {/* Navigation Links */}
           <div className="mobile-sidebar-links">
             <Link to="/" onClick={() => setIsOpen(false)}>Home</Link>
-            <Link to="/resources" onClick={() => setIsOpen(false)}>Resources</Link>
+            <Link to="/sigs" onClick={() => setIsOpen(false)}>SIGs</Link>
             <Link to="/about" onClick={() => setIsOpen(false)}>About</Link>
+            <Link to="/resources" onClick={() => setIsOpen(false)}>Resources</Link>
             <Link to="/projects" onClick={() => setIsOpen(false)}>Projects</Link>
             <Link to="/exec" onClick={() => setIsOpen(false)}>Meet the Team</Link>
           </div>

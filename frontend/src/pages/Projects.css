@@ -1,5 +1,139 @@
-/* Projects.css - styles for Layout.jsx page */
+/* Projects.css - styles for Projects page */
 
+.projects-page {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Hero Section - like Home page */
+.projects-hero {
+  position: relative;
+  width: 100%;
+  height: 55vh;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  z-index: 1;
+}
+
+.projects-hero-background {
+  position: absolute;
+  top: -10%;
+  left: -5%;
+  width: 110%;
+  height: 120%;
+  background-color: #050020;
+  background-image: url('../assets/grid picture.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.projects-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(5, 0, 32, 0.75) 0%, rgba(10, 0, 51, 0.85) 100%);
+  z-index: 1;
+}
+
+.projects-hero-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.4;
+}
+
+.projects-hero-title {
+  position: relative;
+  z-index: 2;
+  font-size: clamp(3rem, 10vw, 100px);
+  font-weight: 900;
+  line-height: 0.9;
+  color: #FFD700;
+  margin: 0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--font-main, "Montserrat", "Segoe UI", Arial, sans-serif);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 600px) {
+  .projects-hero {
+    height: 45vh;
+    min-height: 320px;
+  }
+  .projects-hero-title {
+    font-size: clamp(2.5rem, 12vw, 56px);
+  }
+}
+
+/* Purpose / intro section - full-width ribbon, centered text, fade-in on scroll */
+.projects-intro {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 2.5rem 1.5rem 2rem;
+  text-align: center;
+  background: #0F172A;
+  overflow-x: hidden;
+}
+
+/* Full-width ribbon (covers width of screen) */
+.projects-intro-ribbon {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 8px;
+  background: #00FFFF;
+  z-index: 0;
+}
+
+.projects-intro-text {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: #9CA3AF;
+  font-family: var(--font-main, "Montserrat", "Segoe UI", Arial, sans-serif);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 1.4s ease-out, transform 1.4s ease-out;
+}
+
+.projects-intro-text.projects-intro-text-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+  .projects-intro {
+    padding: 2rem 1.25rem 1.5rem;
+  }
+  .projects-intro-text {
+    font-size: 0.95rem;
+  }
+}
+
+/* Legacy layout (optional) */
 .layout-root {
   display: flex;
   flex-direction: column;
@@ -44,18 +178,228 @@ implementation for the header, footer and navbar are properly implemented. */
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 /* Main grid area */
-.lt-main { background: #0F172A; padding: 30px 40px; flex: 1 }
-.lt-loading, .lt-error { text-align:center; margin-bottom:12px }
-.lt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 40px; padding: 0 20px; max-width: 1200px  }
+.lt-main {
+  background: #0F172A;
+  padding: 30px 40px;
+  flex: 1;
+  min-height: 60vh;
+}
+.lt-loading, .lt-error { text-align: center; margin-bottom: 12px; color: #E5E7EB; }
+/* Grid: 3 columns × 2 rows */
+.lt-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 24px 28px;
+  padding: 0 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
 
-/* Responsive adjustments */
+/* Flip card wrapper */
+.lt-grid .project-card-flip {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  min-height: 380px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lt-grid .project-card-flip:hover:not(.flipped) {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(255, 215, 0, 0.3);
+}
+
+.lt-grid .project-card-inner {
+  position: relative;
+  width: 100%;
+  min-height: 380px;
+  transition: transform 0.4s ease;
+  transform-style: preserve-3d;
+}
+
+.lt-grid .project-card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+/* Front and back faces – same card look */
+.lt-grid .project-card-front,
+.lt-grid .project-card-back {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  min-height: 380px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backface-visibility: hidden;
+}
+
+.lt-grid .project-card-back {
+  transform: rotateY(180deg);
+  justify-content: space-between;
+  padding: 1.5rem;
+}
+
+.lt-grid .project-back-content {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lt-grid .project-description-full {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0;
+  flex: 1;
+}
+
+.lt-grid .project-date {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.lt-grid .project-view-detail {
+  flex-shrink: 0;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 215, 0, 0.2);
+  border: 1px solid #FFD700;
+  border-radius: 8px;
+  color: #FFD700;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.lt-grid .project-view-detail:hover {
+  background: #FFD700;
+  color: #0F172A;
+}
+
+/* Project cards – same style as Home page (front face) */
+.lt-grid .project-card {
+  width: 100%;
+  min-width: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.lt-grid .project-card-front:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.lt-grid .project-image {
+  width: 100%;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.lt-grid .project-image-placeholder {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.lt-grid .project-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lt-grid .project-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.lt-grid .project-card:hover .project-title {
+  color: #FFD700;
+}
+
+.lt-grid .project-description {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.lt-grid .project-status {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  align-self: flex-start;
+  margin-top: 0.25rem;
+}
+
+.lt-grid .project-status-ongoing {
+  background-color: #4CAF50;
+  color: #ffffff;
+}
+
+.lt-grid .project-status-completed {
+  background-color: #2196F3;
+  color: #ffffff;
+}
+
+.lt-grid .project-status-on-hold {
+  background-color: #FF9800;
+  color: #ffffff;
+}
+
 @media (max-width: 900px) {
   .lt-header h1 { font-size: 72px }
-  .lt-grid { grid-template-columns: repeat(2, 1fr); max-width: 700px }
+  .lt-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 20px 24px;
+    max-width: 640px;
+  }
 }
 @media (max-width: 600px) {
   .lt-header h1 { font-size: 48px }
-  .lt-grid { grid-template-columns: 1fr; gap: 18px; max-width: 420px }
+  .lt-main { padding: 20px 16px }
+  .lt-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 100%;
+    padding: 0 8px;
+  }
+  .lt-grid .project-image {
+    height: 160px;
+  }
+  .lt-grid .project-title {
+    font-size: 1.1rem;
+  }
+  .lt-grid .project-content {
+    padding: 1.2rem;
+  }
 }
 
 /* Pagination controls */
