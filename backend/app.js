@@ -7,6 +7,8 @@
 
 const express = require("express");
 const cors = require("cors");
+const express = require('express');
+const cors = require('cors');
 
 const app = express();
 
@@ -16,6 +18,18 @@ const app = express();
 // Parse URL-encoded request bodies
 app.use(cors());
 app.use(express.json());
+
+// Routes
+const sigsRoutes = require('./routes/sigs');
+app.use('/api/sigs', sigsRoutes);
+
+// Example route
+app.get('/api/data', async (req, res) => {
+  // Your database query here
+  res.json({ message: 'Hello from backend!' });
+});
+
+module.exports = app;
 app.use(express.urlencoded({ extended: false })); // for parsing application/x-www-form-urlencoded, if needed
 
 // API Routes

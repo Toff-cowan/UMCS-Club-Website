@@ -8,6 +8,10 @@ import Footer from './Frame/Footer';
 import MobileSidebar from './Frame/MobileSidebar';
 
 const Layout = () => {
+  const location = useLocation();
+  // Hide default navbar on SIGs and Exec pages since they have their own hero with nav
+  const showNavbar = location.pathname !== '/sigs' && location.pathname !== '/exec';
+
   return (
     <>
       <Navbar />

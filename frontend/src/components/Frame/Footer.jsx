@@ -4,6 +4,13 @@ import { FaWhatsapp, FaInstagram, FaArrowUp } from "react-icons/fa";
 import logo from "../../assets/UMCS Logo.png";
 
 const Footer = () => {
+  const navLinks = [
+    { path: '/', label: 'Home' },
+    { path: '/resources', label: 'Resources' },
+    { path: '/about', label: 'About' },
+    { path: '/team', label: 'Meet the team' },
+  ];
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,

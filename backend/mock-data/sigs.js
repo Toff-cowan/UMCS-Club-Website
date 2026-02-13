@@ -11,7 +11,8 @@ module.exports = [
     "avatarId": 14,
     "name": "Web Development",
     "icon": "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/react.svg",
-    "description": "A group focused on modern web development technologies including React, Node.js, and full-stack development practices."
+    "description": "A group focused on modern web development technologies including React, Node.js, and full-stack development practices.",
+    "category": "Web"
   },
   {
     "sig": "AI Development",
@@ -20,7 +21,8 @@ module.exports = [
     "avatarId": 22,
     "name": "AI Development",
     "icon": "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tensorflow.svg",
-    "description": "Exploring artificial intelligence and machine learning concepts, from basic algorithms to deep learning and neural networks."
+    "description": "Exploring artificial intelligence and machine learning concepts, from basic algorithms to deep learning and neural networks.",
+    "category": "AI"
   },
   {
     "sig": "Cybersecurity",
@@ -29,7 +31,8 @@ module.exports = [
     "avatarId": 8,
     "name": "Cybersecurity",
     "icon": "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/security.svg",
-    "description": "Learning about security best practices, ethical hacking, cryptography, and protecting systems from vulnerabilities."
+    "description": "Learning about security best practices, ethical hacking, cryptography, and protecting systems from vulnerabilities.",
+    "category": "Cyber"
   },
   {
     "sig": "Mobile Development",
@@ -38,7 +41,8 @@ module.exports = [
     "avatarId": 15,
     "name": "Mobile Development",
     "icon": "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/android.svg",
-    "description": "Building mobile applications for iOS and Android platforms using native and cross-platform development frameworks."
+    "description": "Building mobile applications for iOS and Android platforms using native and cross-platform development frameworks.",
+    "category": "Mobile"
   },
   {
     "sig": "Data Science",
@@ -47,7 +51,8 @@ module.exports = [
     "avatarId": 19,
     "name": "Data Science",
     "icon": "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/pandas.svg",
-    "description": "Working with data analysis, visualization, statistical modeling, and extracting insights from large datasets."
+    "description": "Working with data analysis, visualization, statistical modeling, and extracting insights from large datasets.",
+    "category": "Data"
   },
   {
     "sig": "Game Development",
@@ -56,7 +61,8 @@ module.exports = [
     "avatarId": 12,
     "name": "Game Development",
     "icon": "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/unity.svg",
-    "description": "Creating games using various engines and frameworks, covering game design, graphics, and interactive storytelling."
+    "description": "Creating games using various engines and frameworks, covering game design, graphics, and interactive storytelling.",
+    "category": "Game"
   }
 ];
 
