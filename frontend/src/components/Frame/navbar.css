@@ -48,15 +48,15 @@
 
 .navbar a.nav-link {
     position: relative;
-    color: #ffffff;
+    color: var(--color-text);
     text-decoration: none;
-    font-size: 18px;
-    font-family: var(--font-main, "Montserrat", "Segoe UI", Arial, sans-serif);
+    font-size: 1.125rem;
+    font-family: var(--font-main);
     font-weight: 550;
-    padding: 8px 0px;
-    transition: 0.3s;
+    padding: 8px 0;
+    transition: color 0.3s ease;
 }
 
 .navbar a.nav-link:hover {
-    color: #FFE066;
+    color: var(--color-secondary);
 }

@@ -20,6 +20,16 @@ const Home = () => {
   const isCardHoveredRef = useRef(false);
   const eventIntervalRef = useRef(null);
   const heroSectionRef = useRef(null);
+  const presidentSectionRef = useRef(null);
+  const sigsSectionRef = useRef(null);
+  const newsEventsSectionRef = useRef(null);
+  const projectsSectionRef = useRef(null);
+  const [visibleSections, setVisibleSections] = useState({
+    president: false,
+    sigs: false,
+    newsEvents: false,
+    projects: false,
+  });
 
   useEffect(() => {
     const fetchPresident = async () => {
@@ -106,6 +116,39 @@ const Home = () => {
     fetchSIGs();
     fetchEvents();
     fetchProjects();
+  }, []);
+
+  // Float-in on scroll: observe sections and set visible when they enter view
+  useEffect(() => {
+    const pairs = [
+      { ref: presidentSectionRef, key: "president" },
+      { ref: sigsSectionRef, key: "sigs" },
+      { ref: newsEventsSectionRef, key: "newsEvents" },
+      { ref: projectsSectionRef, key: "projects" },
+    ];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const key = entry.target.getAttribute("data-float-section");
+          if (key)
+            setVisibleSections((prev) => ({ ...prev, [key]: true }));
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+    );
+    const observed = [];
+    pairs.forEach(({ ref, key }) => {
+      if (ref.current) {
+        ref.current.setAttribute("data-float-section", key);
+        observer.observe(ref.current);
+        observed.push(ref.current);
+      }
+    });
+    return () => {
+      observed.forEach((el) => el.removeAttribute("data-float-section"));
+      observer.disconnect();
+    };
   }, []);
 
   // Auto-scroll slider - smooth infinite scrolling through all SIGs (duplicated for seamless loop)
@@ -209,7 +252,10 @@ const Home = () => {
       </section>
 
       {/* Message from President Section */}
-      <section className="president-section">
+      <section
+        ref={presidentSectionRef}
+        className={`president-section section-float-in ${visibleSections.president ? "section-float-in-visible" : ""}`}
+      >
         <div className="president-container">
           {/* White Message Box */}
           <div className="message-box">
@@ -249,7 +295,10 @@ const Home = () => {
       {/* Container for all sections below president's message */}
       <div className="sections-container">
       {/* Special Interest Groups Section */}
-      <section className="sigs-section">
+      <section
+        ref={sigsSectionRef}
+        className={`sigs-section section-float-in ${visibleSections.sigs ? "section-float-in-visible" : ""}`}
+      >
         <Link to="/sigs" className="sigs-title-link">
           <h2 className="sigs-title">SPECIAL INTEREST GROUPS</h2>
         </Link>
@@ -285,7 +334,10 @@ const Home = () => {
       </section>
 
       {/* News and Events Section */}
-      <section className="news-events-section">
+      <section
+        ref={newsEventsSectionRef}
+        className={`news-events-section section-float-in ${visibleSections.newsEvents ? "section-float-in-visible" : ""}`}
+      >
         <h2 className="news-events-title-centered">NEWS AND EVENTS</h2>
         <div className="news-events-container">
           {/* Left Column - Text Content */}
@@ -351,7 +403,10 @@ const Home = () => {
       </section>
 
       {/* Projects Section */}
-      <section className="projects-section">
+      <section
+        ref={projectsSectionRef}
+        className={`projects-section section-float-in ${visibleSections.projects ? "section-float-in-visible" : ""}`}
+      >
         {/* PROJECTS Title */}
         <Link to="/projects" className="projects-title-link">
           <h2 className="projects-title">PROJECTS</h2>

@@ -7,16 +7,16 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['Space Grotesk', 'system-ui', 'sans-serif'],
-        body: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'Courier New', 'monospace'],
+        display: ['Montserrat', 'Segoe UI', 'system-ui', 'sans-serif'],
+        body: ['Montserrat', 'Segoe UI', 'system-ui', 'sans-serif'],
+        mono: ['Montserrat', 'Courier New', 'monospace'],
       },
       colors: {
         'eng-cyan': '#00FFFF',
         'eng-yellow': '#FACC15',
         'eng-purple': '#7C3AED',
-        'eng-bg': '#0A0F2C',
-        'eng-bg-alt': '#121824',
+        'eng-bg': '#050020',
+        'eng-bg-alt': '#0a0033',
       },
       animation: {
         fadeIn: "fadeIn 0.5s ease-in-out",
