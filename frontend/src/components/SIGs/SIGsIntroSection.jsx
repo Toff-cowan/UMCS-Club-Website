@@ -1,7 +1,7 @@
 import { useRef, useMemo } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { motion, useMotionValue, useSpring, useInView } from 'framer-motion';
-import { CircuitPattern, GradientOrb } from './EngineeringPatterns';
+import { CircuitPattern, GradientOrb } from '../EngineeringPatterns';
 
 // Map categories to relevant images
 const categoryImages = {
@@ -89,9 +89,6 @@ export default function SIGsIntroSection({ activeCategory, onCategoryChange, sig
   // Get the first SIG from the active category
   const activeSIG = useMemo(() => {
     if (!sigs || sigs.length === 0) return null;
-    if (activeCategory === 'All') {
-      return sigs[0];
-    }
     return sigs.find(sig => sig.category === activeCategory) || sigs[0];
   }, [sigs, activeCategory]);
 
@@ -100,15 +97,11 @@ export default function SIGsIntroSection({ activeCategory, onCategoryChange, sig
     if (activeSIG?.icon && activeSIG.icon.startsWith('http')) {
       return activeSIG.icon;
     }
-    const categoryForImage = activeCategory === 'All' && activeSIG?.category 
-      ? activeSIG.category 
-      : activeCategory;
-    return categoryImages[categoryForImage] || categoryImages['Web'];
+    return categoryImages[activeCategory] || categoryImages['Web'];
   }, [activeSIG, activeCategory]);
 
   // Fixed category tabs with specific names
   const displayCategories = [
-    { id: 'All', label: 'All' },
     { id: 'Web', label: 'Web Dev' },
     { id: 'Cyber', label: 'Cyber Security' },
     { id: 'Game', label: 'Game Dev' },
