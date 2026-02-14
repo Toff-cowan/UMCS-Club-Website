@@ -8,13 +8,13 @@ import SIGLeads from "@/components/SIGs/SIGLeads";
 export default function SIGs() {
   const { data: sigs, loading, error } = useFetch(getSIGs);
 
-  // Start with first available category, or "All" if none available
+  // Start with first available category
   const getInitialCategory = () => {
     if (sigs && sigs.length > 0) {
       const firstCategory = [...new Set(sigs.map((s) => s.category))].find(Boolean);
-      return firstCategory || "All";
+      return firstCategory || "Web";
     }
-    return "All";
+    return "Web";
   };
 
   const [active, setActive] = useState(getInitialCategory);
