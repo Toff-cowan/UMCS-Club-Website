@@ -12,10 +12,10 @@ export default function Exec() {
   const reviews = useMemo(() => {
     if (!executives || executives.length === 0) return [];
     return executives.map((exec) => ({
-      id: exec.id,
+      id: exec.id || exec._id,
       name: exec.name,
       affiliation: exec.position,
-      quote: exec.bio,
+      quote: exec.quote || exec.bio || "",
       imageSrc: exec.image,
       thumbnailSrc: exec.image,
       linkedin: exec.linkedin,

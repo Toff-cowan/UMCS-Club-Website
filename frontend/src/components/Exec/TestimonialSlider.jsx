@@ -104,7 +104,7 @@ export default function TestimonialSlider({ reviews = [] }) {
                 <img
                   src={currentReview.imageSrc || `https://i.pravatar.cc/300?img=${currentReview.id}`}
                   alt={currentReview.name}
-                  className="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover border-4 border-yellow-500/50 shadow-2xl"
+                  className="w-56 h-56 md:w-80 md:h-80 rounded-full object-cover object-top border-4 border-yellow-500/50 shadow-2xl"
                 />
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-500/20 to-cyan-500/20 blur-xl -z-10"></div>
               </motion.div>
@@ -248,7 +248,7 @@ export default function TestimonialSlider({ reviews = [] }) {
               <img
                 src={review.thumbnailSrc || review.imageSrc || `https://i.pravatar.cc/100?img=${review.id}`}
                 alt={review.name}
-                className="w-16 h-16 md:w-20 md:h-20 object-cover"
+                className="w-16 h-16 md:w-20 md:h-20 object-cover object-top"
               />
               {index === currentIndex && (
                 <motion.div

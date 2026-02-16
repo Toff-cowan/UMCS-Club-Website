@@ -40,25 +40,24 @@ const Home = () => {
         }
         const executives = await response.json();
         
-        // Find the president - search for exact match (case-insensitive)
+        // Find the lead executive: President first, then Vice President, then first in list
         const presidentData = executives.find((exec) => {
           if (!exec || !exec.position) return false;
-          // Normalize the position string: trim whitespace and convert to lowercase
-          const normalizedPosition = exec.position.trim().toLowerCase();
-          return normalizedPosition === "president";
+          const p = exec.position.trim().toLowerCase();
+          return p === "president";
+        });
+        const vicePresidentData = executives.find((exec) => {
+          if (!exec || !exec.position) return false;
+          const p = exec.position.trim().toLowerCase();
+          return p === "vice president";
         });
 
         if (presidentData) {
-          // Image URL is now a full web URL from the backend
           setPresident(presidentData);
-          console.log("Found president:", presidentData.name);
-        } else {
-          console.warn("No president found in executives list. Available positions:", 
-            executives.map(e => e.position));
-          // Fallback to first executive if no president is found
-          if (executives.length > 0) {
-            setPresident(executives[0]);
-          }
+        } else if (vicePresidentData) {
+          setPresident(vicePresidentData);
+        } else if (executives.length > 0) {
+          setPresident(executives[0]);
         }
         setPresidentLoading(false);
       } catch (error) {
@@ -269,7 +268,15 @@ const Home = () => {
             )}
             {/* Blue Banner attached to bottom of box */}
             <div className="message-banner">
-              <span className="banner-text">Message from Our President</span>
+              <span className="banner-text">
+                {president?.position?.toLowerCase() === "president"
+                  ? "Message from Our President"
+                  : president?.position?.toLowerCase() === "vice president"
+                    ? "Message from Our Vice President"
+                    : president
+                      ? `Message from Our ${president.position}`
+                      : "Message from the Executive"}
+              </span>
             </div>
           </div>
 

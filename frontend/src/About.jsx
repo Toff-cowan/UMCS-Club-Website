@@ -12,9 +12,11 @@ const About = () => {
 //Mock data to test executives section <-----here
   
 
-  // Separate president from other members
-  const president = executives.find(exec => exec.position === 'President');
-  const members = executives.filter(exec => exec.position !== 'President');
+  // Lead executive (President or Vice President) in center; others in circle
+  const president = executives.find(exec =>
+    exec.position && (exec.position.toLowerCase() === 'president' || exec.position.toLowerCase() === 'vice president')
+  );
+  const members = executives.filter(exec => exec !== president);
 
   useEffect(() => {
     // Fetch execs from database
@@ -27,7 +29,7 @@ const About = () => {
       } catch (error) {
         console.error('Error fetching executives:', error);
         // Fallback to mock data if fetch fails
-        setExecutives(mockExecutives);
+        setExecutives([]);
         setLoading(false);
       }
     };
@@ -102,7 +104,7 @@ useEffect(() => {
             {/* President */}
             {president && (
               <div className="executive-member main">
-                <img src={president.image || 'path-to-main-executive.jpg'} alt="President" />
+                <img src={president.image || 'path-to-main-executive.jpg'} alt={president.position || 'Lead'} />
                 <div className="member-info">
                   <h3>{president.name}</h3>
                   <p>{president.position}</p>
