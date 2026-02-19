@@ -2,9 +2,14 @@
 // This file contains sample SIG (Special Interest Group) data to be loaded into the database
 // Used by: backend/models/sig.js
 // Schema fields: sig, lead, quote, avatarId, name, icon, description
+// Schema fields: sig, lead, quote, avatarId, name, icon, description
 
 module.exports = [
   {
+    "sig": "Web Development",
+    "lead": "Ava Thompson",
+    "quote": "We build the future of the web.",
+    "avatarId": 14,
     "sig": "Web Development",
     "lead": "Ava Thompson",
     "quote": "We build the future of the web.",
@@ -39,12 +44,20 @@ module.exports = [
     "lead": "Marcus Johnson",
     "quote": "Building apps that move with you.",
     "avatarId": 15,
+    "sig": "Mobile Development",
+    "lead": "Marcus Johnson",
+    "quote": "Building apps that move with you.",
+    "avatarId": 15,
     "name": "Mobile Development",
     "icon": "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/android.svg",
     "description": "Building mobile applications for iOS and Android platforms using native and cross-platform development frameworks.",
     "category": "Mobile"
   },
   {
+    "sig": "Data Science",
+    "lead": "Emily Rodriguez",
+    "quote": "Turning data into decisions.",
+    "avatarId": 19,
     "sig": "Data Science",
     "lead": "Emily Rodriguez",
     "quote": "Turning data into decisions.",
@@ -59,10 +72,13 @@ module.exports = [
     "lead": "Alex Kim",
     "quote": "Creating worlds, one game at a time.",
     "avatarId": 12,
+    "sig": "Game Development",
+    "lead": "Alex Kim",
+    "quote": "Creating worlds, one game at a time.",
+    "avatarId": 12,
     "name": "Game Development",
     "icon": "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/unity.svg",
     "description": "Creating games using various engines and frameworks, covering game design, graphics, and interactive storytelling.",
     "category": "Game"
   }
 ];
-

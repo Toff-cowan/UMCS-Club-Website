@@ -1,0 +1,149 @@
+/* Exec Page Specific Styles */
+
+/* Page Container */
+.exec-page {
+  min-height: 100vh;
+  background-color: var(--color-bg, #0A0F2C);
+}
+
+/* Loading State */
+.exec-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--color-bg, #0A0F2C);
+}
+
+.exec-loading-text {
+  text-align: center;
+  font-size: 1.25rem;
+  color: #ffffff;
+}
+
+/* Error State */
+.exec-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--color-bg, #0A0F2C);
+}
+
+.exec-error-text {
+  text-align: center;
+  font-size: 1.25rem;
+  color: #ef4444;
+}
+
+/* Executive Section Styles */
+.exec-section {
+  position: relative;
+  overflow: hidden;
+  scroll-margin-top: 80px;
+}
+
+.exec-section-background {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(0, 255, 255, 0.05),
+    transparent
+  );
+  pointer-events: none;
+}
+
+.exec-section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+@media (min-width: 768px) {
+  .exec-section-header {
+    margin-bottom: 5rem;
+  }
+}
+
+.exec-section-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .exec-section-title {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .exec-section-title {
+    font-size: 3.75rem;
+  }
+}
+
+.exec-section-subtitle {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.125rem;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  .exec-section-subtitle {
+    font-size: 1.25rem;
+  }
+}
+
+/* Page-specific animations */
+@keyframes execFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.exec-fade-in {
+  animation: execFadeIn 0.6s ease-out;
+}
+
+@keyframes execSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.exec-slide-up {
+  animation: execSlideUp 0.8s ease-out 0.2s both;
+}
+
+/* Custom scrollbar for Exec page content */
+.exec-page::-webkit-scrollbar {
+  width: 10px;
+}
+
+.exec-page::-webkit-scrollbar-track {
+  background: #0A0F2C;
+}
+
+.exec-page::-webkit-scrollbar-thumb {
+  background: #FACC15;
+  border-radius: 5px;
+}
+
+.exec-page::-webkit-scrollbar-thumb:hover {
+  background: #00FFFF;
+}
