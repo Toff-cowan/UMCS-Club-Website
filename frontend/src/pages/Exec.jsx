@@ -4,6 +4,8 @@ import { getExecutives } from '@/services/api';
 import ExecHero from '@/components/Exec/ExecHero';
 import TestimonialSlider from '@/components/Exec/TestimonialSlider';
 import { motion } from 'framer-motion';
+import '../App.css';
+import '../index.css';
 
 export default function Exec() {
   const { data: executives, loading, error } = useFetch(getExecutives);
@@ -25,28 +27,28 @@ export default function Exec() {
 
   if (loading) {
     return (
-      <>
+      <div className="min-h-screen w-full bg-eng-bg">
         <ExecHero />
-        <div className="flex justify-center items-center min-h-screen bg-eng-bg">
+        <div className="flex justify-center items-center min-h-[60vh] bg-eng-bg">
           <p className="text-center text-xl text-white">Loading executives...</p>
         </div>
-      </>
+      </div>
     );
   }
 
   if (error) {
     return (
-      <>
+      <div className="min-h-screen w-full bg-eng-bg">
         <ExecHero />
-        <div className="flex justify-center items-center min-h-screen bg-eng-bg">
+        <div className="flex justify-center items-center min-h-[60vh] bg-eng-bg">
           <p className="text-center text-xl text-red-600">Error: {error}</p>
         </div>
-      </>
+      </div>
     );
   }
 
   return (
-    <>
+    <div className="min-h-screen w-full bg-eng-bg">
       {/* Hero Section */}
       <ExecHero />
 
@@ -83,7 +85,7 @@ export default function Exec() {
           </motion.div>
         </div>
       </section>
-    </>
+    </div>
   );
 }
 

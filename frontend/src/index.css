@@ -5,23 +5,33 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
+/* Hide all scrollbars globally – scroll still works */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and old Edge */
+}
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
-html, body {
+html {
+  scroll-behavior: smooth;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   overflow-x: hidden;
+  overflow-y: auto; /* allow page scroll – scrollbar hidden by rules above */
 }
 
 body {
+  width: 100%;
+  min-height: 100%;
   margin: 0;
   padding: 0;
   background-color: var(--color-bg);
   color: var(--color-text);
   position: relative;
   overflow-x: hidden;
+  overflow-y: visible; /* let document scroll, not a second scroll container */
   font-size: var(--font-size-body);
   line-height: var(--line-height-body);
 }

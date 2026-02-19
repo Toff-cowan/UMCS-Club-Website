@@ -9,12 +9,13 @@ import MobileSidebar from './Frame/MobileSidebar';
 
 const Layout = () => {
   const location = useLocation();
-  const showNavbar = location.pathname !== '/sigs' && location.pathname !== '/exec';
-  const mainClassName = location.pathname === '/sigs' || location.pathname === '/exec' ? '' : 'pt-20';
+  // Full-bleed hero on SIGs/Exec: no top padding so hero fills viewport
+  const isFullBleedPage = location.pathname === '/sigs' || location.pathname === '/exec';
+  const mainClassName = isFullBleedPage ? '' : 'pt-20';
 
   return (
     <>
-      {showNavbar && <Navbar />}
+      <Navbar />
       <MobileSidebar />
       <main className={mainClassName}>
         <Outlet />

@@ -71,7 +71,7 @@ export default function SIGsHero() {
   const subtitleText = "BUILD. BREAK. INNOVATE.";
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-eng-bg">
+    <div className="relative min-h-screen w-full overflow-hidden bg-eng-bg pt-20">
       {/* Layered Background Elements */}
       <GradientOrb color="cyan" size="600" className="top-0 right-0" />
       <GradientOrb color="yellow" size="500" className="bottom-0 left-0" />
