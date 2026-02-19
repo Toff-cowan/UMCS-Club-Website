@@ -14,7 +14,7 @@ exports.createSIG = async (req, res) => {
 // Get all SIGs
 exports.getAllSIGs = async (req, res) => {
   try {
-    const sigs = await SIG.find().sort({ name: 1 });
+    const sigs = await SIG.find().sort({ sig: 1 });
     res.status(200).json({ success: true, data: sigs });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
@@ -24,9 +24,7 @@ exports.getAllSIGs = async (req, res) => {
 // Get SIG by ID
 exports.getSIGById = async (req, res) => {
   try {
-    const sig = await SIG.findById(req.params.id)
-      .populate('lead', 'name email') // Assuming lead is a reference to Member
-      .populate('members', 'name email');
+    const sig = await SIG.findById(req.params.id);
     if (!sig) {
       return res.status(404).json({ success: false, error: 'SIG not found' });
     }
@@ -62,41 +60,5 @@ exports.deleteSIG = async (req, res) => {
     res.status(200).json({ success: true, message: 'SIG deleted successfully' });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
-  }
-};
-
-// Add member to SIG
-exports.addMemberToSIG = async (req, res) => {
-  try {
-    const { sigId, memberId } = req.params;
-    const sig = await SIG.findByIdAndUpdate(
-      sigId,
-      { $addToSet: { members: memberId } },
-      { new: true }
-    );
-    if (!sig) {
-      return res.status(404).json({ success: false, error: 'SIG not found' });
-    }
-    res.status(200).json({ success: true, data: sig });
-  } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
-  }
-};
-
-// Remove member from SIG
-exports.removeMemberFromSIG = async (req, res) => {
-  try {
-    const { sigId, memberId } = req.params;
-    const sig = await SIG.findByIdAndUpdate(
-      sigId,
-      { $pull: { members: memberId } },
-      { new: true }
-    );
-    if (!sig) {
-      return res.status(404).json({ success: false, error: 'SIG not found' });
-    }
-    res.status(200).json({ success: true, data: sig });
-  } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
   }
 };

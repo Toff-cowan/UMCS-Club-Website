@@ -11,6 +11,9 @@ app.use(express.json());
 const sigsRoutes = require('./routes/sigs');
 app.use('/api/sigs', sigsRoutes);
 
+const executiveRoutes = require('./routes/executive'); 
+app.use('/api/executives', executiveRoutes);
+
 // Example route
 app.get('/api/data', async (req, res) => {
   // Your database query here
