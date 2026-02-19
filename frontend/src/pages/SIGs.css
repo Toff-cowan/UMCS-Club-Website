@@ -1,0 +1,76 @@
+/* SIGs Page Specific Styles */
+
+/* Page Container */
+.sigs-page {
+  min-height: 100vh;
+  background-color: var(--color-bg, #0A0F2C);
+}
+
+/* Loading State */
+.sigs-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #000000;
+}
+
+.sigs-loading-text {
+  text-align: center;
+  font-size: 1.25rem;
+  color: #ffffff;
+}
+
+/* Error State */
+.sigs-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #000000;
+}
+
+.sigs-error-text {
+  text-align: center;
+  font-size: 1.25rem;
+  color: #ef4444;
+}
+
+/* Page-specific animations */
+@keyframes sigsFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sigs-fade-in {
+  animation: sigsFadeIn 0.6s ease-out;
+}
+
+/* Section spacing for SIGs page */
+.sigs-section {
+  scroll-margin-top: 80px;
+}
+
+/* Custom scrollbar for SIGs page content */
+.sigs-page::-webkit-scrollbar {
+  width: 10px;
+}
+
+.sigs-page::-webkit-scrollbar-track {
+  background: #0A0F2C;
+}
+
+.sigs-page::-webkit-scrollbar-thumb {
+  background: #FACC15;
+  border-radius: 5px;
+}
+
+.sigs-page::-webkit-scrollbar-thumb:hover {
+  background: #00FFFF;
+}
