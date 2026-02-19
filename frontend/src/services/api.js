@@ -61,7 +61,8 @@ export const getExecutives = async () => {
       throw new Error(`Failed to fetch Executives: ${errorData.message || response.statusText}`);
     }
     const data = await response.json();
-    return data;
+    // Handle controller response format: { success: true, data: [...] }
+    return data.success ? data.data : data;
   } catch (error) {
     console.error('Error fetching Executives:', error);
     // More detailed error message
