@@ -9,6 +9,9 @@
 const express = require("express");
 const router = express.Router();
 const Member = require("../models/member");
+const { redactBadWords, hasInappropriateContent } = require("../utils/contentModeration");
+
+const MAX_NAME_LENGTH = 80;
 
 // GET /api/members
 router.get("/", async (req, res) => {
@@ -17,6 +20,28 @@ router.get("/", async (req, res) => {
     res.json(members);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch members" });
+  }
+});
+
+// POST /api/members – add a club member name (with content moderation)
+router.post("/", async (req, res) => {
+  try {
+    let name = typeof req.body.name === "string" ? req.body.name.trim() : "";
+    if (!name) {
+      return res.status(400).json({ message: "Name is required." });
+    }
+    if (name.length > MAX_NAME_LENGTH) {
+      return res.status(400).json({ message: "Name is too long." });
+    }
+    const sanitized = redactBadWords(name);
+    if (hasInappropriateContent(name) || !sanitized) {
+      return res.status(400).json({ message: "Please enter an appropriate name." });
+    }
+    const member = new Member({ name: sanitized });
+    await member.save();
+    res.status(201).json(member);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to add member" });
   }
 });
 

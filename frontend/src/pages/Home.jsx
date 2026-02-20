@@ -24,12 +24,19 @@ const Home = () => {
   const sigsSectionRef = useRef(null);
   const newsEventsSectionRef = useRef(null);
   const projectsSectionRef = useRef(null);
+  const clubMembersSectionRef = useRef(null);
   const [visibleSections, setVisibleSections] = useState({
     president: false,
     sigs: false,
     newsEvents: false,
     projects: false,
+    clubMembers: false,
   });
+  const [members, setMembers] = useState([]);
+  const [membersLoading, setMembersLoading] = useState(true);
+  const [memberNameInput, setMemberNameInput] = useState("");
+  const [memberSubmitError, setMemberSubmitError] = useState(null);
+  const [memberSubmitting, setMemberSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchPresident = async () => {
@@ -111,10 +118,43 @@ const Home = () => {
       }
     };
 
+    const fetchMembers = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/members");
+        if (response.ok) {
+          const data = await response.json();
+          setMembers(Array.isArray(data) ? data : []);
+        }
+      } catch (err) {
+        console.error("Error fetching members:", err);
+      } finally {
+        setMembersLoading(false);
+      }
+    };
+
     fetchPresident();
     fetchSIGs();
     fetchEvents();
     fetchProjects();
+    fetchMembers();
+  }, []);
+
+  // Refresh club members every 5 minutes: clear and refetch
+  useEffect(() => {
+    const FIVE_MINUTES = 5 * 60 * 1000;
+    const interval = setInterval(async () => {
+      setMembers([]);
+      try {
+        const response = await fetch("http://localhost:5000/api/members");
+        if (response.ok) {
+          const data = await response.json();
+          setMembers(Array.isArray(data) ? data : []);
+        }
+      } catch (err) {
+        console.error("Error refreshing members:", err);
+      }
+    }, FIVE_MINUTES);
+    return () => clearInterval(interval);
   }, []);
 
   // Float-in on scroll: observe sections and set visible when they enter view
@@ -124,6 +164,7 @@ const Home = () => {
       { ref: sigsSectionRef, key: "sigs" },
       { ref: newsEventsSectionRef, key: "newsEvents" },
       { ref: projectsSectionRef, key: "projects" },
+      { ref: clubMembersSectionRef, key: "clubMembers" },
     ];
     const observer = new IntersectionObserver(
       (entries) => {
@@ -238,6 +279,35 @@ const Home = () => {
 
   const handleProjectClick = (projectId) => {
     navigate(`/projects/${projectId}`);
+  };
+
+  const handleAddMember = async (e) => {
+    e.preventDefault();
+    const name = memberNameInput.trim();
+    if (!name) {
+      setMemberSubmitError("Please enter your name.");
+      return;
+    }
+    setMemberSubmitError(null);
+    setMemberSubmitting(true);
+    try {
+      const response = await fetch("http://localhost:5000/api/members", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (response.ok) {
+        setMembers((prev) => [data, ...prev]);
+        setMemberNameInput("");
+      } else {
+        setMemberSubmitError(data.message || "Could not add name. Please try an appropriate name.");
+      }
+    } catch (err) {
+      setMemberSubmitError("Could not add name. Please try again.");
+    } finally {
+      setMemberSubmitting(false);
+    }
   };
 
   return (
@@ -460,6 +530,56 @@ const Home = () => {
             </div>
           ) : (
             <div className="projects-empty">No projects available</div>
+          )}
+        </div>
+      </section>
+
+      {/* Club Members – add your name; names float in background */}
+      <section
+        ref={clubMembersSectionRef}
+        className={`club-members-section section-float-in ${visibleSections.clubMembers ? "section-float-in-visible" : ""}`}
+      >
+        <div className="club-members-bg-names" aria-hidden="true">
+          {membersLoading ? null : (
+            <>
+              <div className="club-members-carousel-track club-members-carousel-top">
+                {[...members, ...members].map((m, i) => (
+                  <span key={`top-${m._id || m.id}-${i}`} className="club-members-carousel-name">{m.name}</span>
+                ))}
+              </div>
+              <div className="club-members-carousel-track club-members-carousel-mid club-members-carousel-reverse">
+                {[...members, ...members].map((m, i) => (
+                  <span key={`mid-${m._id || m.id}-${i}`} className="club-members-carousel-name">{m.name}</span>
+                ))}
+              </div>
+              <div className="club-members-carousel-track club-members-carousel-bottom">
+                {[...members, ...members].map((m, i) => (
+                  <span key={`bot-${m._id || m.id}-${i}`} className="club-members-carousel-name">{m.name}</span>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+        <div className="club-members-content">
+          <h2 className="club-members-title">CLUB MEMBERS</h2>
+          <p className="club-members-intro">Add your name to the wall. It will appear floating in the background.</p>
+          <form className="club-members-form" onSubmit={handleAddMember}>
+            <input
+              type="text"
+              className="club-members-input"
+              placeholder="Your name"
+              value={memberNameInput}
+              onChange={(e) => { setMemberNameInput(e.target.value); setMemberSubmitError(null); }}
+              maxLength={80}
+              disabled={memberSubmitting}
+              aria-label="Your name"
+            />
+            <button type="submit" className="club-members-submit" disabled={memberSubmitting}>
+              {memberSubmitting ? "Adding…" : "Add my name"}
+            </button>
+          </form>
+          {memberSubmitError && (
+            <p className="club-members-error" role="alert">{memberSubmitError}</p>
           )}
         </div>
       </section>

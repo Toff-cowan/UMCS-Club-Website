@@ -223,13 +223,25 @@ export default function Projects() {
                       <p className="project-description-full">{p.description || 'No description.'}</p>
                       {createdDate && <p className="project-date">{createdDate}</p>}
                     </div>
-                    <button
-                      type="button"
-                      className="project-view-detail"
-                      onClick={(e) => { e.stopPropagation(); handleProjectClick(id); }}
-                    >
-                      View project
-                    </button>
+                    {p.url ? (
+                      <a
+                        href={p.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="project-view-detail project-view-link"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        Visit site / GitHub
+                      </a>
+                    ) : (
+                      <button
+                        type="button"
+                        className="project-view-detail"
+                        onClick={(e) => { e.stopPropagation(); handleProjectClick(id); }}
+                      >
+                        View project
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

@@ -54,6 +54,17 @@ export default function Exec() {
 
       <section className="exec-section-wrap">
         <div className="exec-section-bg" aria-hidden="true" />
+        {/* Floating code snippets background (low opacity) */}
+        <div className="exec-code-snippets-bg" aria-hidden="true">
+          <pre className="exec-code-snippet exec-code-snippet-1"><code>{`const lead = execs.find(e => e.role === 'President');`}</code></pre>
+          <pre className="exec-code-snippet exec-code-snippet-2"><code>{`<ExecutiveCard name={exec.name} />`}</code></pre>
+          <pre className="exec-code-snippet exec-code-snippet-3"><code>{`function getLeaders() { return execs; }`}</code></pre>
+          <pre className="exec-code-snippet exec-code-snippet-4"><code>{`export default Exec;`}</code></pre>
+          <pre className="exec-code-snippet exec-code-snippet-5"><code>{`position: 'President'`}</code></pre>
+          <pre className="exec-code-snippet exec-code-snippet-6"><code>{`// Executive Highlights`}</code></pre>
+          <pre className="exec-code-snippet exec-code-snippet-7"><code>{`reviews.map(r => <Slide key={r.id} />)`}</code></pre>
+          <pre className="exec-code-snippet exec-code-snippet-8"><code>{`useFetch(getExecutives)`}</code></pre>
+        </div>
 
         <div className="exec-section-inner">
           <motion.div

@@ -25,6 +25,7 @@ app.use("/api/projects", require("./routes/projects"));
 app.use("/api/executives", require("./routes/executive"));
 app.use("/api/events", require("./routes/events"));
 app.use("/api/sig-leads", require("./routes/sig-leads"));
+app.use("/api/admin", require("./routes/admin"));
 
 // Health check (optional but useful)
 app.get("/", (req, res) => {

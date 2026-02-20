@@ -388,6 +388,11 @@ implementation for the header, footer and navbar are properly implemented. */
   color: var(--color-bg);
 }
 
+.lt-grid .project-view-link {
+  display: inline-block;
+  text-decoration: none;
+}
+
 /* Project cards – same style as Home page (front face) */
 .lt-grid .project-card {
   width: 100%;

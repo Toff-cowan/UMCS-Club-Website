@@ -649,6 +649,47 @@
   pointer-events: none;
 }
 
+/* Floating code snippets behind exec section – low opacity */
+.exec-code-snippets-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.exec-code-snippet {
+  position: absolute;
+  font-family: ui-monospace, "Cascadia Code", "Source Code Pro", monospace;
+  font-size: 0.75rem;
+  white-space: pre;
+  color: rgba(0, 255, 255, 0.14);
+  margin: 0;
+  padding: 0.25rem 0.5rem;
+  animation: exec-snippet-float 25s ease-in-out infinite;
+}
+
+.exec-code-snippet code {
+  background: none;
+  padding: 0;
+}
+
+.exec-code-snippet-1 { top: 8%; left: 5%; animation-delay: 0s; }
+.exec-code-snippet-2 { top: 15%; right: 12%; animation-delay: -4s; }
+.exec-code-snippet-3 { bottom: 25%; left: 8%; animation-delay: -8s; }
+.exec-code-snippet-4 { bottom: 15%; right: 6%; animation-delay: -12s; }
+.exec-code-snippet-5 { top: 45%; left: 3%; animation-delay: -2s; }
+.exec-code-snippet-6 { top: 55%; right: 10%; animation-delay: -6s; }
+.exec-code-snippet-7 { bottom: 45%; right: 4%; animation-delay: -10s; }
+.exec-code-snippet-8 { top: 28%; right: 18%; animation-delay: -14s; }
+
+@keyframes exec-snippet-float {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.12; }
+  25% { transform: translate(8px, -12px) rotate(1deg); opacity: 0.18; }
+  50% { transform: translate(-5px, 8px) rotate(-1deg); opacity: 0.14; }
+  75% { transform: translate(12px, 5px) rotate(0.5deg); opacity: 0.16; }
+}
+
 .exec-section-inner {
   position: relative;
   z-index: 10;
