@@ -7,28 +7,28 @@
   font-family: var(--font-main);
 }
 
+/* Hero – match SIGs color and theme */
 .projects-hero {
   position: relative;
   width: 100%;
-  height: 55vh;
-  min-height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  min-height: 100vh;
   overflow: hidden;
   margin: 0;
   padding: 0;
-  z-index: 1;
+  padding-top: 5rem;
+  background-color: var(--color-bg);
 }
 
-.projects-hero-background {
+.projects-hero-orb-bottom {
   position: absolute;
-  top: -10%;
-  left: -5%;
-  width: 110%;
-  height: 120%;
-  background-color: var(--color-bg);
-  background-image: url('../assets/grid picture.jpg');
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.projects-hero-bg {
+  position: absolute;
+  inset: 0;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -41,7 +41,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(180deg, rgba(5, 0, 32, 0.75) 0%, rgba(10, 0, 51, 0.85) 100%);
+  background: linear-gradient(180deg, rgba(15, 15, 25, 0.78) 0%, rgba(20, 18, 30, 0.9) 100%);
   z-index: 1;
 }
 
@@ -56,29 +56,105 @@
     linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
   background-size: 50px 50px;
   opacity: 0.4;
+  z-index: 1;
+}
+
+.projects-hero-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
 }
 
 .projects-hero-title {
   position: relative;
-  z-index: 2;
-  font-size: var(--font-size-hero);
-  font-weight: 800;
+  font-size: 3.75rem;
+  font-weight: 700;
   line-height: 0.9;
-  color: var(--color-secondary);
   margin: 0;
-  letter-spacing: 0.08em;
+  letter-spacing: -0.025em;
   text-transform: uppercase;
   font-family: var(--font-heading);
-  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
+  display: inline-block;
+}
+
+@media (min-width: 640px) {
+  .projects-hero-title {
+    font-size: 6rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .projects-hero-title {
+    font-size: 8rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .projects-hero-title {
+    font-size: 12rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .projects-hero-title {
+    font-size: 14rem;
+  }
+}
+
+.projects-hero-title-wrap {
+  text-align: center;
+}
+
+.projects-hero-title-letter {
+  display: inline-block;
+  color: #eab308;
+}
+
+/* Scroll arrow – match SIGs (cyan text, yellow icon) */
+.projects-hero-scroll {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: inherit;
+}
+
+.projects-hero-scroll-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.projects-hero-scroll-text {
+  font-size: 0.75rem;
+  font-family: monospace;
+  color: rgba(255, 255, 255, 0.85);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.projects-hero-scroll-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #eab308;
 }
 
 @media (max-width: 600px) {
-  .projects-hero {
-    height: 45vh;
-    min-height: 320px;
-  }
   .projects-hero-title {
-    font-size: clamp(2.5rem, 12vw, 56px);
+    font-size: 3.75rem;
   }
 }
 

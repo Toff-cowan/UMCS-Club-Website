@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { GradientOrb } from './components/EngineeringPatterns';
 import './About.css';
 
 
@@ -7,6 +9,7 @@ import './About.css';
 const About = () => {
   const [executives, setExecutives] = useState([]);
   const [loading, setLoading] = useState(true);
+  const descriptionRef = useRef(null);
 
 
 //Mock data to test executives section <-----here
@@ -38,30 +41,96 @@ const About = () => {
   }, []);
 
   
-const [scrollY, setScrollY] = useState(0);
-
-useEffect(() => {
-  const handleScroll = () => setScrollY(window.scrollY);
-  window.addEventListener('scroll', handleScroll);
-  return () => window.removeEventListener('scroll', handleScroll);
-}, []);
-
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.3 },
+    },
+  };
+  const letterVariants = {
+    hidden: { opacity: 0, y: 50, rotateX: -90 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      rotateX: 0,
+      transition: { type: 'spring', stiffness: 300, damping: 20 },
+    },
+  };
+  const titleText = 'ABOUT';
 
   return (
     <div className="about-container">
-      {/* Header Section */}
-      
-      <section className="about-header" style={{ 
-  opacity: Math.max(0, 1 - scrollY / 300), 
-  transform: `translateY(${scrollY * 0.5}px)`,
-  pointerEvents: scrollY > 250 ? 'none' : 'auto'
-}}>
-        <h1>ABOUT</h1>
+      {/* Hero Section – match SIGs color and theme */}
+      <section className="about-hero">
+        <GradientOrb color="yellow" size="500" className="about-hero-orb-bottom" />
+        <motion.div
+          className="about-hero-bg"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
+            filter: 'brightness(0.3) contrast(1.2)',
+          }}
+        />
+        <div className="about-hero-overlay">
+          <div className="about-hero-grid" aria-hidden="true" />
+        </div>
+        <div className="about-hero-content">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="about-hero-title-wrap"
+          >
+            <h1 className="about-hero-title">
+              <span>
+                {titleText.split('').map((letter, index) => (
+                  <motion.span
+                    key={index}
+                    variants={letterVariants}
+                    className="about-hero-title-letter"
+                    style={{ transformStyle: 'preserve-3d' }}
+                  >
+                    {letter === ' ' ? '\u00A0' : letter}
+                  </motion.span>
+                ))}
+              </span>
+            </h1>
+          </motion.div>
+        </div>
+        <motion.button
+          type="button"
+          className="about-hero-scroll"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 2, duration: 0.8 }}
+          onClick={() => descriptionRef.current?.scrollIntoView({ behavior: 'smooth' })}
+          aria-label="Scroll to content"
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            className="about-hero-scroll-inner"
+          >
+            <span className="about-hero-scroll-text">Scroll</span>
+            <motion.svg
+              className="about-hero-scroll-icon"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              animate={{ y: [0, 5, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </motion.svg>
+          </motion.div>
+        </motion.button>
       </section>
-      
 
       {/* Description Section */}
-      <section className="about-description">
+      <section className="about-description" ref={descriptionRef}>
         <div className="about-grid">
           <div>
             <img 

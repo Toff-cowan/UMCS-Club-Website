@@ -1,10 +1,11 @@
+/* eslint-disable-next-line no-unused-vars */
 import { motion } from 'framer-motion';
 
 // Circuit pattern background component
 export function CircuitPattern({ className = "" }) {
   return (
-    <div 
-      className={`absolute inset-0 opacity-10 pointer-events-none ${className}`}
+    <div
+      className={`eng-pattern-base ${className}`.trim()}
       style={{
         backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2300FFFF' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
       }}
@@ -23,8 +24,8 @@ export function NodeGraph({ className = "" }) {
   ];
 
   return (
-    <svg 
-      className={`absolute inset-0 w-full h-full ${className}`}
+    <svg
+      className={`eng-node-graph ${className}`.trim()}
       viewBox="0 0 100 100"
       preserveAspectRatio="none"
     >
@@ -79,11 +80,11 @@ export function BinaryPattern({ className = "" }) {
   ];
 
   return (
-    <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}>
+    <div className={`eng-overflow-hidden ${className}`.trim()}>
       {binaryStrings.map((binary, i) => (
         <motion.div
           key={i}
-          className="absolute font-mono text-xs text-eng-cyan/20 whitespace-nowrap"
+          className="eng-binary-text"
           style={{
             top: `${20 + i * 25}%`,
             left: '-100%',
@@ -115,7 +116,7 @@ export function GradientOrb({ color = "cyan", size = "400", className = "" }) {
 
   return (
     <motion.div
-      className={`absolute rounded-full blur-3xl ${className}`}
+      className={`eng-orb ${className}`.trim()}
       style={{
         width: `${size}px`,
         height: `${size}px`,

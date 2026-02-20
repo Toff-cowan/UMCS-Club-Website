@@ -1,15 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
-import { CircuitPattern, NodeGraph, BinaryPattern, GradientOrb } from '../EngineeringPatterns';
+import { GradientOrb } from '../EngineeringPatterns';
 
 export default function SIGsHero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [showSubtitle, setShowSubtitle] = useState(false);
-  const location = useLocation();
-
-  // Magnetic button effect - will be applied per button
 
   // Parallax effect on mouse move
   useEffect(() => {
@@ -28,14 +23,6 @@ export default function SIGsHero() {
     const timer = setTimeout(() => setShowSubtitle(true), 1500);
     return () => clearTimeout(timer);
   }, []);
-
-  const navLinks = [
-    { path: '/', label: 'HOME' },
-    { path: '/sigs', label: 'SIGs' },
-    { path: '/about', label: 'ABOUT' },
-    { path: '/projects', label: 'PROJECTS' },
-    { path: '/exec', label: 'EXEC' },
-  ];
 
   // Text reveal animation variants
   const containerVariants = {
@@ -71,91 +58,21 @@ export default function SIGsHero() {
   const subtitleText = "BUILD. BREAK. INNOVATE.";
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-eng-bg pt-20">
-      {/* Layered Background Elements */}
+    <div className="sigs-hero-wrap">
       <GradientOrb color="cyan" size="600" className="top-0 right-0" />
       <GradientOrb color="yellow" size="500" className="bottom-0 left-0" />
       
-      {/* Background Image with Parallax */}
       <motion.div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="sigs-hero-bg"
           style={{
             backgroundImage: `url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
             filter: 'brightness(0.3) contrast(1.2)',
             transform: `translate(${mousePosition.x}px, ${mousePosition.y}px) scale(1.1)`,
           }}
       />
+      <div className="sigs-hero-grid" aria-hidden="true" />
 
-    
-      {/* Navigation Bar - Top Right with Magnetic Effect */}
-      <nav className="absolute top-8 right-8 z-30">
-        <div className="hidden md:flex gap-6 items-center">
-          {navLinks.map((link, index) => (
-            <motion.div
-              key={link.path}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-            >
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Link
-                  to={link.path}
-                  className={`
-                    relative text-sm font-display font-bold uppercase tracking-wider
-                    transition-all duration-300 px-3 py-2 rounded
-                    ${location.pathname === link.path
-                      ? 'text-yellow-500'
-                      : 'text-white hover:text-yellow-500'
-                    }
-                  `}
-                >
-                  {link.label}
-                  {location.pathname === link.path && (
-                    <motion.span
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-yellow-500"
-                      layoutId="activeTab"
-                      initial={false}
-                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                    />
-                  )}
-                  <motion.span
-                    className="absolute inset-0 bg-yellow-500/10 rounded -z-10"
-                    initial={{ scale: 0, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  />
-                </Link>
-              </motion.div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Mobile Hamburger Menu */}
-        <div className="md:hidden">
-          <motion.button
-            className="text-white hover:text-yellow-500 transition-colors"
-            aria-label="Toggle menu"
-            whileTap={{ scale: 0.95 }}
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </motion.button>
-        </div>
-      </nav>
-
-      {/* Centered Title with Text Reveal */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
+      <div className="sigs-hero-content">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -163,17 +80,14 @@ export default function SIGsHero() {
           className="text-center"
         >
           {/* Main Title - Letter by Letter Animation */}
-          <h1 className="text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] xl:text-[14rem] font-display font-bold uppercase tracking-tighter mb-6">
+          <h1 className="sigs-hero-title">
             <span className="inline-block">
               {titleText.split('').map((letter, index) => (
                 <motion.span
                   key={index}
                   variants={letterVariants}
-                  className="inline-block text-yellow-500"
-                  style={{
-                    textShadow: '0 0 40px rgba(250, 204, 21, 0.8), 0 0 80px rgba(250, 204, 21, 0.4), 0 0 120px rgba(250, 204, 21, 0.2)',
-                    transformStyle: 'preserve-3d',
-                  }}
+                  className="inline-block"
+                  style={{ transformStyle: 'preserve-3d' }}
                 >
                   {letter === ' ' ? '\u00A0' : letter}
                 </motion.span>
@@ -189,7 +103,7 @@ export default function SIGsHero() {
               transition={{ duration: 0.8, delay: 0.5 }}
               className="relative"
             >
-              <div className="flex items-center justify-center gap-3 font-mono text-sm md:text-lg text-eng-cyan">
+              <div className="sigs-hero-subtitle-wrap">
                 <motion.span
                   className="relative"
                   initial={{ width: 0 }}
@@ -198,7 +112,7 @@ export default function SIGsHero() {
                 >
                   {subtitleText}
                   <motion.span
-                    className="inline-block w-0.5 h-5 bg-eng-cyan ml-1"
+                    className="inline-block"
                     animate={{ opacity: [1, 0, 1] }}
                     transition={{ duration: 0.8, repeat: Infinity }}
                   />
@@ -209,9 +123,8 @@ export default function SIGsHero() {
         </motion.div>
       </div>
 
-      {/* Enhanced Scroll Indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
+        className="sigs-hero-scroll"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2, duration: 0.8 }}
@@ -219,11 +132,11 @@ export default function SIGsHero() {
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="flex flex-col items-center gap-2"
+          className="sigs-hero-scroll-inner"
         >
-          <span className="text-xs font-mono text-eng-cyan/70 uppercase tracking-wider">Scroll</span>
+          <span className="sigs-hero-scroll-text">Scroll</span>
           <motion.svg
-            className="w-6 h-6 text-yellow-500"
+            className="sigs-hero-scroll-icon"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"

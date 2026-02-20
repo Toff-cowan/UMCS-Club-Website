@@ -52,7 +52,7 @@ export default function TestimonialSlider({ reviews = [] }) {
 
   if (!reviews || reviews.length === 0) {
     return (
-      <div className="text-center text-white py-20">
+      <div className="exec-slider-empty">
         <p>No executives to display.</p>
       </div>
     );
@@ -78,9 +78,8 @@ export default function TestimonialSlider({ reviews = [] }) {
   };
 
   return (
-    <div className="relative w-full max-w-6xl mx-auto">
-      {/* Main Slider */}
-      <div className="relative h-[600px] md:h-[700px] overflow-hidden rounded-2xl">
+    <div className="exec-slider-wrap">
+      <div className="exec-slider-main">
         <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={currentIndex}
@@ -93,42 +92,39 @@ export default function TestimonialSlider({ reviews = [] }) {
               x: { type: "spring", stiffness: 300, damping: 30 },
               opacity: { duration: 0.2 },
             }}
-            className="absolute inset-0 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 p-8 md:p-12"
+            className="exec-slider-slide"
           >
-            {/* Image Section */}
-            <div className="flex-shrink-0">
+            <div className="exec-slider-image-wrap">
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
-                className="relative"
+                style={{ position: 'relative' }}
               >
                 <img
                   src={currentReview.imageSrc || `https://i.pravatar.cc/300?img=${currentReview.id}`}
                   alt={currentReview.name}
-                  className="w-56 h-56 md:w-80 md:h-80 rounded-full object-cover object-top border-4 border-yellow-500/50 shadow-2xl"
+                  className="exec-slider-image"
                 />
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-500/20 to-cyan-500/20 blur-xl -z-10"></div>
               </motion.div>
             </div>
 
-            {/* Content Section */}
-            <div className="flex-1 text-center md:text-left space-y-6">
-              <div>
-                <h3 className="text-3xl md:text-4xl font-display font-bold text-white mb-2">
-                  {currentReview.name}
-                </h3>
-                <p className="text-xl md:text-2xl text-yellow-500 font-body font-semibold">
-                  {currentReview.affiliation}
-                </p>
-              </div>
+            <div className="exec-slider-content">
+              <div className="exec-slider-content-inner">
+                <div>
+                  <h3 className="exec-slider-name">
+                    {currentReview.name}
+                  </h3>
+                  <p className="exec-slider-position">
+                    {currentReview.affiliation}
+                  </p>
+                </div>
 
-              <blockquote className="text-lg md:text-xl text-white/90 font-body leading-relaxed italic max-w-2xl">
-                "{currentReview.quote}"
-              </blockquote>
+                <blockquote className="exec-slider-quote">
+                  "{currentReview.quote}"
+                </blockquote>
 
-              {/* Social Links */}
-              {(currentReview.linkedin || currentReview.portfolio) && (
-                <div className="flex items-center justify-center md:justify-start gap-4 pt-4">
+                {(currentReview.linkedin || currentReview.portfolio) && (
+                <div className="exec-slider-socials">
                   {currentReview.linkedin && (
                     <motion.a
                       href={currentReview.linkedin}
@@ -136,11 +132,11 @@ export default function TestimonialSlider({ reviews = [] }) {
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.1, y: -2 }}
                       whileTap={{ scale: 0.95 }}
-                      className="text-white hover:text-blue-500 transition-colors duration-300"
+                      className="exec-slider-social-link"
                       aria-label={`${currentReview.name}'s LinkedIn`}
                     >
                       <svg
-                        className="w-6 h-6 md:w-8 md:h-8"
+                        className="exec-slider-social-link"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
@@ -156,11 +152,11 @@ export default function TestimonialSlider({ reviews = [] }) {
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.1, y: -2 }}
                       whileTap={{ scale: 0.95 }}
-                      className="text-white hover:text-teal-400 transition-colors duration-300"
+                      className="exec-slider-social-link"
                       aria-label={`${currentReview.name}'s Portfolio`}
                     >
                       <svg
-                        className="w-6 h-6 md:w-8 md:h-8"
+                        className="exec-slider-social-link"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -177,6 +173,7 @@ export default function TestimonialSlider({ reviews = [] }) {
                   )}
                 </div>
               )}
+              </div>
             </div>
           </motion.div>
         </AnimatePresence>
@@ -188,11 +185,10 @@ export default function TestimonialSlider({ reviews = [] }) {
               onClick={goToPrev}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300"
+              className="exec-slider-nav-btn prev"
               aria-label="Previous executive"
             >
               <svg
-                className="w-6 h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -209,11 +205,10 @@ export default function TestimonialSlider({ reviews = [] }) {
               onClick={goToNext}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300"
+              className="exec-slider-nav-btn next"
               aria-label="Next executive"
             >
               <svg
-                className="w-6 h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -232,28 +227,24 @@ export default function TestimonialSlider({ reviews = [] }) {
 
       {/* Thumbnail Navigation */}
       {reviews.length > 1 && (
-        <div className="flex justify-center gap-4 mt-8 overflow-x-auto pb-4">
+        <div className="exec-slider-thumbnails">
           {reviews.map((review, index) => (
             <motion.button
               key={review.id}
               onClick={() => goToSlide(index)}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className={`flex-shrink-0 relative rounded-full overflow-hidden border-2 transition-all duration-300 ${
-                index === currentIndex
-                  ? 'border-yellow-500 scale-110'
-                  : 'border-white/30 hover:border-yellow-500/50'
-              }`}
+              className={`exec-slider-thumb ${index === currentIndex ? 'active' : ''}`}
               aria-label={`Go to ${review.name}`}
             >
               <img
                 src={review.thumbnailSrc || review.imageSrc || `https://i.pravatar.cc/100?img=${review.id}`}
                 alt={review.name}
-                className="w-16 h-16 md:w-20 md:h-20 object-cover object-top"
+                alt={review.name}
               />
               {index === currentIndex && (
                 <motion.div
-                  className="absolute inset-0 bg-yellow-500/20"
+                  style={{ position: 'absolute', inset: 0, background: 'rgba(250, 204, 21, 0.2)' }}
                   layoutId="activeThumbnail"
                   initial={false}
                   transition={{ type: "spring", stiffness: 500, damping: 30 }}
@@ -266,16 +257,12 @@ export default function TestimonialSlider({ reviews = [] }) {
 
       {/* Dots Indicator */}
       {reviews.length > 1 && (
-        <div className="flex justify-center gap-2 mt-6">
+        <div className="exec-slider-dots">
           {reviews.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                index === currentIndex
-                  ? 'bg-yellow-500 w-8'
-                  : 'bg-white/30 hover:bg-white/50'
-              }`}
+              className={`exec-slider-dot ${index === currentIndex ? 'active' : ''}`}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}

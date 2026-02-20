@@ -44,9 +44,6 @@ function MagneticButton({ children, isActive, onClick, index, isVisible }) {
       style={{
         x: mouseXSpring,
         y: mouseYSpring,
-        ...(isActive && {
-          boxShadow: '0 0 20px rgba(234, 179, 8, 0.8), 0 0 40px rgba(234, 179, 8, 0.6), 0 0 60px rgba(234, 179, 8, 0.4)',
-        }),
       }}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
@@ -61,23 +58,15 @@ function MagneticButton({ children, isActive, onClick, index, isVisible }) {
         type: "spring",
         stiffness: 200
       }}
-      className={`
-        relative px-8 py-3 rounded-full font-display font-bold text-sm md:text-base
-        transition-all duration-300 ease-out overflow-hidden
-        ${isActive
-          ? 'bg-yellow-500 text-black border-2 border-yellow-500 animate-pulseGlow'
-          : 'bg-white/5 backdrop-blur-sm border-2 border-white/30 text-white hover:border-yellow-500 hover:text-yellow-500 hover:shadow-lg hover:shadow-yellow-500/50 hover:bg-white/10'
-        }
-      `}
+      className={`sigs-magnetic-btn ${isActive ? 'active' : ''}`}
     >
-      {/* Shimmer effect */}
       <motion.span
-        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+        style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent)' }}
         initial={{ x: '-100%' }}
         whileHover={{ x: '100%' }}
         transition={{ duration: 0.6 }}
       />
-      <span className="relative z-10">{children}</span>
+      <span>{children}</span>
     </motion.button>
   );
 }
@@ -138,25 +127,20 @@ export default function SIGsIntroSection({ activeCategory, onCategoryChange, sig
   };
 
   return (
-    <section 
-      ref={sectionRef}
-      className="w-full py-20 md:py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
-      style={{ backgroundColor: '#0A0F2C' }}
-    >
+    <section ref={sectionRef} className="sigs-intro-section">
       {/* Background Elements */}
       <GradientOrb color="cyan" size="400" className="top-0 right-0 opacity-30" />
       <GradientOrb color="yellow" size="300" className="bottom-0 left-0 opacity-20" />
       <CircuitPattern className="opacity-5" />
 
-      <div className="relative z-10 max-w-7xl mx-auto">
-        {/* Category Buttons Row */}
+      <div className="sigs-intro-inner">
         <motion.div 
-          className="mb-16 md:mb-20"
+          className="sigs-intro-buttons-wrap"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+          <div className="sigs-intro-buttons">
             {displayCategories.map((category, index) => (
               <MagneticButton
                 key={category.id}
@@ -177,7 +161,7 @@ export default function SIGsIntroSection({ activeCategory, onCategoryChange, sig
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+            className="sigs-grid"
           >
             {sigs.map((sig, index) => (
               <motion.div
@@ -185,27 +169,26 @@ export default function SIGsIntroSection({ activeCategory, onCategoryChange, sig
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 md:p-8 hover:border-eng-cyan/40 hover:bg-white/10 transition-all duration-300"
+                className="sigs-card"
               >
                 {sig.icon && (
-                  <div className="mb-4">
+                  <div className="sigs-card-icon">
                     <img
                       src={sig.icon}
                       alt=""
-                      className="h-12 w-12 object-contain"
                       aria-hidden
                     />
                   </div>
                 )}
-                <h3 className="text-xl md:text-2xl font-display font-bold text-white mb-2">
+                <h3 className="sigs-card-title">
                   {sig.name}
                 </h3>
                 {sig.category && (
-                  <span className="inline-block text-xs font-mono text-eng-cyan/90 uppercase tracking-wider mb-3">
+                  <span className="sigs-card-category">
                     {sig.category}
                   </span>
                 )}
-                <p className="text-white/80 text-sm md:text-base leading-relaxed font-body line-clamp-3">
+                <p className="sigs-card-desc line-clamp-3">
                   {sig.description}
                 </p>
               </motion.div>
@@ -213,26 +196,22 @@ export default function SIGsIntroSection({ activeCategory, onCategoryChange, sig
           </motion.div>
         )}
 
-        {/* Two Column Layout: Text and Image (when a specific category is selected) */}
         {activeCategory !== 'All' && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
+        <div className="sigs-two-col">
           {/* Left Side: Text Block with Glassmorphism */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
-            key={activeCategory} // Force re-animation on category change
-            className="relative group"
+            key={activeCategory}
+            className="sigs-text-block"
           >
-         
-            {/* Gradient accent bar */}
-            <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-eng-yellow/50 via-eng-cyan/30 to-transparent rounded-l-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            
-            <div className="relative z-10 space-y-6">
+            <div className="accent-bar" />
+            <div className="sigs-text-content">
               {activeSIG ? (
                 <>
                   <motion.h2 
-                    className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-6"
+                    className="sigs-detail-title"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
@@ -241,7 +220,7 @@ export default function SIGsIntroSection({ activeCategory, onCategoryChange, sig
                     {activeSIG.name}
                   </motion.h2>
                   <motion.p 
-                    className="text-white/90 text-lg md:text-xl leading-relaxed font-body"
+                    className="sigs-detail-desc"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
@@ -250,7 +229,7 @@ export default function SIGsIntroSection({ activeCategory, onCategoryChange, sig
                     {activeSIG.description}
                   </motion.p>
                   <motion.p 
-                    className="text-white/70 text-base md:text-lg leading-relaxed font-body"
+                    className="sigs-detail-para"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
@@ -260,7 +239,7 @@ export default function SIGsIntroSection({ activeCategory, onCategoryChange, sig
                   </motion.p>
                 </>
               ) : (
-                <p className="text-white text-lg md:text-xl leading-relaxed font-body">
+                <p className="sigs-detail-desc">
                   Loading category information...
                 </p>
               )}
@@ -273,7 +252,7 @@ export default function SIGsIntroSection({ activeCategory, onCategoryChange, sig
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
             key={`image-${activeCategory}`}
-            className="relative group"
+            className="sigs-image-block"
             onMouseMove={handleImageMouseMove}
             onMouseLeave={handleImageMouseLeave}
           >
@@ -283,71 +262,61 @@ export default function SIGsIntroSection({ activeCategory, onCategoryChange, sig
                 rotateY: imageYSpring,
                 transformStyle: 'preserve-3d',
               }}
-              className="relative rounded-lg overflow-hidden shadow-2xl transition-shadow duration-300 group-hover:shadow-eng-cyan/20"
+              className="image-inner"
             >
               {/* Background Image */}
               <div 
-                className="w-full h-[300px] md:h-[350px] bg-cover bg-center bg-no-repeat relative"
-                style={{
-                  backgroundImage: `url(${backgroundImage})`,
-                }}
+                className="sigs-image-bg"
+                style={{ backgroundImage: `url(${backgroundImage})` }}
               >
-                {/* Overlay */}
-                <div 
-                  className="absolute inset-0"
-                  style={{ 
-                    backgroundColor: 'rgba(10, 15, 44, 0.4)',
-                  }}
-                ></div>
+                <div className="sigs-image-overlay" />
               </div>
-              
-              {/* Code Preview Overlay - Enhanced Glassmorphism */}
-              <div className="absolute inset-0 p-6 md:p-8 font-mono text-xs md:text-sm text-white/95 z-10 pointer-events-none">
-                <div className="h-full bg-gradient-to-br from-black/50 via-black/40 to-black/50 rounded-lg p-4 md:p-6 overflow-hidden backdrop-blur-md border border-white/30 shadow-2xl transition-all duration-500 group-hover:border-eng-cyan/50 group-hover:shadow-eng-cyan/20">
-                  <div className="space-y-1.5 leading-tight">
-                    <div className="text-gray-400">// {activeSIG?.name || 'SIG'} Component</div>
-                    <div className="text-blue-400">
-                      <span className="text-purple-400">const</span> handleJoin = 
-                      <span className="text-eng-yellow"> ()</span> =&gt; {'{'}
+              <div className="sigs-code-overlay">
+                <div className="sigs-code-panel">
+                  <div className="sigs-code-lines">
+                    <div className="sigs-code-line">// {activeSIG?.name || 'SIG'} Component</div>
+                    <div className="sigs-code-blue">
+                      <span className="sigs-code-purple">const</span> handleJoin = 
+                      <span className="sigs-code-yellow"> ()</span> =&gt; {'{'}
                     </div>
-                    <div className="pl-4 text-white mt-1.5">
-                      <span className="text-purple-400">this</span>.
-                      <span className="text-blue-300">props</span>.
-                      <span className="text-blue-300">navigation</span>.
-                      <span className="text-green-400">navigate</span>
-                      <span className="text-eng-yellow">('{activeSIG?.category || 'SIGs'}')</span>
+                    <div className="sigs-code-pl4 sigs-code-mt sigs-code-white">
+                      <span className="sigs-code-purple">this</span>.
+                      <span className="sigs-code-blue">props</span>.
+                      <span className="sigs-code-blue">navigation</span>.
+                      <span className="sigs-code-green">navigate</span>
+                      <span className="sigs-code-yellow">('{activeSIG?.category || 'SIGs'}')</span>
                     </div>
-                    <div className="text-blue-400">{'}'}</div>
-                    <div className="mt-1.5 text-gray-400">// Component render</div>
-                    <div className="text-white">
-                      <span className="text-purple-400">return</span> (
+                    <div className="sigs-code-blue">{'}'}</div>
+                    <div className="sigs-code-mt sigs-code-line">// Component render</div>
+                    <div className="sigs-code-white">
+                      <span className="sigs-code-purple">return</span> (
                     </div>
-                    <div className="pl-4 text-gray-300">
-                      <span className="text-pink-400">&lt;</span>
-                      <span className="text-pink-400">View</span>
-                      <span className="text-pink-400">&gt;</span>
+                    <div className="sigs-code-pl4 sigs-code-line">
+                      <span className="sigs-code-pink">&lt;</span>
+                      <span className="sigs-code-pink">View</span>
+                      <span className="sigs-code-pink">&gt;</span>
                     </div>
-                    <div className="pl-8 text-gray-300">
-                      <span className="text-pink-400">&lt;</span>
-                      <span className="text-pink-400">Button</span>
+                    <div className="sigs-code-pl8 sigs-code-line">
+                      <span className="sigs-code-pink">&lt;</span>
+                      <span className="sigs-code-pink">Button</span>
                     </div>
-                    <div className="pl-12 text-white">
-                      <span className="text-blue-300">title</span>=
-                      <span className="text-green-400">"Join {activeSIG?.name || 'SIG'}"</span>
+                    <div className="sigs-code-pl12 sigs-code-white">
+                      <span className="sigs-code-blue">title</span>=
+                      <span className="sigs-code-green">"Join {activeSIG?.name || 'SIG'}"</span>
                     </div>
-                    <div className="pl-12 text-white">
-                      <span className="text-blue-300">onPress</span>=
-                      <span className="text-eng-yellow">{'{'}handleJoin{'}'}</span>
+                    <div className="sigs-code-pl12 sigs-code-white">
+                      <span className="sigs-code-blue">onPress</span>=
+                      <span className="sigs-code-yellow">{'{'}handleJoin{'}'}</span>
                     </div>
-                    <div className="pl-8 text-gray-300">
-                      <span className="text-pink-400">/&gt;</span>
+                    <div className="sigs-code-pl8 sigs-code-line">
+                      <span className="sigs-code-pink">/&gt;</span>
                     </div>
-                    <div className="pl-4 text-gray-300">
-                      <span className="text-pink-400">&lt;/</span>
-                      <span className="text-pink-400">View</span>
-                      <span className="text-pink-400">&gt;</span>
+                    <div className="sigs-code-pl4 sigs-code-line">
+                      <span className="sigs-code-pink">&lt;/</span>
+                      <span className="sigs-code-pink">View</span>
+                      <span className="sigs-code-pink">&gt;</span>
                     </div>
-                    <div className="text-white">);</div>
+                    <div className="sigs-code-white">);</div>
                   </div>
                 </div>
               </div>

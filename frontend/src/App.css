@@ -8,7 +8,12 @@
 }
 
 main {
-  /* No padding - hero section should be behind navbar */
+  /* Default: no padding for full-bleed heroes */
+}
+
+/* Pages with main nav bar need top padding so content is below fixed navbar */
+main.main-with-nav {
+  padding-top: 5rem;
 }
 
 .logo {

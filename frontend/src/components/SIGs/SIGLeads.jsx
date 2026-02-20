@@ -48,6 +48,8 @@ export default function SIGLeads() {
     setCurrentIndex((prev) => (prev + 1) % leads.length);
   };
 
+  const getImage = (lead) => (lead.image && String(lead.image).trim()) || null;
+
   // Get the 3 cards to display (current, next, next+1)
   const getVisibleCards = () => {
     if (!leads || leads.length === 0) return [];
@@ -61,13 +63,9 @@ export default function SIGLeads() {
 
   if (loading) {
     return (
-      <section 
-        ref={sectionRef}
-        className="w-full py-20 md:py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
-        style={{ backgroundColor: '#0A0F2C' }}
-      >
-        <div className="max-w-7xl mx-auto text-center">
-          <p className="text-white text-lg">Loading SIG Leads...</p>
+      <section ref={sectionRef} className="sigs-leads-section">
+        <div className="sigs-leads-inner">
+          <p className="sigs-loading-text">Loading SIG Leads...</p>
         </div>
       </section>
     );
@@ -75,13 +73,9 @@ export default function SIGLeads() {
 
   if (error) {
     return (
-      <section 
-        ref={sectionRef}
-        className="w-full py-20 md:py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
-        style={{ backgroundColor: '#0A0F2C' }}
-      >
-        <div className="max-w-7xl mx-auto text-center">
-          <p className="text-red-500 text-lg">Error loading SIG Leads: {error}</p>
+      <section ref={sectionRef} className="sigs-leads-section">
+        <div className="sigs-leads-inner">
+          <p className="sigs-error-text">Error loading SIG Leads: {error}</p>
         </div>
       </section>
     );
@@ -95,35 +89,24 @@ export default function SIGLeads() {
   const visibleLeads = leads.slice(0, Math.min(3, leads.length));
 
   return (
-    <section 
-      ref={sectionRef}
-      className="w-full py-20 md:py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
-      style={{ backgroundColor: '#0A0F2C' }}
-    >
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-eng-cyan/5 to-transparent"></div>
-
-      <div className="relative z-10 max-w-7xl mx-auto">
-        {/* Section Header */}
+    <section ref={sectionRef} className="sigs-leads-section">
+      <div className="sigs-leads-bg" aria-hidden="true" />
+      <div className="sigs-leads-content">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isVisible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16 md:mb-20"
+          className="sigs-leads-header"
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-4">
-            SIG Leads
-          </h2>
-          <p className="text-white/70 text-lg md:text-xl font-body max-w-2xl mx-auto">
+          <h2 className="sigs-leads-title">SIG Leads</h2>
+          <p className="sigs-leads-subtitle">
             Meet the passionate leaders driving innovation in each Special Interest Group
           </p>
         </motion.div>
 
-        {/* Carousel Container */}
-        <div className="relative flex justify-center items-center min-h-[500px] md:min-h-[550px]">
-          {/* Desktop: Carousel with 3 cards */}
-          <div className="hidden md:block relative w-full max-w-5xl mx-auto">
-            <div className="relative h-[450px]">
+        <div className="sigs-leads-carousel">
+          <div className="sigs-leads-desktop">
+            <div className="sigs-leads-cards-wrap">
               {getVisibleCards().map((lead, displayIndex) => {
                 const position = displayIndex === 0 ? 'front' : displayIndex === 1 ? 'middle' : 'back';
                 return (
@@ -135,60 +118,59 @@ export default function SIGLeads() {
                     id={lead.avatarId || lead.id}
                     author={lead.lead}
                     sig={lead.sig}
+                    image={getImage(lead)}
                   />
                 );
               })}
             </div>
 
-            {/* Navigation Dots */}
-            <div className="flex justify-center gap-2 mt-8">
+            <div className="sigs-leads-dots">
               {leads.map((_, index) => (
                 <button
                   key={index}
+                  type="button"
                   onClick={() => setCurrentIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    index === currentIndex
-                      ? 'bg-yellow-500 w-8'
-                      : 'bg-white/30 hover:bg-white/50'
-                  }`}
+                  className={`sigs-leads-dot ${index === currentIndex ? 'active' : ''}`}
                   aria-label={`Go to lead ${index + 1}`}
                 />
               ))}
             </div>
 
-            {/* Shuffle Button */}
-            <div className="flex justify-center mt-6">
+            <div className="sigs-leads-shuffle-wrap">
               <motion.button
+                type="button"
                 onClick={handleShuffle}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 bg-yellow-500/20 hover:bg-yellow-500/30 border-2 border-yellow-500/50 hover:border-yellow-500 text-yellow-500 font-display font-bold uppercase tracking-wider rounded-full transition-all duration-300"
+                className="sigs-leads-shuffle-btn"
               >
                 Next Lead
               </motion.button>
             </div>
           </div>
 
-          {/* Mobile: Stacked Cards */}
-          <div className="md:hidden w-full space-y-6">
+          <div className="sigs-leads-mobile">
             {visibleLeads.map((lead, index) => (
               <motion.div
                 key={lead.id}
                 initial={{ opacity: 0, y: 30 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
-                className="w-full max-w-sm mx-auto"
+                className="sigs-leads-mobile-card-wrap"
               >
-                <div className="grid place-content-center space-y-6 rounded-2xl border-2 border-slate-700 bg-slate-800/20 p-6 shadow-xl backdrop-blur-md">
-                  <img
-                    src={`https://i.pravatar.cc/128?img=${lead.avatarId || lead.id}`}
-                    alt={`Avatar of ${lead.lead}`}
-                    className="pointer-events-none mx-auto h-32 w-32 rounded-full border-2 border-slate-700 bg-slate-200 object-cover"
-                  />
-                  <span className="text-center text-lg italic text-slate-400">"{lead.quote}"</span>
-                  <div className="text-center space-y-1">
-                    <span className="text-center text-sm font-medium text-indigo-400 block">{lead.lead}</span>
-                    {lead.sig && <span className="text-center text-xs text-slate-500 block">{lead.sig}</span>}
+                <div className="sigs-leads-mobile-card">
+                  {getImage(lead) ? (
+                    <img
+                      src={getImage(lead)}
+                      alt={`Avatar of ${lead.lead}`}
+                    />
+                  ) : (
+                    <div className="sigs-leads-mobile-avatar-placeholder" aria-hidden="true" />
+                  )}
+                  <span className="sigs-leads-mobile-quote">"{lead.quote}"</span>
+                  <div className="sigs-leads-mobile-meta">
+                    <span className="name">{lead.lead}</span>
+                    {lead.sig && <span className="sig">{lead.sig}</span>}
                   </div>
                 </div>
               </motion.div>

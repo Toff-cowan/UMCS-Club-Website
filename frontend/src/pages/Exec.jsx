@@ -6,6 +6,7 @@ import TestimonialSlider from '@/components/Exec/TestimonialSlider';
 import { motion } from 'framer-motion';
 import '../App.css';
 import '../index.css';
+import './Exec.css';
 
 export default function Exec() {
   const { data: executives, loading, error } = useFetch(getExecutives);
@@ -27,10 +28,10 @@ export default function Exec() {
 
   if (loading) {
     return (
-      <div className="min-h-screen w-full bg-eng-bg">
+      <div className="exec-page-wrap">
         <ExecHero />
-        <div className="flex justify-center items-center min-h-[60vh] bg-eng-bg">
-          <p className="text-center text-xl text-white">Loading executives...</p>
+        <div className="exec-loading-wrap">
+          <p className="exec-loading-text-wrap">Loading executives...</p>
         </div>
       </div>
     );
@@ -38,43 +39,38 @@ export default function Exec() {
 
   if (error) {
     return (
-      <div className="min-h-screen w-full bg-eng-bg">
+      <div className="exec-page-wrap">
         <ExecHero />
-        <div className="flex justify-center items-center min-h-[60vh] bg-eng-bg">
-          <p className="text-center text-xl text-red-600">Error: {error}</p>
+        <div className="exec-loading-wrap">
+          <p className="exec-error-text-wrap">Error: {error}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen w-full bg-eng-bg">
-      {/* Hero Section */}
+    <div className="exec-page-wrap">
       <ExecHero />
 
-      {/* Executive Slider Section */}
-      <section className="w-full py-20 md:py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-eng-bg">
-        {/* Background Elements */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-eng-cyan/5 to-transparent"></div>
+      <section className="exec-section-wrap">
+        <div className="exec-section-bg" aria-hidden="true" />
 
-        <div className="relative z-10 max-w-7xl mx-auto">
-          {/* Section Header */}
+        <div className="exec-section-inner">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-16 md:mb-20"
+            className="exec-section-header-wrap"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-4">
+            <h2 className="exec-section-title-wrap">
               Executive Highlights
             </h2>
-            <p className="text-white/70 text-lg md:text-xl font-body max-w-2xl mx-auto">
+            <p className="exec-section-subtitle-wrap">
               Get to know the dedicated leaders shaping the future of our computing community
             </p>
           </motion.div>
 
-          {/* Testimonial Slider */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}

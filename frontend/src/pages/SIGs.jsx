@@ -6,6 +6,7 @@ import SIGsIntroSection from "@/components/SIGs/SIGsIntroSection";
 import SIGLeads from "@/components/SIGs/SIGLeads";
 import "../App.css";
 import "../index.css";
+import "./SIGs.css";
 
 export default function SIGs() {
   const { data: sigs, loading, error } = useFetch(getSIGs);
@@ -13,10 +14,10 @@ export default function SIGs() {
 
   if (loading) {
     return (
-      <div className="min-h-screen w-full bg-eng-bg">
+      <div className="sigs-page-wrap">
         <SIGsHero />
-        <div className="flex justify-center items-center min-h-[60vh] px-4 bg-eng-bg">
-          <p className="text-center text-xl text-white/90">Loading SIGs...</p>
+        <div className="sigs-loading-wrap">
+          <p className="sigs-loading-text-wrap">Loading SIGs...</p>
         </div>
       </div>
     );
@@ -24,17 +25,17 @@ export default function SIGs() {
 
   if (error) {
     return (
-      <div className="min-h-screen w-full bg-eng-bg">
+      <div className="sigs-page-wrap">
         <SIGsHero />
-        <div className="flex justify-center items-center min-h-[60vh] px-4 bg-eng-bg">
-          <p className="text-center text-xl text-red-400 max-w-md">Error: {error}</p>
+        <div className="sigs-loading-wrap">
+          <p className="sigs-error-wrap">Error: {error}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen w-full bg-eng-bg">
+    <div className="sigs-page-wrap">
       {/* Hero Section */}
       <SIGsHero />
 

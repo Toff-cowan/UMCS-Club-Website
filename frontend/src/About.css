@@ -7,42 +7,139 @@
   font-family: var(--font-main);
 }
 
-/* Hero Section */
-.about-header {
+/* Hero Section – match SIGs color and theme */
+.about-hero {
   position: relative;
-  height: 22rem;
-  font-family: var(--font-heading);
-  color: var(--color-text);
-  background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920');
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 0;
-  transition: opacity 0.1s ease, transform 0.1s ease;
-  will-change: transform, opacity;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--color-bg, #050020);
+  padding-top: 5rem;
 }
 
-.about-header::after {
-  content: '';
+.about-hero-orb-bottom {
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(5, 0, 32, 0.78);
+  z-index: 0;
+}
+
+.about-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.about-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 15, 25, 0.78) 0%, rgba(20, 18, 30, 0.9) 100%);
   z-index: 1;
 }
 
-.about-header h1 {
-  position: relative;
-  z-index: 2;
-  font-size: var(--font-size-hero);
+.about-hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.4;
+  z-index: 1;
+}
+
+.about-hero-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+.about-hero-title-wrap {
+  text-align: center;
+}
+
+.about-hero-title {
+  font-size: 3.75rem;
   font-weight: 700;
-  text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.4);
-  font-family: var(--font-heading);
-  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.5rem;
+  margin: 0;
+  display: inline-block;
+}
+
+@media (min-width: 640px) {
+  .about-hero-title {
+    font-size: 6rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .about-hero-title {
+    font-size: 8rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .about-hero-title {
+    font-size: 12rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .about-hero-title {
+    font-size: 14rem;
+  }
+}
+
+.about-hero-title-letter {
+  display: inline-block;
+  color: #eab308;
+}
+
+/* Scroll arrow – match SIGs (cyan text, yellow icon) */
+.about-hero-scroll {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: inherit;
+}
+
+.about-hero-scroll-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.about-hero-scroll-text {
+  font-size: 0.75rem;
+  font-family: monospace;
+  color: rgba(255, 255, 255, 0.85);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.about-hero-scroll-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #eab308;
 }
 
 /* Description Section */

@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { GradientOrb } from '../components/EngineeringPatterns';
 import './Projects.css';
 
 /**
@@ -75,15 +77,92 @@ export default function Projects() {
     fetchProjects();
   }, []);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.3 },
+    },
+  };
+  const letterVariants = {
+    hidden: { opacity: 0, y: 50, rotateX: -90 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      rotateX: 0,
+      transition: { type: 'spring', stiffness: 300, damping: 20 },
+    },
+  };
+  const titleText = 'PROJECTS';
+
   return (
     <div className="projects-page">
-      {/* Hero Section */}
+      {/* Hero Section – match SIGs color and theme */}
       <section className="projects-hero">
-        <div className="projects-hero-background" aria-hidden="true" />
+        <GradientOrb color="yellow" size="500" className="projects-hero-orb-bottom" />
+        <motion.div
+          className="projects-hero-bg"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
+            filter: 'brightness(0.3) contrast(1.2)',
+          }}
+        />
         <div className="projects-hero-overlay">
           <div className="projects-hero-grid" aria-hidden="true" />
         </div>
-        <h1 className="projects-hero-title">Projects</h1>
+        <div className="projects-hero-content">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="projects-hero-title-wrap"
+          >
+            <h1 className="projects-hero-title">
+              <span>
+                {titleText.split('').map((letter, index) => (
+                  <motion.span
+                    key={index}
+                    variants={letterVariants}
+                    className="projects-hero-title-letter"
+                    style={{ transformStyle: 'preserve-3d' }}
+                  >
+                    {letter === ' ' ? '\u00A0' : letter}
+                  </motion.span>
+                ))}
+              </span>
+            </h1>
+          </motion.div>
+        </div>
+        <motion.button
+          type="button"
+          className="projects-hero-scroll"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 2, duration: 0.8 }}
+          onClick={() => introRef.current?.scrollIntoView({ behavior: 'smooth' })}
+          aria-label="Scroll to content"
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            className="projects-hero-scroll-inner"
+          >
+            <span className="projects-hero-scroll-text">Scroll</span>
+            <motion.svg
+              className="projects-hero-scroll-icon"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              animate={{ y: [0, 5, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </motion.svg>
+          </motion.div>
+        </motion.button>
       </section>
 
       {/* Purpose / intro section */}

@@ -6,7 +6,7 @@ import clubLogo from "../assets/UMCS Logo.png";
 const Home = () => {
   const navigate = useNavigate();
   const [president, setPresident] = useState(null);
-  const [presidentLoading, setPresidentLoading] = useState(true);
+  const [, setPresidentLoading] = useState(true);
   const [sigs, setSigs] = useState([]);
   const [sigsLoading, setSigsLoading] = useState(true);
   const [events, setEvents] = useState([]);
@@ -248,39 +248,46 @@ const Home = () => {
         <div className="hero-overlay">
           <div className="hero-grid"></div>
         </div>
+        <button
+          type="button"
+          className="hero-scroll-arrow"
+          onClick={() => presidentSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
+          aria-label="Scroll to content"
+        >
+          <span className="hero-scroll-text">Scroll</span>
+          <svg
+            className="hero-scroll-icon"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </button>
       </section>
 
-      {/* Message from President Section */}
+      {/* President Section */}
       <section
         ref={presidentSectionRef}
         className={`president-section section-float-in ${visibleSections.president ? "section-float-in-visible" : ""}`}
       >
         <div className="president-container">
-          {/* White Message Box */}
           <div className="message-box">
             <p className="message-text">
-              A landing page is generally considered a specific page designed to
-              receive and convert traffic from an online marketing campaign but
-              could also serve as the first introduction to a company or product.
+              Welcome to the UWI Computing Society! As President, I am proud to lead a vibrant community of innovators, problem-solvers, and creators who are passionate about technology and its power to transform lives. Our society is more than a hub for computing enthusiasts, it is a space where ideas grow, skills sharpen, and friendships form, with workshops, hackathons, and networking events designed to empower students with practical knowledge and industry connections, all while championing the use of technology for good by building solutions that reflect our culture, serve our communities, and prepare us for the future. We invite you to join us, share your talents, and be part of shaping the next generation of computing leaders.
             </p>
             {president && (
-              <p className="president-name">{president.name}</p>
+              <>
+                <p className="president-name">{president.name}</p>
+                <p className="president-position">{president.position}</p>
+              </>
             )}
-            {/* Blue Banner attached to bottom of box */}
-            <div className="message-banner">
-              <span className="banner-text">
-                {president?.position?.toLowerCase() === "president"
-                  ? "Message from Our President"
-                  : president?.position?.toLowerCase() === "vice president"
-                    ? "Message from Our Vice President"
-                    : president
-                      ? `Message from Our ${president.position}`
-                      : "Message from the Executive"}
-              </span>
-            </div>
           </div>
 
-          {/* President Image Rectangle */}
+          {/* President Image */}
           <div className="president-image-container">
             {president && president.image ? (
               <img
