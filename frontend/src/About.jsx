@@ -163,16 +163,13 @@ const About = () => {
           </div>
           <div className="description-text">
             <p>
-              The Computing Club is a dynamic group of tech enthusiasts dedicated to exploring the ever-evolving 
-              world of computer science, coding, and digital innovation. Our mission is to inspire creativity, 
-              teamwork, and problem-solving skills through hands-on projects, workshops, and discussions on topics 
-              such as programming, web development, artificial intelligence, cybersecurity, and robotics.
+              The Computing Club is a community of tech enthusiasts exploring computer science, coding, 
+              and digital innovation. Our mission is to inspire creativity and problem-solving skills through hands-on projects, workshops, and discussions on topics such as programming, 
+              web development, artificial intelligence, cybersecurity, and robotics.
             </p>
             <p>
-              Whether you're a beginner eager to learn or an experienced coder looking to collaborate, the club 
-              provides a supportive environment to sharpen your skills and bring ideas to life. Members have 
-              opportunities to participate in hackathons, coding challenges, and community tech events, helping 
-              them gain real-world experience and confidence in the digital field
+             Whether you're a beginner or a seasoned coder, we offer a collaborative space to grow your skills, compete in hackathons, 
+             and gain real-world experience in the digital field.
             </p>
             <div className="meeting-time-box">
               <h3>Meeting Time:</h3>
