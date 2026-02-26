@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaWhatsapp, FaInstagram, FaTimes, FaBars } from 'react-icons/fa';
+import {FaLinkedin,FaGithub,FaInstagram,FaTimes,FaBars,FaHome,FaUsers,FaInfoCircle,FaFolderOpen,FaUserTie} from 'react-icons/fa';
 import './MobileSidebar.css';
 
 const MobileSidebar = () => {
@@ -61,25 +61,52 @@ const MobileSidebar = () => {
 
           {/* Navigation Links */}
           <div className="mobile-sidebar-links">
-            <Link to="/" onClick={() => setIsOpen(false)}>Home</Link>
-            <Link to="/sigs" onClick={() => setIsOpen(false)}>SIGs</Link>
-            <Link to="/about" onClick={() => setIsOpen(false)}>About</Link>
-            <Link to="/resources" onClick={() => setIsOpen(false)}>Resources</Link>
-            <Link to="/projects" onClick={() => setIsOpen(false)}>Projects</Link>
-            <Link to="/exec" onClick={() => setIsOpen(false)}>Meet the Team</Link>
+            <Link to="/" onClick={() => setIsOpen(false)}>
+              <FaHome className="mobile-sidebar-link-icon" />
+              <span>Home</span>
+            </Link>
+            <Link to="/sigs" onClick={() => setIsOpen(false)}>
+              <FaUsers className="mobile-sidebar-link-icon" />
+              <span>SIGs</span>
+            </Link>
+            <Link to="/about" onClick={() => setIsOpen(false)}>
+              <FaInfoCircle className="mobile-sidebar-link-icon" />
+              <span>About</span>
+            </Link>
+            <Link to="/projects" onClick={() => setIsOpen(false)}>
+              <FaFolderOpen className="mobile-sidebar-link-icon" />
+              <span>Projects</span>
+            </Link>
+            <Link to="/exec" onClick={() => setIsOpen(false)}>
+              <FaUserTie className="mobile-sidebar-link-icon" />
+              <span>Exec</span>
+            </Link>
           </div>
 
           {/* Social Icons */}
           <div className="mobile-sidebar-socials">
-            <a 
-              href="#" 
-              aria-label="WhatsApp"
+            <a
+              href="https://www.linkedin.com/in/uwimonacs/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
               onClick={() => setIsOpen(false)}
             >
-              <FaWhatsapp />
+              <FaLinkedin />
             </a>
-            <a 
-              href="#" 
+            <a
+              href="https://github.com/UMCS"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              onClick={() => setIsOpen(false)}
+            >
+              <FaGithub />
+            </a>
+            <a
+              href="https://www.instagram.com/uwimonacs?igsh=NDgyNnN5amY2eGE1"
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="Instagram"
               onClick={() => setIsOpen(false)}
             >
@@ -87,13 +114,6 @@ const MobileSidebar = () => {
             </a>
           </div>
 
-          {/* CTA Button */}
-          <button 
-            className="mobile-sidebar-cta"
-            onClick={() => setIsOpen(false)}
-          >
-            Join Us!!!
-          </button>
         </div>
       </nav>
     </>

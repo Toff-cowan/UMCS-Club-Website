@@ -8,7 +8,10 @@ import './About.css';
 
 const About = () => {
   const [executives, setExecutives] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [currentEventIndex, setCurrentEventIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [eventsLoading, setEventsLoading] = useState(true);
   const descriptionRef = useRef(null);
 
 
@@ -40,7 +43,26 @@ const About = () => {
     fetchExecutives();
   }, []);
 
-  
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/events');
+        const data = await response.json();
+        setEvents(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+        setEvents([]);
+      } finally {
+        setEventsLoading(false);
+      }
+    };
+    fetchEvents();
+  }, []);
+
+  useEffect(() => {
+    setCurrentEventIndex(0);
+  }, [events.length]);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -160,8 +182,81 @@ const About = () => {
           </div>
         </div>
       </section>
-    {/* Executives Section */}
-    {/* Executives Section */}
+
+      {/* News & Events – side carousel with arrows */}
+      <section className="about-events">
+        <h2 className="about-events-title">NEWS & EVENTS</h2>
+        {eventsLoading ? (
+          <p className="about-events-loading">Loading events…</p>
+        ) : events.length === 0 ? (
+          <p className="about-events-empty">No events at this time. Check back soon!</p>
+        ) : (
+          <div className="about-events-carousel">
+            <button
+              type="button"
+              className="about-events-arrow about-events-arrow-prev"
+              onClick={() => setCurrentEventIndex((i) => (i - 1 + events.length) % events.length)}
+              aria-label="Previous event"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <div className="about-events-track">
+              {events.map((event, index) => (
+                <article
+                  key={event._id}
+                  className={`about-event-card ${index === currentEventIndex ? 'about-event-card-active' : ''}`}
+                  aria-hidden={index !== currentEventIndex}
+                >
+                  {event.image && (
+                    <div
+                      className="about-event-image"
+                      style={{ backgroundImage: `url(${event.image})` }}
+                      role="img"
+                      aria-label={event.title}
+                    />
+                  )}
+                  <div className="about-event-body">
+                    <h3 className="about-event-title">{event.title}</h3>
+                    {event.description && (
+                      <p className="about-event-description">{event.description}</p>
+                    )}
+{(event.date || event.createdAt) && (
+                    <time className="about-event-date" dateTime={event.date || event.createdAt}>
+                      {new Date(event.date || event.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </time>
+                  )}
+                  </div>
+                </article>
+              ))}
+            </div>
+            <button
+              type="button"
+              className="about-events-arrow about-events-arrow-next"
+              onClick={() => setCurrentEventIndex((i) => (i + 1) % events.length)}
+              aria-label="Next event"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+            <div className="about-events-dots">
+              {events.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  className={`about-events-dot ${idx === currentEventIndex ? 'active' : ''}`}
+                  onClick={() => setCurrentEventIndex(idx)}
+                  aria-label={`Go to event ${idx + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* Executives Section */}
       <section className="about-executive">
         
         <h2>MEET THE EXECUTIVES</h2>

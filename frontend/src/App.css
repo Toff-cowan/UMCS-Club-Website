@@ -7,9 +7,9 @@
   z-index: 1;
 }
 
-main {
-  /* Default: no padding for full-bleed heroes */
-}
+/*main {
+  /* Default: no padding for full-bleed heroes 
+} */
 
 /* Pages with main nav bar need top padding so content is below fixed navbar */
 main.main-with-nav {

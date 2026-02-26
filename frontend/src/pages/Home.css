@@ -119,6 +119,12 @@ button, a, .sig-card, .project-card {
   z-index: 1;
 }
 
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 60vh;
+  }
+}
+
 /* Hero Background with Mouse Parallax */
 .hero-background {
   position: absolute;

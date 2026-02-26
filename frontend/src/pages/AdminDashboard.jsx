@@ -10,7 +10,8 @@ export default function AdminDashboard() {
   const [executives, setExecutives] = useState([]);
   const [members, setMembers] = useState([]);
   const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState({ exec: true, members: true, projects: true });
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState({ exec: true, members: true, projects: true, events: true });
   const [editing, setEditing] = useState(null);
   const [formData, setFormData] = useState({});
   const [uploading, setUploading] = useState(false);
@@ -39,11 +40,20 @@ export default function AdminDashboard() {
     } catch (e) { setProjects([]); } finally { setLoading((l) => ({ ...l, projects: false })); }
   }, []);
 
+  const fetchEvents = useCallback(async () => {
+    try {
+      const res = await fetch(`${API}/admin/events`);
+      const data = await res.json();
+      setEvents(Array.isArray(data) ? data : []);
+    } catch (e) { setEvents([]); } finally { setLoading((l) => ({ ...l, events: false })); }
+  }, []);
+
   useEffect(() => {
     fetchExecutives();
     fetchMembers();
     fetchProjects();
-  }, [fetchExecutives, fetchMembers, fetchProjects]);
+    fetchEvents();
+  }, [fetchExecutives, fetchMembers, fetchProjects, fetchEvents]);
 
   const handleBackToSite = () => {
     navigate("/");
@@ -163,6 +173,36 @@ export default function AdminDashboard() {
     } catch (e) {}
   };
 
+  const saveEvent = async () => {
+    const { id, title, description, image, date } = formData;
+    try {
+      const url = id ? `${API}/admin/events/${id}` : `${API}/admin/events`;
+      const method = id ? "PUT" : "POST";
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: title || "", description: description || "", image: image || "", date: date || null }),
+      });
+      if (res.ok) { setEditing(null); setFormData({}); await fetchEvents(); }
+    } catch (e) {}
+  };
+
+  const deleteEvent = async (id) => {
+    if (!confirm("Delete this event?")) return;
+    try {
+      const res = await fetch(`${API}/admin/events/${id}`, { method: "DELETE" });
+      if (res.ok) await fetchEvents();
+    } catch (e) {}
+  };
+
+  const clearEvents = async () => {
+    if (!confirm("Clear all events?")) return;
+    try {
+      const res = await fetch(`${API}/admin/events/clear`, { method: "DELETE" });
+      if (res.ok) await fetchEvents();
+    } catch (e) {}
+  };
+
   const startEdit = (type, item = null) => {
     setEditing(type);
     setFormData(item ? { ...item, id: item._id } : {});
@@ -182,6 +222,7 @@ export default function AdminDashboard() {
         <button type="button" className={activeTab === "executives" ? "active" : ""} onClick={() => setActiveTab("executives")}>Executives</button>
         <button type="button" className={activeTab === "members" ? "active" : ""} onClick={() => setActiveTab("members")}>Members</button>
         <button type="button" className={activeTab === "projects" ? "active" : ""} onClick={() => setActiveTab("projects")}>Projects</button>
+        <button type="button" className={activeTab === "events" ? "active" : ""} onClick={() => setActiveTab("events")}>News & Events</button>
       </nav>
 
       <main className="admin-content">
@@ -316,6 +357,55 @@ export default function AdminDashboard() {
                         <td>
                           <button type="button" onClick={() => startEdit("project", p)}>Edit</button>
                           <button type="button" className="btn-delete" onClick={() => deleteProject(p._id)}>Delete</button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </section>
+        )}
+
+        {activeTab === "events" && (
+          <section className="admin-section">
+            <div className="admin-section-header">
+              <h2>News & Events</h2>
+              <div className="admin-section-buttons">
+                <button type="button" className="btn-add" onClick={() => startEdit("event", null)}>+ Add Event</button>
+                <button type="button" className="btn-clear" onClick={clearEvents}>Clear All</button>
+              </div>
+            </div>
+            {editing === "event" && (
+              <div className="admin-form">
+                <input placeholder="Title" value={formData.title || ""} onChange={(e) => setFormData((p) => ({ ...p, title: e.target.value }))} />
+                <textarea placeholder="Description" value={formData.description || ""} onChange={(e) => setFormData((p) => ({ ...p, description: e.target.value }))} rows={3} />
+                <label className="admin-form-label">Event date</label>
+                <input type="date" value={formData.date ? (typeof formData.date === "string" ? formData.date.slice(0, 10) : new Date(formData.date).toISOString().slice(0, 10)) : ""} onChange={(e) => setFormData((p) => ({ ...p, date: e.target.value || null }))} />
+                <input placeholder="Image URL (or upload)" value={formData.image || ""} onChange={(e) => setFormData((p) => ({ ...p, image: e.target.value }))} />
+                <label className="upload-label">{uploading ? "Uploading…" : "Upload image"}
+                  <input type="file" accept="image/*" className="upload-input" onChange={(e) => handleImageSelect(e, "image")} disabled={uploading} />
+                </label>
+                <div className="admin-form-actions">
+                  <button type="button" onClick={saveEvent}>Save</button>
+                  <button type="button" className="btn-cancel" onClick={() => { setEditing(null); setFormData({}); }}>Cancel</button>
+                </div>
+              </div>
+            )}
+            {loading.events ? <p>Loading…</p> : (
+              <div className="admin-table-wrap">
+                <table className="admin-table">
+                  <thead><tr><th>Title</th><th>Description</th><th>Image</th><th>Date</th><th>Actions</th></tr></thead>
+                  <tbody>
+                    {events.map((ev) => (
+                      <tr key={ev._id}>
+                        <td>{ev.title}</td>
+                        <td className="admin-desc-cell">{(ev.description || "").slice(0, 60)}{(ev.description || "").length > 60 ? "…" : ""}</td>
+                        <td>{ev.image ? <img src={ev.image} alt="" className="admin-thumb" /> : "—"}</td>
+                        <td>{(ev.date || ev.createdAt) ? new Date(ev.date || ev.createdAt).toLocaleDateString() : "—"}</td>
+                        <td>
+                          <button type="button" onClick={() => startEdit("event", ev)}>Edit</button>
+                          <button type="button" className="btn-delete" onClick={() => deleteEvent(ev._id)}>Delete</button>
                         </td>
                       </tr>
                     ))}

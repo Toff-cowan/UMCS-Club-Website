@@ -37,6 +37,22 @@ const Home = () => {
   const [memberNameInput, setMemberNameInput] = useState("");
   const [memberSubmitError, setMemberSubmitError] = useState(null);
   const [memberSubmitting, setMemberSubmitting] = useState(false);
+  const [memberClientId] = useState(() => {
+    try {
+      const key = "umcs_member_client_id";
+      let existing = window.localStorage.getItem(key);
+      if (!existing) {
+        const randomId =
+          (window.crypto && window.crypto.randomUUID && window.crypto.randomUUID()) ||
+          `member-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        window.localStorage.setItem(key, randomId);
+        existing = randomId;
+      }
+      return existing;
+    } catch {
+      return null;
+    }
+  });
 
   useEffect(() => {
     const fetchPresident = async () => {
@@ -293,12 +309,20 @@ const Home = () => {
     try {
       const response = await fetch("http://localhost:5000/api/members", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(memberClientId ? { "x-member-id": memberClientId } : {}),
+        },
         body: JSON.stringify({ name }),
       });
       const data = await response.json().catch(() => ({}));
       if (response.ok) {
-        setMembers((prev) => [data, ...prev]);
+        // Ensure each client only has one visible name: replace existing entry if present.
+        setMembers((prev) => {
+          if (!data || !data._id) return prev;
+          const withoutCurrent = prev.filter((m) => m._id !== data._id);
+          return [data, ...withoutCurrent];
+        });
         setMemberNameInput("");
       } else {
         setMemberSubmitError(data.message || "Could not add name. Please try an appropriate name.");
