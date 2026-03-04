@@ -22,4 +22,6 @@ const MemberSchema = new mongoose.Schema({
   }
 });
 
+MemberSchema.index({ createdAt: -1 });
+
 module.exports = mongoose.model("Member", MemberSchema);

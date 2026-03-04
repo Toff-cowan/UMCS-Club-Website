@@ -37,8 +37,8 @@
   right: 0;
   bottom: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.35) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.35) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.55) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.55) 1px, transparent 1px);
   background-size: 50px 50px;
   background-position: 0 0, 0 0;
   z-index: 0;
@@ -64,14 +64,15 @@
   -webkit-mask-size: 300% 100%;
 }
 
+/* Wave moves left to right across the page */
 @keyframes home-grid-wave {
   0% {
-    mask-position: -200% 0;
-    -webkit-mask-position: -200% 0;
-  }
-  100% {
     mask-position: 200% 0;
     -webkit-mask-position: 200% 0;
+  }
+  100% {
+    mask-position: -200% 0;
+    -webkit-mask-position: -200% 0;
   }
 }
 
@@ -158,10 +159,10 @@ button, a, .sig-card, .project-card {
   right: 0;
   bottom: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
   background-size: 50px 50px;
-  opacity: 0.35;
+  opacity: 0.5;
 }
 
 /* Wave effect on hero grid */
@@ -173,8 +174,8 @@ button, a, .sig-card, .project-card {
   right: 0;
   bottom: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.18) 1px, transparent 1px);
   background-size: 50px 50px;
   z-index: 0;
   pointer-events: none;
@@ -199,14 +200,74 @@ button, a, .sig-card, .project-card {
   -webkit-mask-size: 300% 100%;
 }
 
+/* Wave moves left to right across the hero */
 @keyframes hero-grid-wave {
   0% {
+    mask-position: 200% 0;
+    -webkit-mask-position: 200% 0;
+  }
+  100% {
     mask-position: -200% 0;
     -webkit-mask-position: -200% 0;
   }
-  100% {
-    mask-position: 200% 0;
-    -webkit-mask-position: 200% 0;
+}
+
+/* Hero title – matches Exec/SIGs style */
+.hero-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.hero-title-wrap {
+  text-align: center;
+  max-width: 85%;
+}
+
+.hero-title-line-break {
+  display: block;
+  width: 100%;
+}
+
+.hero-title {
+  font-size: calc(2.75rem - 15px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  margin: 0;
+  color: #eab308;
+  line-height: 1.1;
+}
+
+.hero-title .inline-block {
+  display: inline;
+}
+
+@media (min-width: 640px) {
+  .hero-title {
+    font-size: calc(4rem - 15px);
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-title {
+    font-size: calc(6rem - 15px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-title {
+    font-size: calc(8rem - 15px);
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-title {
+    font-size: calc(10rem - 15px);
   }
 }
 
@@ -271,7 +332,7 @@ button, a, .sig-card, .project-card {
 
 
 .president-container {
-  max-width: 790px;
+  max-width: 1090px;
   width: 100%;
   display: flex;
   align-items: stretch;
@@ -284,7 +345,7 @@ button, a, .sig-card, .project-card {
   background-color: var(--color-bg-alt);
   border-radius: 10px;
   padding: 0.75rem 1.5rem;
-  max-width: 950px;
+  max-width: 1500px;
   width: 100%;
   position: relative;
   font-family: var(--font-main);
@@ -296,6 +357,16 @@ button, a, .sig-card, .project-card {
   color: var(--color-text);
   margin-bottom: 0.75rem;
   text-align: center;
+}
+
+.president-meta {
+  text-align: right;
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+.president-error {
+  color: var(--color-error, #c53030);
 }
 
 .president-name {

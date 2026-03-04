@@ -48,4 +48,6 @@ const SigSchema = new mongoose.Schema({
   }
 });
 
+SigSchema.index({ sig: 1 });
+
 module.exports = mongoose.model("Sig", SigSchema);

@@ -32,4 +32,17 @@ app.get("/", (req, res) => {
   res.json({ status: "API is running" });
 });
 
+// 404 for unmatched API routes
+app.use((req, res) => {
+  res.status(404).json({ message: "Not found" });
+});
+
+// Central error handler – log and return safe message
+app.use((err, req, res, next) => {
+  console.error(err);
+  const status = err.status ?? err.statusCode ?? 500;
+  const message = err.message && status < 500 ? err.message : "Internal server error";
+  res.status(status).json({ message });
+});
+
 module.exports = app;

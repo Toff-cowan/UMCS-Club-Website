@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { GradientOrb } from '../components/EngineeringPatterns';
+import { getProjects } from '../services/api';
 import './Projects.css';
 
 /**
@@ -57,14 +58,11 @@ export default function Projects() {
   useEffect(() => {
     const fetchProjects = async () => {
       setLoading(true);
+      setError(null);
       try {
-        // Please ensure backend is running and exposes /api/projects
-        const res = await fetch('http://localhost:5000/api/projects');
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        // backend may return { success: true, data: [...] } or an array
-        const list = Array.isArray(data) ? data : data.data || [];
+        const list = await getProjects();
         if (list.length) setProjects(list);
+        else setProjects(mockProjects);
       } catch (err) {
         console.warn('Could not load projects from backend, using mock data', err);
         setError(err.message);
@@ -73,7 +71,6 @@ export default function Projects() {
         setLoading(false);
       }
     };
-
     fetchProjects();
   }, []);
 
@@ -165,16 +162,28 @@ export default function Projects() {
         </motion.button>
       </section>
 
-      {/* Purpose / intro section */}
-      <section className="projects-intro" ref={introRef}>
-        <div className="projects-intro-ribbon" aria-hidden="true" />
-        <p className={`projects-intro-text ${introVisible ? 'projects-intro-text-visible' : ''}`}>
-          This page showcases projects built by our club members—from web apps and games to tools and experiments.
-          Browse below to see what we’re working on and get inspired to start your own.
-        </p>
-      </section>
+      {/* Content section with floating code snippets behind */}
+      <section className="projects-content-wrap">
+        <div className="projects-code-snippets-bg" aria-hidden="true">
+          <pre className="projects-code-snippet projects-code-snippet-1"><code>{`fetch('/api/projects')`}</code></pre>
+          <pre className="projects-code-snippet projects-code-snippet-2"><code>{`<ProjectCard key={p.id} />`}</code></pre>
+          <pre className="projects-code-snippet projects-code-snippet-3"><code>{`npm run build`}</code></pre>
+          <pre className="projects-code-snippet projects-code-snippet-4"><code>{`export default Projects`}</code></pre>
+          <pre className="projects-code-snippet projects-code-snippet-5"><code>{`projects.map(p => ...)`}</code></pre>
+          <pre className="projects-code-snippet projects-code-snippet-6"><code>{`// Club projects`}</code></pre>
+          <pre className="projects-code-snippet projects-code-snippet-7"><code>{`status: 'completed'`}</code></pre>
+          <pre className="projects-code-snippet projects-code-snippet-8"><code>{`handleProjectClick(id)`}</code></pre>
+        </div>
 
-      <main className="lt-main">
+        <section className="projects-intro" ref={introRef}>
+          <div className="projects-intro-ribbon" aria-hidden="true" />
+          <p className={`projects-intro-text ${introVisible ? 'projects-intro-text-visible' : ''}`}>
+            This page showcases projects built by our club members—from web apps and games to tools and experiments.
+            Browse below to see what we’re working on and get inspired to start your own.
+          </p>
+        </section>
+
+        <main className="lt-main">
         {loading && <div className="lt-loading">Loading projects...</div>}
         {error && <div className="lt-error">Backend error: {error}</div>}
 
@@ -282,7 +291,8 @@ export default function Projects() {
           </button>
         </div>
       )}
-      </main>
+        </main>
+      </section>
     </div>
   );
 }

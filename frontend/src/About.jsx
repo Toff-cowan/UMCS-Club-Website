@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { GradientOrb } from './components/EngineeringPatterns';
+import { getExecutives, getEvents } from './services/api';
 import './About.css';
 
 
@@ -11,6 +12,7 @@ const About = () => {
   const [events, setEvents] = useState([]);
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [executivesError, setExecutivesError] = useState(null);
   const [eventsLoading, setEventsLoading] = useState(true);
   const descriptionRef = useRef(null);
 
@@ -25,29 +27,26 @@ const About = () => {
   const members = executives.filter(exec => exec !== president);
 
   useEffect(() => {
-    // Fetch execs from database
     const fetchExecutives = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/executives');
-        const data = await response.json();
-        setExecutives(data);
-        setLoading(false);
+        setExecutivesError(null);
+        const data = await getExecutives();
+        setExecutives(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error('Error fetching executives:', error);
-        // Fallback to mock data if fetch fails
+        setExecutivesError(error.message || 'Failed to load executives');
         setExecutives([]);
+      } finally {
         setLoading(false);
       }
     };
-
     fetchExecutives();
   }, []);
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/events');
-        const data = await response.json();
+        const data = await getEvents();
         setEvents(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error('Error fetching events:', error);
@@ -255,13 +254,26 @@ const About = () => {
 
       {/* Executives Section */}
       <section className="about-executive">
-        
-        <h2>MEET THE EXECUTIVES</h2>
-        
+        <div className="about-code-snippets-bg" aria-hidden="true">
+          <pre className="about-code-snippet about-code-snippet-1"><code>{`const lead = execs.find(e => e.role === 'President');`}</code></pre>
+          <pre className="about-code-snippet about-code-snippet-2"><code>{`<ExecutiveCard name={exec.name} />`}</code></pre>
+          <pre className="about-code-snippet about-code-snippet-3"><code>{`function getLeaders() { return execs; }`}</code></pre>
+          <pre className="about-code-snippet about-code-snippet-4"><code>{`export default About;`}</code></pre>
+          <pre className="about-code-snippet about-code-snippet-5"><code>{`position: 'President'`}</code></pre>
+          <pre className="about-code-snippet about-code-snippet-6"><code>{`// Meet the team`}</code></pre>
+          <pre className="about-code-snippet about-code-snippet-7"><code>{`fetch('/api/executives')`}</code></pre>
+          <pre className="about-code-snippet about-code-snippet-8"><code>{`about-hero`}</code></pre>
+        </div>
+
+        <div className="about-executive-inner">
+          <h2>MEET THE EXECUTIVES</h2>
+
         {loading ? (
           <div className="loading">Loading executives...</div>
+        ) : executivesError ? (
+          <div className="loading" style={{ color: 'var(--color-muted)' }}>{executivesError}</div>
         ) : (
-          <div className="executive-grid">
+            <div className="executive-grid">
             {/* President */}
             {president && (
               <div className="executive-member main">
@@ -294,8 +306,9 @@ const About = () => {
                 </div>
               );
             })}
-          </div>
-        )}
+            </div>
+          )}
+        </div>
       </section>
     </div>
   );

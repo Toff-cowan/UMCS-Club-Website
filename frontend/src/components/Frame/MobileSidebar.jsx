@@ -95,7 +95,7 @@ const MobileSidebar = () => {
               <FaLinkedin />
             </a>
             <a
-              href="https://github.com/UMCS"
+              href="https://github.com/UWICompSociety"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"

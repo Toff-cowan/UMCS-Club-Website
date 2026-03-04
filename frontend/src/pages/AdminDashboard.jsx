@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../services/api";
 import "./AdminDashboard.css";
-
-const API = "http://localhost:5000/api";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -18,7 +17,7 @@ export default function AdminDashboard() {
 
   const fetchExecutives = useCallback(async () => {
     try {
-      const res = await fetch(`${API}/admin/executives`);
+      const res = await fetch(`${API_BASE_URL}/admin/executives`);
       const data = await res.json();
       setExecutives(Array.isArray(data) ? data : []);
     } catch (e) { setExecutives([]); } finally { setLoading((l) => ({ ...l, exec: false })); }
@@ -26,7 +25,7 @@ export default function AdminDashboard() {
 
   const fetchMembers = useCallback(async () => {
     try {
-      const res = await fetch(`${API}/admin/members`);
+      const res = await fetch(`${API_BASE_URL}/admin/members`);
       const data = await res.json();
       setMembers(Array.isArray(data) ? data : []);
     } catch (e) { setMembers([]); } finally { setLoading((l) => ({ ...l, members: false })); }
@@ -34,7 +33,7 @@ export default function AdminDashboard() {
 
   const fetchProjects = useCallback(async () => {
     try {
-      const res = await fetch(`${API}/admin/projects`);
+      const res = await fetch(`${API_BASE_URL}/admin/projects`);
       const data = await res.json();
       setProjects(Array.isArray(data) ? data : []);
     } catch (e) { setProjects([]); } finally { setLoading((l) => ({ ...l, projects: false })); }
@@ -42,7 +41,7 @@ export default function AdminDashboard() {
 
   const fetchEvents = useCallback(async () => {
     try {
-      const res = await fetch(`${API}/admin/events`);
+      const res = await fetch(`${API_BASE_URL}/admin/events`);
       const data = await res.json();
       setEvents(Array.isArray(data) ? data : []);
     } catch (e) { setEvents([]); } finally { setLoading((l) => ({ ...l, events: false })); }
@@ -64,7 +63,7 @@ export default function AdminDashboard() {
     try {
       const fd = new FormData();
       fd.append("file", file);
-      const res = await fetch(`${API}/admin/upload`, {
+      const res = await fetch(`${API_BASE_URL}/admin/upload`, {
         method: "POST",
         body: fd,
       });
@@ -86,7 +85,7 @@ export default function AdminDashboard() {
   const saveExecutive = async () => {
     const { id, name, position, image, quote } = formData;
     try {
-      const url = id ? `${API}/admin/executives/${id}` : `${API}/admin/executives`;
+      const url = id ? `${API_BASE_URL}/admin/executives/${id}` : `${API_BASE_URL}/admin/executives`;
       const method = id ? "PUT" : "POST";
       const res = await fetch(url, {
         method,
@@ -100,7 +99,7 @@ export default function AdminDashboard() {
   const deleteExecutive = async (id) => {
     if (!confirm("Delete this executive?")) return;
     try {
-      const res = await fetch(`${API}/admin/executives/${id}`, { method: "DELETE" });
+      const res = await fetch(`${API_BASE_URL}/admin/executives/${id}`, { method: "DELETE" });
       if (res.ok) await fetchExecutives();
     } catch (e) {}
   };
@@ -108,7 +107,7 @@ export default function AdminDashboard() {
   const clearExecutives = async () => {
     if (!confirm("Clear all executives?")) return;
     try {
-      const res = await fetch(`${API}/admin/executives/clear`, { method: "DELETE" });
+      const res = await fetch(`${API_BASE_URL}/admin/executives/clear`, { method: "DELETE" });
       if (res.ok) await fetchExecutives();
     } catch (e) {}
   };
@@ -116,7 +115,7 @@ export default function AdminDashboard() {
   const saveMember = async () => {
     const { id, name } = formData;
     try {
-      const url = id ? `${API}/admin/members/${id}` : `${API}/admin/members`;
+      const url = id ? `${API_BASE_URL}/admin/members/${id}` : `${API_BASE_URL}/admin/members`;
       const method = id ? "PUT" : "POST";
       const res = await fetch(url, {
         method,
@@ -130,7 +129,7 @@ export default function AdminDashboard() {
   const deleteMember = async (id) => {
     if (!confirm("Delete this member?")) return;
     try {
-      const res = await fetch(`${API}/admin/members/${id}`, { method: "DELETE" });
+      const res = await fetch(`${API_BASE_URL}/admin/members/${id}`, { method: "DELETE" });
       if (res.ok) await fetchMembers();
     } catch (e) {}
   };
@@ -138,7 +137,7 @@ export default function AdminDashboard() {
   const clearMembers = async () => {
     if (!confirm("Clear all members?")) return;
     try {
-      const res = await fetch(`${API}/admin/members/clear`, { method: "DELETE" });
+      const res = await fetch(`${API_BASE_URL}/admin/members/clear`, { method: "DELETE" });
       if (res.ok) await fetchMembers();
     } catch (e) {}
   };
@@ -146,7 +145,7 @@ export default function AdminDashboard() {
   const saveProject = async () => {
     const { id, title, description, image, status } = formData;
     try {
-      const url = id ? `${API}/admin/projects/${id}` : `${API}/admin/projects`;
+      const url = id ? `${API_BASE_URL}/admin/projects/${id}` : `${API_BASE_URL}/admin/projects`;
       const method = id ? "PUT" : "POST";
       const res = await fetch(url, {
         method,
@@ -160,7 +159,7 @@ export default function AdminDashboard() {
   const deleteProject = async (id) => {
     if (!confirm("Delete this project?")) return;
     try {
-      const res = await fetch(`${API}/admin/projects/${id}`, { method: "DELETE" });
+      const res = await fetch(`${API_BASE_URL}/admin/projects/${id}`, { method: "DELETE" });
       if (res.ok) await fetchProjects();
     } catch (e) {}
   };
@@ -168,7 +167,7 @@ export default function AdminDashboard() {
   const clearProjects = async () => {
     if (!confirm("Clear all projects?")) return;
     try {
-      const res = await fetch(`${API}/admin/projects/clear`, { method: "DELETE" });
+      const res = await fetch(`${API_BASE_URL}/admin/projects/clear`, { method: "DELETE" });
       if (res.ok) await fetchProjects();
     } catch (e) {}
   };
@@ -176,7 +175,7 @@ export default function AdminDashboard() {
   const saveEvent = async () => {
     const { id, title, description, image, date } = formData;
     try {
-      const url = id ? `${API}/admin/events/${id}` : `${API}/admin/events`;
+      const url = id ? `${API_BASE_URL}/admin/events/${id}` : `${API_BASE_URL}/admin/events`;
       const method = id ? "PUT" : "POST";
       const res = await fetch(url, {
         method,
@@ -190,7 +189,7 @@ export default function AdminDashboard() {
   const deleteEvent = async (id) => {
     if (!confirm("Delete this event?")) return;
     try {
-      const res = await fetch(`${API}/admin/events/${id}`, { method: "DELETE" });
+      const res = await fetch(`${API_BASE_URL}/admin/events/${id}`, { method: "DELETE" });
       if (res.ok) await fetchEvents();
     } catch (e) {}
   };
@@ -198,7 +197,7 @@ export default function AdminDashboard() {
   const clearEvents = async () => {
     if (!confirm("Clear all events?")) return;
     try {
-      const res = await fetch(`${API}/admin/events/clear`, { method: "DELETE" });
+      const res = await fetch(`${API_BASE_URL}/admin/events/clear`, { method: "DELETE" });
       if (res.ok) await fetchEvents();
     } catch (e) {}
   };

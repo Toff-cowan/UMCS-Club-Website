@@ -31,4 +31,6 @@ const EventSchema = new mongoose.Schema({
   }
 });
 
+EventSchema.index({ createdAt: -1 });
+
 module.exports = mongoose.model("Event", EventSchema);

@@ -12,8 +12,8 @@ const sigController = require('./sigController'); // Importing SIG controller
 
 module.exports = {
   eventController,
-  execController,
+  executiveController,
   memberController,
   projectController,
   sigController
-}; // Exporting all controllers as a single module
+};

@@ -8,7 +8,6 @@
 
 const express = require("express");
 const router = express.Router();
-const Member = require("../models/exec");
 const Exec = require("../models/exec");
 
 // GET /api/execs

@@ -27,7 +27,7 @@ const Footer = () => {
           <a href="https://www.linkedin.com/in/uwimonacs/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
             <FaLinkedin />
           </a>
-          <a href="https://github.com/UMCS" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <a href="https://github.com/UWICompSociety" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
             <FaGithub />
           </a>
           <a href="https://www.instagram.com/uwimonacs?igsh=NDgyNnN5amY2eGE1" target="_blank" rel="noopener noreferrer" aria-label="Instagram">

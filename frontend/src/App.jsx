@@ -1,32 +1,37 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import "./App.css";
 
-import Home from "./pages/Home";
-import About from "./About";
-import SIGs from "./pages/SIGs";
-import Exec from "./pages/Exec";
-import Projects from "./pages/Projects";
-import AdminDashboard from "./pages/AdminDashboard";
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./About"));
+const SIGs = lazy(() => import("./pages/SIGs"));
+const Exec = lazy(() => import("./pages/Exec"));
+const Projects = lazy(() => import("./pages/Projects"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+
+function PageFallback() {
+  return <div style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>Loading…</div>;
+}
 
 const App = () => {
   return (
     <div className="App">
       <Router>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="about" element={<About />} />
-            <Route path="sigs" element={<SIGs />} />
-            <Route path="exec" element={<Exec />} />
-            <Route path="projects" element={<Projects />} />
-            <Route path="resources" element={<Navigate to="/about" replace />} />
-          </Route>
-          {/* Admin routes - no navbar, direct URL only (no login) */}
-          <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        </Routes>
+        <Suspense fallback={<PageFallback />}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="about" element={<About />} />
+              <Route path="sigs" element={<SIGs />} />
+              <Route path="exec" element={<Exec />} />
+              <Route path="projects" element={<Projects />} />
+              <Route path="resources" element={<Navigate to="/about" replace />} />
+            </Route>
+            <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          </Routes>
+        </Suspense>
       </Router>
     </div>
   );

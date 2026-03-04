@@ -1,7 +1,7 @@
 // API service for making backend requests
 // In development, Vite proxy handles /api requests
-// In production, use VITE_API_BASE_URL environment variable
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+// In production, set VITE_API_BASE_URL to your backend base (e.g. https://api.example.com/api)
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
 /**
  * Fetches all SIGs from the backend
@@ -71,5 +71,27 @@ export const getExecutives = async () => {
     }
     throw error;
   }
+};
+
+/** Fetches all events from the backend. */
+export const getEvents = async () => {
+  const response = await fetch(`${API_BASE_URL}/events`);
+  if (!response.ok) throw new Error(`Failed to fetch events: ${response.statusText}`);
+  return response.json();
+};
+
+/** Fetches all projects from the backend. */
+export const getProjects = async () => {
+  const response = await fetch(`${API_BASE_URL}/projects`);
+  if (!response.ok) throw new Error(`Failed to fetch projects: ${response.statusText}`);
+  const data = await response.json();
+  return Array.isArray(data) ? data : data?.data ?? [];
+};
+
+/** Fetches all members from the backend. */
+export const getMembers = async () => {
+  const response = await fetch(`${API_BASE_URL}/members`);
+  if (!response.ok) throw new Error(`Failed to fetch members: ${response.statusText}`);
+  return response.json();
 };
 

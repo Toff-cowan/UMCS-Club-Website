@@ -31,4 +31,7 @@ const ExecutiveSchema = new mongoose.Schema({
   }
 });
 
+ExecutiveSchema.index({ createdAt: -1 });
+ExecutiveSchema.index({ position: 1 });
+
 module.exports = mongoose.model("Executive", ExecutiveSchema);

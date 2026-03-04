@@ -1,12 +1,29 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback, memo } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { getExecutives, getSIGs, getEvents, getProjects, getMembers, API_BASE_URL } from "../services/api";
 import "./Home.css";
 import clubLogo from "../assets/UMCS Logo.png";
+
+const SigCard = memo(function SigCard({ sig, onSelect, onMouseEnter, onMouseLeave }) {
+  return (
+    <div
+      className="sig-card"
+      onClick={() => onSelect(sig._id)}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      <div className="sig-title">{sig.name}</div>
+      <div className="sig-description">{sig.description}</div>
+    </div>
+  );
+});
 
 const Home = () => {
   const navigate = useNavigate();
   const [president, setPresident] = useState(null);
-  const [, setPresidentLoading] = useState(true);
+  const [presidentLoading, setPresidentLoading] = useState(true);
+  const [presidentError, setPresidentError] = useState(null);
   const [sigs, setSigs] = useState([]);
   const [sigsLoading, setSigsLoading] = useState(true);
   const [events, setEvents] = useState([]);
@@ -57,90 +74,67 @@ const Home = () => {
   useEffect(() => {
     const fetchPresident = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/executives");
-        if (!response.ok) {
-          throw new Error(`Failed to fetch executives: ${response.status}`);
-        }
-        const executives = await response.json();
-        
-        // Find the lead executive: President first, then Vice President, then first in list
-        const presidentData = executives.find((exec) => {
+        setPresidentError(null);
+        const executives = await getExecutives();
+        const list = Array.isArray(executives) ? executives : [];
+        const presidentData = list.find((exec) => {
           if (!exec || !exec.position) return false;
           const p = exec.position.trim().toLowerCase();
           return p === "president";
         });
-        const vicePresidentData = executives.find((exec) => {
+        const vicePresidentData = list.find((exec) => {
           if (!exec || !exec.position) return false;
           const p = exec.position.trim().toLowerCase();
           return p === "vice president";
         });
-
-        if (presidentData) {
-          setPresident(presidentData);
-        } else if (vicePresidentData) {
-          setPresident(vicePresidentData);
-        } else if (executives.length > 0) {
-          setPresident(executives[0]);
-        }
-        setPresidentLoading(false);
+        if (presidentData) setPresident(presidentData);
+        else if (vicePresidentData) setPresident(vicePresidentData);
+        else if (list.length > 0) setPresident(list[0]);
       } catch (error) {
         console.error("Error fetching president:", error);
+        setPresidentError(error.message || "Failed to load");
+      } finally {
         setPresidentLoading(false);
       }
     };
 
     const fetchSIGs = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/sigs");
-        if (!response.ok) {
-          throw new Error(`Failed to fetch SIGs: ${response.status}`);
-        }
-        const sigsData = await response.json();
-        setSigs(sigsData);
-        setSigsLoading(false);
+        const sigsData = await getSIGs();
+        setSigs(Array.isArray(sigsData) ? sigsData : []);
       } catch (error) {
         console.error("Error fetching SIGs:", error);
+      } finally {
         setSigsLoading(false);
       }
     };
 
     const fetchEvents = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/events");
-        if (!response.ok) {
-          throw new Error(`Failed to fetch events: ${response.status}`);
-        }
-        const eventsData = await response.json();
-        setEvents(eventsData);
-        setEventsLoading(false);
+        const eventsData = await getEvents();
+        setEvents(Array.isArray(eventsData) ? eventsData : []);
       } catch (error) {
         console.error("Error fetching events:", error);
+      } finally {
         setEventsLoading(false);
       }
     };
 
     const fetchProjects = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/projects");
-        if (!response.ok) {
-          throw new Error(`Failed to fetch projects: ${response.status}`);
-        }
-        const projectsData = await response.json();
-        setProjects(projectsData);
-        setProjectsLoading(false);
+        const projectsData = await getProjects();
+        setProjects(Array.isArray(projectsData) ? projectsData : []);
       } catch (error) {
         console.error("Error fetching projects:", error);
+      } finally {
         setProjectsLoading(false);
       }
     };
 
     const fetchMembers = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/members");
-        if (response.ok) {
-          const data = await response.json();
-          setMembers(Array.isArray(data) ? data : []);
-        }
+        const data = await getMembers();
+        setMembers(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("Error fetching members:", err);
       } finally {
@@ -155,17 +149,13 @@ const Home = () => {
     fetchMembers();
   }, []);
 
-  // Refresh club members every 5 minutes: clear and refetch
+  // Refresh club members every 5 minutes
   useEffect(() => {
     const FIVE_MINUTES = 5 * 60 * 1000;
     const interval = setInterval(async () => {
-      setMembers([]);
       try {
-        const response = await fetch("http://localhost:5000/api/members");
-        if (response.ok) {
-          const data = await response.json();
-          setMembers(Array.isArray(data) ? data : []);
-        }
+        const data = await getMembers();
+        setMembers(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("Error refreshing members:", err);
       }
@@ -289,13 +279,25 @@ const Home = () => {
     }
   }, []);
 
-  const handleSIGClick = (sigId) => {
+  const handleSIGClick = useCallback((sigId) => {
     navigate(`/sigs/${sigId}`);
-  };
+  }, [navigate]);
 
-  const handleProjectClick = (projectId) => {
+  const handleProjectClick = useCallback((projectId) => {
     navigate(`/projects/${projectId}`);
-  };
+  }, [navigate]);
+
+  const handleSigCardMouseEnter = useCallback((e) => {
+    isCardHoveredRef.current = true;
+    const desc = e.currentTarget.querySelector('.sig-description');
+    if (desc) desc.style.opacity = '1';
+  }, []);
+
+  const handleSigCardMouseLeave = useCallback((e) => {
+    isCardHoveredRef.current = false;
+    const desc = e.currentTarget.querySelector('.sig-description');
+    if (desc) desc.style.opacity = '0';
+  }, []);
 
   const handleAddMember = async (e) => {
     e.preventDefault();
@@ -307,7 +309,7 @@ const Home = () => {
     setMemberSubmitError(null);
     setMemberSubmitting(true);
     try {
-      const response = await fetch("http://localhost:5000/api/members", {
+      const response = await fetch(`${API_BASE_URL}/members`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -342,6 +344,66 @@ const Home = () => {
         <div className="hero-overlay">
           <div className="hero-grid"></div>
         </div>
+        <div className="hero-content">
+          <motion.h1
+            className="hero-title hero-title-wrap"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.06, delayChildren: 0.3 },
+              },
+            }}
+            initial="hidden"
+            animate="visible"
+          >
+            {"COMPUTING".split("").map((letter, index) => (
+              <motion.span
+                key={`c-${index}`}
+                variants={{
+                  hidden: { opacity: 0, y: 50, rotateX: -90 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    rotateX: 0,
+                    transition: { type: "spring", stiffness: 300, damping: 20 },
+                  },
+                }}
+                className="inline-block"
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                {letter}
+              </motion.span>
+            ))}
+            <motion.span
+              key="line-break"
+              variants={{
+                hidden: { opacity: 0 },
+                visible: { opacity: 0 },
+              }}
+              className="hero-title-line-break"
+              aria-hidden="true"
+            />
+            {"SOCIETY".split("").map((letter, index) => (
+              <motion.span
+                key={`s-${index}`}
+                variants={{
+                  hidden: { opacity: 0, y: 50, rotateX: -90 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    rotateX: 0,
+                    transition: { type: "spring", stiffness: 300, damping: 20 },
+                  },
+                }}
+                className="inline-block"
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                {letter}
+              </motion.span>
+            ))}
+          </motion.h1>
+        </div>
         <button
           type="button"
           className="hero-scroll-arrow"
@@ -371,9 +433,15 @@ const Home = () => {
         <div className="president-container">
           <div className="message-box">
             <p className="message-text">
-              Welcome to the UWI Computing Society! As President, I am proud to lead a vibrant community of innovators, problem-solvers, and creators who are passionate about technology and its power to transform lives. Our society is more than a hub for computing enthusiasts, it is a space where ideas grow, skills sharpen, and friendships form, with workshops, hackathons, and networking events designed to empower students with practical knowledge and industry connections, all while championing the use of technology for good by building solutions that reflect our culture, serve our communities, and prepare us for the future. We invite you to join us, share your talents, and be part of shaping the next generation of computing leaders.
+              "Welcome to the UWI Computing Society! As President, I am proud to lead a vibrant community of innovators, problem-solvers, and creators who are passionate about technology and its power to transform lives. 
+              Our society is more than a hub for computing enthusiasts, it is a space where ideas grow, skills sharpen, 
+              and friendships form, with workshops, hackathons, and networking events designed to empower students with practical knowledge and 
+              industry connections, all while championing the use of technology for good by building solutions that reflect our culture, serve our communities, and prepare us for the future. 
+              We invite you to join us, share your talents, and be part of shaping the next generation of computing leaders."
             </p>
-            {president && (
+            {presidentLoading && <p className="president-meta">Loading...</p>}
+            {presidentError && <p className="president-meta president-error">{presidentError}</p>}
+            {president && !presidentLoading && (
               <>
                 <p className="president-name">{president.name}</p>
                 <p className="president-position">{president.position}</p>
@@ -415,24 +483,14 @@ const Home = () => {
             {sigsLoading ? (
               <div className="sigs-loading">Loading SIGs...</div>
             ) : sigs.length > 0 ? (
-              // Render SIGs twice for seamless infinite loop
               [...sigs, ...sigs].map((sig, index) => (
-                <div
+                <SigCard
                   key={`${sig._id}-${index}`}
-                  className="sig-card"
-                  onClick={() => handleSIGClick(sig._id)}
-                  onMouseEnter={(e) => {
-                    isCardHoveredRef.current = true;
-                    e.currentTarget.querySelector('.sig-description').style.opacity = '1';
-                  }}
-                  onMouseLeave={(e) => {
-                    isCardHoveredRef.current = false;
-                    e.currentTarget.querySelector('.sig-description').style.opacity = '0';
-                  }}
-                >
-                  <div className="sig-title">{sig.name}</div>
-                  <div className="sig-description">{sig.description}</div>
-                </div>
+                  sig={sig}
+                  onSelect={handleSIGClick}
+                  onMouseEnter={handleSigCardMouseEnter}
+                  onMouseLeave={handleSigCardMouseLeave}
+                />
               ))
             ) : (
               <div className="sigs-empty">No SIGs available</div>
