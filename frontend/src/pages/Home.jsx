@@ -1,12 +1,29 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback, memo } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { getExecutives, getSIGs, getEvents, getProjects, getMembers, API_BASE_URL } from "../services/api";
 import "./Home.css";
 import clubLogo from "../assets/UMCS Logo.png";
+
+const SigCard = memo(function SigCard({ sig, onSelect, onMouseEnter, onMouseLeave }) {
+  return (
+    <div
+      className="sig-card"
+      onClick={() => onSelect(sig._id)}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      <div className="sig-title">{sig.name}</div>
+      <div className="sig-description">{sig.description}</div>
+    </div>
+  );
+});
 
 const Home = () => {
   const navigate = useNavigate();
   const [president, setPresident] = useState(null);
   const [presidentLoading, setPresidentLoading] = useState(true);
+  const [presidentError, setPresidentError] = useState(null);
   const [sigs, setSigs] = useState([]);
   const [sigsLoading, setSigsLoading] = useState(true);
   const [events, setEvents] = useState([]);
@@ -18,88 +35,110 @@ const Home = () => {
   const projectsSliderRef = useRef(null);
   const animationFrameRef = useRef(null);
   const isCardHoveredRef = useRef(false);
-  const [showRestartArrow, setShowRestartArrow] = useState(false);
   const eventIntervalRef = useRef(null);
   const heroSectionRef = useRef(null);
+  const presidentSectionRef = useRef(null);
+  const sigsSectionRef = useRef(null);
+  const newsEventsSectionRef = useRef(null);
+  const projectsSectionRef = useRef(null);
+  const clubMembersSectionRef = useRef(null);
+  const [visibleSections, setVisibleSections] = useState({
+    president: false,
+    sigs: false,
+    newsEvents: false,
+    projects: false,
+    clubMembers: false,
+  });
+  const [members, setMembers] = useState([]);
+  const [membersLoading, setMembersLoading] = useState(true);
+  const [memberNameInput, setMemberNameInput] = useState("");
+  const [memberSubmitError, setMemberSubmitError] = useState(null);
+  const [memberSubmitting, setMemberSubmitting] = useState(false);
+  const [memberClientId] = useState(() => {
+    try {
+      const key = "umcs_member_client_id";
+      let existing = window.localStorage.getItem(key);
+      if (!existing) {
+        const randomId =
+          (window.crypto && window.crypto.randomUUID && window.crypto.randomUUID()) ||
+          `member-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        window.localStorage.setItem(key, randomId);
+        existing = randomId;
+      }
+      return existing;
+    } catch {
+      return null;
+    }
+  });
 
   useEffect(() => {
     const fetchPresident = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/executives");
-        if (!response.ok) {
-          throw new Error(`Failed to fetch executives: ${response.status}`);
-        }
-        const executives = await response.json();
-        
-        // Find the president - search for exact match (case-insensitive)
-        const presidentData = executives.find((exec) => {
+        setPresidentError(null);
+        const executives = await getExecutives();
+        const list = Array.isArray(executives) ? executives : [];
+        const presidentData = list.find((exec) => {
           if (!exec || !exec.position) return false;
-          // Normalize the position string: trim whitespace and convert to lowercase
-          const normalizedPosition = exec.position.trim().toLowerCase();
-          return normalizedPosition === "president";
+          const p = exec.position.trim().toLowerCase();
+          return p === "president";
         });
-
-        if (presidentData) {
-          // Image URL is now a full web URL from the backend
-          setPresident(presidentData);
-          console.log("Found president:", presidentData.name);
-        } else {
-          console.warn("No president found in executives list. Available positions:", 
-            executives.map(e => e.position));
-          // Fallback to first executive if no president is found
-          if (executives.length > 0) {
-            setPresident(executives[0]);
-          }
-        }
-        setPresidentLoading(false);
+        const vicePresidentData = list.find((exec) => {
+          if (!exec || !exec.position) return false;
+          const p = exec.position.trim().toLowerCase();
+          return p === "vice president";
+        });
+        if (presidentData) setPresident(presidentData);
+        else if (vicePresidentData) setPresident(vicePresidentData);
+        else if (list.length > 0) setPresident(list[0]);
       } catch (error) {
         console.error("Error fetching president:", error);
+        setPresidentError(error.message || "Failed to load");
+      } finally {
         setPresidentLoading(false);
       }
     };
 
     const fetchSIGs = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/sigs");
-        if (!response.ok) {
-          throw new Error(`Failed to fetch SIGs: ${response.status}`);
-        }
-        const sigsData = await response.json();
-        setSigs(sigsData);
-        setSigsLoading(false);
+        const sigsData = await getSIGs();
+        setSigs(Array.isArray(sigsData) ? sigsData : []);
       } catch (error) {
         console.error("Error fetching SIGs:", error);
+      } finally {
         setSigsLoading(false);
       }
     };
 
     const fetchEvents = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/events");
-        if (!response.ok) {
-          throw new Error(`Failed to fetch events: ${response.status}`);
-        }
-        const eventsData = await response.json();
-        setEvents(eventsData);
-        setEventsLoading(false);
+        const eventsData = await getEvents();
+        setEvents(Array.isArray(eventsData) ? eventsData : []);
       } catch (error) {
         console.error("Error fetching events:", error);
+      } finally {
         setEventsLoading(false);
       }
     };
 
     const fetchProjects = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/projects");
-        if (!response.ok) {
-          throw new Error(`Failed to fetch projects: ${response.status}`);
-        }
-        const projectsData = await response.json();
-        setProjects(projectsData);
-        setProjectsLoading(false);
+        const projectsData = await getProjects();
+        setProjects(Array.isArray(projectsData) ? projectsData : []);
       } catch (error) {
         console.error("Error fetching projects:", error);
+      } finally {
         setProjectsLoading(false);
+      }
+    };
+
+    const fetchMembers = async () => {
+      try {
+        const data = await getMembers();
+        setMembers(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error("Error fetching members:", err);
+      } finally {
+        setMembersLoading(false);
       }
     };
 
@@ -107,45 +146,81 @@ const Home = () => {
     fetchSIGs();
     fetchEvents();
     fetchProjects();
+    fetchMembers();
   }, []);
 
-  // Auto-scroll slider - smooth scrolling through all SIGs
+  // Refresh club members every 5 minutes
+  useEffect(() => {
+    const FIVE_MINUTES = 5 * 60 * 1000;
+    const interval = setInterval(async () => {
+      try {
+        const data = await getMembers();
+        setMembers(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error("Error refreshing members:", err);
+      }
+    }, FIVE_MINUTES);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Float-in on scroll: observe sections and set visible when they enter view
+  useEffect(() => {
+    const pairs = [
+      { ref: presidentSectionRef, key: "president" },
+      { ref: sigsSectionRef, key: "sigs" },
+      { ref: newsEventsSectionRef, key: "newsEvents" },
+      { ref: projectsSectionRef, key: "projects" },
+      { ref: clubMembersSectionRef, key: "clubMembers" },
+    ];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const key = entry.target.getAttribute("data-float-section");
+          if (key)
+            setVisibleSections((prev) => ({ ...prev, [key]: true }));
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+    );
+    const observed = [];
+    pairs.forEach(({ ref, key }) => {
+      if (ref.current) {
+        ref.current.setAttribute("data-float-section", key);
+        observer.observe(ref.current);
+        observed.push(ref.current);
+      }
+    });
+    return () => {
+      observed.forEach((el) => el.removeAttribute("data-float-section"));
+      observer.disconnect();
+    };
+  }, []);
+
+  // Auto-scroll slider - smooth infinite scrolling through all SIGs (duplicated for seamless loop)
   useEffect(() => {
     if (sigs.length === 0 || !sliderRef.current) return;
 
     const slider = sliderRef.current;
     const scrollSpeed = 0.6; // Pixels per frame (smooth scroll)
-    
+    const halfWidth = slider.scrollWidth / 2; // We render SIGs twice, so half is one full set
+
     const scroll = () => {
       // Pause if any card is being hovered
       if (isCardHoveredRef.current) {
         animationFrameRef.current = requestAnimationFrame(scroll);
         return;
       }
-      
-      // Calculate max scroll position
-      const maxScroll = slider.scrollWidth - slider.clientWidth;
-      
-      // Check if we've reached the end
-      if (slider.scrollLeft >= maxScroll - 1) {
-        // Reached the end - show restart arrow and stop scrolling
-        setShowRestartArrow(true);
-        // Keep animation running to check for restart
-        animationFrameRef.current = requestAnimationFrame(scroll);
-        return;
-      } else {
-        // Hide arrow if not at end
-        setShowRestartArrow(false);
+
+      // When we've scrolled past the first set, jump back for seamless infinite loop
+      if (slider.scrollLeft >= halfWidth - 1) {
+        slider.scrollLeft -= halfWidth;
       }
-      
-      // Increment scroll smoothly
+
       slider.scrollLeft += scrollSpeed;
-      
-      // Continue animation
       animationFrameRef.current = requestAnimationFrame(scroll);
     };
 
-    // Start animation
     animationFrameRef.current = requestAnimationFrame(scroll);
 
     return () => {
@@ -204,22 +279,61 @@ const Home = () => {
     }
   }, []);
 
-  // Handle restart button click
-  const handleRestart = () => {
-    if (sliderRef.current) {
-      // Reset scroll position instantly
-      sliderRef.current.scrollLeft = 0;
-      setShowRestartArrow(false);
-      // Animation will continue automatically from the useEffect
-    }
-  };
-
-  const handleSIGClick = (sigId) => {
+  const handleSIGClick = useCallback((sigId) => {
     navigate(`/sigs/${sigId}`);
-  };
+  }, [navigate]);
 
-  const handleProjectClick = (projectId) => {
+  const handleProjectClick = useCallback((projectId) => {
     navigate(`/projects/${projectId}`);
+  }, [navigate]);
+
+  const handleSigCardMouseEnter = useCallback((e) => {
+    isCardHoveredRef.current = true;
+    const desc = e.currentTarget.querySelector('.sig-description');
+    if (desc) desc.style.opacity = '1';
+  }, []);
+
+  const handleSigCardMouseLeave = useCallback((e) => {
+    isCardHoveredRef.current = false;
+    const desc = e.currentTarget.querySelector('.sig-description');
+    if (desc) desc.style.opacity = '0';
+  }, []);
+
+  const handleAddMember = async (e) => {
+    e.preventDefault();
+    const name = memberNameInput.trim();
+    if (!name) {
+      setMemberSubmitError("Please enter your name.");
+      return;
+    }
+    setMemberSubmitError(null);
+    setMemberSubmitting(true);
+    try {
+      const response = await fetch(`${API_BASE_URL}/members`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(memberClientId ? { "x-member-id": memberClientId } : {}),
+        },
+        body: JSON.stringify({ name }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (response.ok) {
+        // Ensure each client only has one visible name: replace existing entry if present.
+        setMembers((prev) => {
+          if (!data || !data._id) return prev;
+          const withoutCurrent = prev.filter((m) => m._id !== data._id);
+          return [data, ...withoutCurrent];
+        });
+        setMemberNameInput("");
+      } else {
+        setMemberSubmitError(data.message || "Could not add name. Please try an appropriate name.");
+      }
+    } catch (err) {
+      setMemberSubmitError("Could not add name. Please try again.");
+    } finally {
+      setMemberSubmitting(false);
+    }
   };
 
   return (
@@ -230,28 +344,112 @@ const Home = () => {
         <div className="hero-overlay">
           <div className="hero-grid"></div>
         </div>
+        <div className="hero-content">
+          <motion.h1
+            className="hero-title hero-title-wrap"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.06, delayChildren: 0.3 },
+              },
+            }}
+            initial="hidden"
+            animate="visible"
+          >
+            {"COMPUTING".split("").map((letter, index) => (
+              <motion.span
+                key={`c-${index}`}
+                variants={{
+                  hidden: { opacity: 0, y: 50, rotateX: -90 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    rotateX: 0,
+                    transition: { type: "spring", stiffness: 300, damping: 20 },
+                  },
+                }}
+                className="inline-block"
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                {letter}
+              </motion.span>
+            ))}
+            <motion.span
+              key="line-break"
+              variants={{
+                hidden: { opacity: 0 },
+                visible: { opacity: 0 },
+              }}
+              className="hero-title-line-break"
+              aria-hidden="true"
+            />
+            {"SOCIETY".split("").map((letter, index) => (
+              <motion.span
+                key={`s-${index}`}
+                variants={{
+                  hidden: { opacity: 0, y: 50, rotateX: -90 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    rotateX: 0,
+                    transition: { type: "spring", stiffness: 300, damping: 20 },
+                  },
+                }}
+                className="inline-block"
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                {letter}
+              </motion.span>
+            ))}
+          </motion.h1>
+        </div>
+        <button
+          type="button"
+          className="hero-scroll-arrow"
+          onClick={() => presidentSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
+          aria-label="Scroll to content"
+        >
+          <span className="hero-scroll-text">Scroll</span>
+          <svg
+            className="hero-scroll-icon"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </button>
       </section>
 
-      {/* Message from President Section */}
-      <section className="president-section">
+      {/* President Section */}
+      <section
+        ref={presidentSectionRef}
+        className={`president-section section-float-in ${visibleSections.president ? "section-float-in-visible" : ""}`}
+      >
         <div className="president-container">
-          {/* White Message Box */}
           <div className="message-box">
             <p className="message-text">
-              A landing page is generally considered a specific page designed to
-              receive and convert traffic from an online marketing campaign but
-              could also serve as the first introduction to a company or product.
+              "Welcome to the UWI Computing Society! As President, I am proud to lead a vibrant community of innovators, problem-solvers, and creators who are passionate about technology and its power to transform lives. 
+              Our society is more than a hub for computing enthusiasts, it is a space where ideas grow, skills sharpen, 
+              and friendships form, with workshops, hackathons, and networking events designed to empower students with practical knowledge and 
+              industry connections, all while championing the use of technology for good by building solutions that reflect our culture, serve our communities, and prepare us for the future. 
+              We invite you to join us, share your talents, and be part of shaping the next generation of computing leaders."
             </p>
-            {president && (
-              <p className="president-name">{president.name}</p>
+            {presidentLoading && <p className="president-meta">Loading...</p>}
+            {presidentError && <p className="president-meta president-error">{presidentError}</p>}
+            {president && !presidentLoading && (
+              <>
+                <p className="president-name">{president.name}</p>
+                <p className="president-position">{president.position}</p>
+              </>
             )}
-            {/* Blue Banner attached to bottom of box */}
-            <div className="message-banner">
-              <span className="banner-text">Message from Our President</span>
-            </div>
           </div>
 
-          {/* President Image Rectangle */}
+          {/* President Image */}
           <div className="president-image-container">
             {president && president.image ? (
               <img
@@ -273,7 +471,10 @@ const Home = () => {
       {/* Container for all sections below president's message */}
       <div className="sections-container">
       {/* Special Interest Groups Section */}
-      <section className="sigs-section">
+      <section
+        ref={sigsSectionRef}
+        className={`sigs-section section-float-in ${visibleSections.sigs ? "section-float-in-visible" : ""}`}
+      >
         <Link to="/sigs" className="sigs-title-link">
           <h2 className="sigs-title">SPECIAL INTEREST GROUPS</h2>
         </Link>
@@ -282,48 +483,27 @@ const Home = () => {
             {sigsLoading ? (
               <div className="sigs-loading">Loading SIGs...</div>
             ) : sigs.length > 0 ? (
-              // Show all SIGs (no duplication)
-              sigs.map((sig) => {
-                return (
-                  <div
-                    key={sig._id}
-                    className="sig-card"
-                    onClick={() => handleSIGClick(sig._id)}
-                    onMouseEnter={(e) => {
-                      // Pause autoscroll when hovering over card
-                      isCardHoveredRef.current = true;
-                      e.currentTarget.querySelector('.sig-description').style.opacity = '1';
-                    }}
-                    onMouseLeave={(e) => {
-                      // Resume autoscroll when leaving card
-                      isCardHoveredRef.current = false;
-                      e.currentTarget.querySelector('.sig-description').style.opacity = '0';
-                    }}
-                  >
-                    <div className="sig-title">{sig.name}</div>
-                    <div className="sig-description">{sig.description}</div>
-                  </div>
-                );
-              })
+              [...sigs, ...sigs].map((sig, index) => (
+                <SigCard
+                  key={`${sig._id}-${index}`}
+                  sig={sig}
+                  onSelect={handleSIGClick}
+                  onMouseEnter={handleSigCardMouseEnter}
+                  onMouseLeave={handleSigCardMouseLeave}
+                />
+              ))
             ) : (
               <div className="sigs-empty">No SIGs available</div>
             )}
           </div>
-          {/* Floating restart arrow */}
-          {showRestartArrow && (
-            <button 
-              className="restart-arrow"
-              onClick={handleRestart}
-              aria-label="Restart slider"
-            >
-              ↻
-            </button>
-          )}
         </div>
       </section>
 
       {/* News and Events Section */}
-      <section className="news-events-section">
+      <section
+        ref={newsEventsSectionRef}
+        className={`news-events-section section-float-in ${visibleSections.newsEvents ? "section-float-in-visible" : ""}`}
+      >
         <h2 className="news-events-title-centered">NEWS AND EVENTS</h2>
         <div className="news-events-container">
           {/* Left Column - Text Content */}
@@ -389,7 +569,10 @@ const Home = () => {
       </section>
 
       {/* Projects Section */}
-      <section className="projects-section">
+      <section
+        ref={projectsSectionRef}
+        className={`projects-section section-float-in ${visibleSections.projects ? "section-float-in-visible" : ""}`}
+      >
         {/* PROJECTS Title */}
         <Link to="/projects" className="projects-title-link">
           <h2 className="projects-title">PROJECTS</h2>
@@ -429,6 +612,56 @@ const Home = () => {
             </div>
           ) : (
             <div className="projects-empty">No projects available</div>
+          )}
+        </div>
+      </section>
+
+      {/* Club Members – add your name; names float in background */}
+      <section
+        ref={clubMembersSectionRef}
+        className={`club-members-section section-float-in ${visibleSections.clubMembers ? "section-float-in-visible" : ""}`}
+      >
+        <div className="club-members-bg-names" aria-hidden="true">
+          {membersLoading ? null : (
+            <>
+              <div className="club-members-carousel-track club-members-carousel-top">
+                {[...members, ...members].map((m, i) => (
+                  <span key={`top-${m._id || m.id}-${i}`} className="club-members-carousel-name">{m.name}</span>
+                ))}
+              </div>
+              <div className="club-members-carousel-track club-members-carousel-mid club-members-carousel-reverse">
+                {[...members, ...members].map((m, i) => (
+                  <span key={`mid-${m._id || m.id}-${i}`} className="club-members-carousel-name">{m.name}</span>
+                ))}
+              </div>
+              <div className="club-members-carousel-track club-members-carousel-bottom">
+                {[...members, ...members].map((m, i) => (
+                  <span key={`bot-${m._id || m.id}-${i}`} className="club-members-carousel-name">{m.name}</span>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+        <div className="club-members-content">
+          <h2 className="club-members-title">CLUB MEMBERS</h2>
+          <p className="club-members-intro">Add your name to the wall. It will appear floating in the background.</p>
+          <form className="club-members-form" onSubmit={handleAddMember}>
+            <input
+              type="text"
+              className="club-members-input"
+              placeholder="Your name"
+              value={memberNameInput}
+              onChange={(e) => { setMemberNameInput(e.target.value); setMemberSubmitError(null); }}
+              maxLength={80}
+              disabled={memberSubmitting}
+              aria-label="Your name"
+            />
+            <button type="submit" className="club-members-submit" disabled={memberSubmitting}>
+              {memberSubmitting ? "Adding…" : "Add my name"}
+            </button>
+          </form>
+          {memberSubmitError && (
+            <p className="club-members-error" role="alert">{memberSubmitError}</p>
           )}
         </div>
       </section>

@@ -15,6 +15,7 @@ exports.createSIG = async (req, res) => {
 exports.getAllSIGs = async (req, res) => {
   try {
     const sigs = await SIG.find().sort({ sig: 1 });
+    const sigs = await SIG.find().sort({ sig: 1 });
     res.status(200).json({ success: true, data: sigs });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
@@ -24,6 +25,7 @@ exports.getAllSIGs = async (req, res) => {
 // Get SIG by ID
 exports.getSIGById = async (req, res) => {
   try {
+    const sig = await SIG.findById(req.params.id);
     const sig = await SIG.findById(req.params.id);
     if (!sig) {
       return res.status(404).json({ success: false, error: 'SIG not found' });

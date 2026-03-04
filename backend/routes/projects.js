@@ -13,10 +13,10 @@ const Project = require("../models/project");
 // GET /api/projects
 router.get("/", async (req, res) => {
   try {
-    const projects = await Project.find(); // Fetch all projects from the database
+    const projects = await Project.find().sort({ createdAt: -1 });
     res.json(projects);
   } catch (error) {
-    res.status(500).json({ message: "Failed to fetch projects" }); // Error handling 
+    res.status(500).json({ message: "Failed to fetch projects" });
   }
 });
 

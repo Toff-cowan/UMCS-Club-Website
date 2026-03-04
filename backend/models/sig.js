@@ -40,7 +40,14 @@ const SigSchema = new mongoose.Schema({
     type: String,
     maxlength: 500,
     trim: true
+  },
+  category: {
+    type: String,
+    trim: true,
+    enum: ['Web', 'Game', 'Cyber', 'AI', 'Robotics', 'Mobile', 'Data']
   }
 });
+
+SigSchema.index({ sig: 1 });
 
 module.exports = mongoose.model("Sig", SigSchema);

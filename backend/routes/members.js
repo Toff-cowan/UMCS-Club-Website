@@ -9,6 +9,9 @@
 const express = require("express");
 const router = express.Router();
 const Member = require("../models/member");
+const { redactBadWords, hasInappropriateContent } = require("../utils/contentModeration");
+
+const MAX_NAME_LENGTH = 80;
 
 // GET /api/members
 router.get("/", async (req, res) => {
@@ -17,6 +20,46 @@ router.get("/", async (req, res) => {
     res.json(members);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch members" });
+  }
+});
+
+// POST /api/members – add/update a club member name (with content moderation)
+router.post("/", async (req, res) => {
+  try {
+    let name = typeof req.body.name === "string" ? req.body.name.trim() : "";
+    if (!name) {
+      return res.status(400).json({ message: "Name is required." });
+    }
+    if (name.length > MAX_NAME_LENGTH) {
+      return res.status(400).json({ message: "Name is too long." });
+    }
+
+    const sanitized = redactBadWords(name);
+    if (hasInappropriateContent(name) || !sanitized) {
+      return res.status(400).json({ message: "Please enter an appropriate name." });
+    }
+
+    // Identify the "user" so they can only have one active name.
+    // Prefer a stable client id header from the frontend; fall back to IP.
+    const clientIdHeader = req.header("x-member-id");
+    const clientId = (clientIdHeader && String(clientIdHeader)) || String(req.ip || "").trim() || undefined;
+
+    let member;
+    if (clientId) {
+      // If this client has already added a name, update/replace it.
+      member = await Member.findOneAndUpdate(
+        { clientId },
+        { name: sanitized, clientId, createdAt: new Date() },
+        { new: true, upsert: true }
+      );
+    } else {
+      member = new Member({ name: sanitized });
+      await member.save();
+    }
+
+    res.status(201).json(member);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to add member" });
   }
 });
 

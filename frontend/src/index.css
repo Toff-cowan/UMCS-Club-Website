@@ -1,24 +1,42 @@
-*{
-  padding: 0; 
-  margin: 0; 
+
+* {
+  padding: 0;
+  margin: 0;
   box-sizing: border-box;
 }
 
-html, body {
+/* Hide all scrollbars globally – scroll still works */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and old Edge */
+}
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+html {
+  scroll-behavior: smooth;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   overflow-x: hidden;
+  overflow-y: auto; /* allow page scroll – scrollbar hidden by rules above */
 }
 
 body {
+  width: 100%;
+  min-height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #ffffff;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   position: relative;
   overflow-x: hidden;
+  overflow-y: visible; /* let document scroll, not a second scroll container */
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
 }
 
-/* Base grid with soft gray lines */
+/* Visible grid overlay – dark pages */
 body::before {
   content: '';
   position: fixed;
@@ -26,16 +44,16 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
-    linear-gradient(rgba(200, 200, 210, 0.35) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(200, 200, 210, 0.35) 1px, transparent 1px);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
   background-size: 50px 50px;
   background-position: 0 0, 0 0;
   z-index: 0;
   pointer-events: none;
 }
 
-/* Animated wave that thickens the lines */
+/* Cyan accent grid layer */
 body::after {
   content: '';
   position: fixed;
@@ -43,9 +61,9 @@ body::after {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
-    linear-gradient(rgba(0, 0, 180, 0.5) 2px, transparent 2px),
-    linear-gradient(90deg, rgba(0, 0, 180, 0.5) 2px, transparent 2px);
+  background-image:
+    linear-gradient(rgba(0, 255, 255, 0.08) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.08) 2px, transparent 2px);
   background-size: 50px 50px;
   background-position: 0 0, 0 0;
   z-index: 0;
@@ -53,26 +71,22 @@ body::after {
   mask-image: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(0, 0, 0, 0.15) 20%,
-    rgba(0, 0, 0, 0.25) 30%,
-    rgba(0, 0, 0, 0.25) 40%,
-    rgba(0, 0, 0, 0.15) 50%,
-    transparent 60%,
+    rgba(0, 0, 0, 0.2) 25%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.2) 75%,
     transparent 100%
   );
-  mask-size: 400% 100%;
-  animation: wave-sweep 15s ease-in-out infinite;
+  mask-size: 300% 100%;
+  animation: wave-sweep 18s ease-in-out infinite;
   -webkit-mask-image: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(0, 0, 0, 0.15) 20%,
-    rgba(0, 0, 0, 0.25) 30%,
-    rgba(0, 0, 0, 0.25) 40%,
-    rgba(0, 0, 0, 0.15) 50%,
-    transparent 60%,
+    rgba(0, 0, 0, 0.2) 25%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.2) 75%,
     transparent 100%
   );
-  -webkit-mask-size: 400% 100%;
+  -webkit-mask-size: 300% 100%;
 }
 
 @keyframes wave-sweep {
@@ -86,29 +100,76 @@ body::after {
   }
 }
 
+/* On home page, hide global dark grid so home’s white grid + wave show */
+body.page-home::before,
+body.page-home::after {
+  display: none;
+}
+
 /* Ensure content is above the grid */
 #root {
   position: relative;
   z-index: 1;
 }
-/* CSS Variables for Theming */
+/* ========== Global design system (used across all pages) ========== */
 :root {
-  /* Colors */
-  --color-bg: #0b0f14;
-  --color-bg-alt: #121824;
-  --color-primary: #00ff99;
-  --color-secondary: #00b3ff;
-  --color-accent: #7c7cff;
-  --color-text: #e6e6e6;
-  --color-muted: #9aa4b2;
-  --color-border: rgba(255, 255, 255, 0.08);
+  /* Core palette – consistent across Home, About, SIGs, Exec, Projects */
+  --color-bg: #050020;
+  --color-bg-alt: #0a0033;
+  --color-surface: #0a0033;
+  --color-primary: #00FFFF;
+  --color-secondary: #FACC15;
+  --color-accent: #7C3AED;
+  --color-text: #FFFFFF;
+  --color-muted: #9CA3AF;
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-text-on-light: #1a1a2e;
 
-  /* Typography */
+  /* Typography – single font stack for smooth, consistent look */
   --font-main: "Montserrat", "Segoe UI", Arial, sans-serif;
   --font-heading: "Montserrat", "Segoe UI", Arial, sans-serif;
+  --font-size-hero: clamp(2.5rem, 8vw, 6rem);
+  --font-size-title: clamp(1.5rem, 4vw, 2.5rem);
+  --font-size-body: 1rem;
+  --line-height-body: 1.65;
 }
 
-/* Apply Montserrat font to all elements */
 * {
-  font-family: "Montserrat", "Segoe UI", Arial, sans-serif;
+  font-family: var(--font-main);
+}
+
+/* ========== EngineeringPatterns (replaces Tailwind) ========== */
+.eng-pattern-base {
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.eng-node-graph {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.eng-binary-text {
+  position: absolute;
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: rgba(0, 255, 255, 0.2);
+  white-space: nowrap;
+}
+
+.eng-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(48px);
+}
+
+.eng-overflow-hidden {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
 }

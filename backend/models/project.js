@@ -28,10 +28,20 @@ const ProjectSchema = new mongoose.Schema({
     enum: ['Ongoing', 'Completed', 'On-hold'],
     default: 'completed'
   },
+  sig: {
+    type: String,
+    trim: true
+  },
+  url: {
+    type: String,
+    trim: true
+  },
   createdAt: {
     type: Date,
     default: Date.now
   }
 });
+
+ProjectSchema.index({ createdAt: -1 });
 
 module.exports = mongoose.model("Project", ProjectSchema);

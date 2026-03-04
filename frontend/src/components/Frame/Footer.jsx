@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Footer.css";
-import { FaWhatsapp, FaInstagram, FaArrowUp } from "react-icons/fa";
+import { FaLinkedin, FaGithub, FaInstagram, FaArrowUp } from "react-icons/fa";
 import logo from "../../assets/UMCS Logo.png";
 
 const Footer = () => {
@@ -13,9 +14,7 @@ const Footer = () => {
 
   return (
     <footer className="footer">
-      {/* Cyan Ribbon at top */}
       <div className="footer-ribbon"></div>
-      {/* Left: Logo */}
       <div className="footer-logo">
         <img
           src={logo}
@@ -23,30 +22,33 @@ const Footer = () => {
         />
       </div>
 
-      {/* Center: Navigation with Social Icons Above */}
       <div className="footer-nav-section">
         <div className="footer-socials">
-          <a href="#" aria-label="WhatsApp">
-            <FaWhatsapp />
+          <a href="https://www.linkedin.com/in/uwimonacs/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <FaLinkedin />
           </a>
-          <a href="#" aria-label="Instagram">
+          <a href="https://github.com/UWICompSociety" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <FaGithub />
+          </a>
+          <a href="https://www.instagram.com/uwimonacs?igsh=NDgyNnN5amY2eGE1" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
             <FaInstagram />
           </a>
         </div>
         <div className="footer-links">
-          <a href="/">Home</a>
-          <a href="/resources">Resources</a>
-          <a href="/about">About</a>
-          <a href="/projects">Projects</a>
-          <a href="/exec">Meet the Team</a>
+          <Link to="/">Home</Link>
+          <Link to="/sigs">SIGs</Link>
+          <Link to="/about">About</Link>
+          <Link to="/resources">Resources</Link>
+          <Link to="/projects">Projects</Link>
+          <Link to="/exec">Exec</Link>
         </div>
       </div>
 
-      {/* Right: CTA */}
+      {/* Right: CTA 
       <div className="footer-actions">
         <button className="footer-cta">Join Us!!!</button>
       </div>
-      
+      */}
       {/* Floating Back to Top Button */}
       <button className="back-to-top-float" onClick={scrollToTop} aria-label="Back to top">
         <FaArrowUp />

@@ -21,10 +21,16 @@ const EventSchema = new mongoose.Schema({
     type: String,
     maxlength: 500
   },
+  date: {
+    type: Date,
+    default: null
+  },
   createdAt: {
     type: Date,
     default: Date.now,
   }
 });
+
+EventSchema.index({ createdAt: -1 });
 
 module.exports = mongoose.model("Event", EventSchema);
